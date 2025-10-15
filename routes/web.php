@@ -2,30 +2,25 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\kdtController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoginController; // pastikan huruf besar kecilnya sesuai dengan nama file controller
 
+// Default redirect ke halaman login
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('admin.login');
 });
 
-Route ::get('/kdt',[kdtController::class,'index']);
+//  Halaman KDT
+Route::get('/kdt', [kdtController::class, 'index']);
 
-// Route untuk menampilkan halaman login
-Route::get('/auth', [AuthController::class, 'index'])->name('login');
+//  Halaman Login Admin
+Route::get('/admin/login', [LoginController::class, 'showLoginForm'])->name('admin.login');
 
-// Route untuk memproses form login
-Route::post('/auth/login', [AuthController::class, 'login']);
+//  Proses Login Admin
+Route::post('/admin/login', [LoginController::class, 'login'])->name('admin.login.process');
 
-// Route untuk halaman sukses setelah login (halaman dashboard)
-Route::get('/dashboard', function () {
-    if (!session('success')) {
-        return redirect()->route('login');
-    }
-    return view('dashboard');
-})->name('dashboard');
+//  Halaman Dashboard Admin
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-// Arahkan halaman utama ke halaman login
-Route::get('/', function () {
-    return redirect()->route('login');
-});
-
+// Logout Admin
+Route::get('/admin/logout', [LoginController::class, 'logout'])->name('admin.logout');
