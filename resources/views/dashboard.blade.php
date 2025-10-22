@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +12,10 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
         :root {
-            --color-primary: #ef4444; /* Merah untuk Darurat */
-            --color-secondary: #10b981; /* Hijau untuk Kesiapsiagaan */
+            --color-primary: #ef4444;
+            /* Merah untuk Darurat */
+            --color-secondary: #10b981;
+            /* Hijau untuk Kesiapsiagaan */
             --color-dark: #1f2937;
         }
 
@@ -40,7 +43,8 @@
             padding: 0.75rem 1.5rem;
             margin: 0.25rem 0;
             transition: all 0.2s;
-            border-radius: 0 50px 50px 0; /* Bentuk elegan */
+            border-radius: 0 50px 50px 0;
+            /* Bentuk elegan */
         }
 
         .sidebar a:hover {
@@ -57,12 +61,14 @@
             font-weight: 800;
             text-align: center;
             margin-bottom: 2rem;
-            color: var(--color-secondary); /* Warna hijau untuk kontras */
+            color: var(--color-secondary);
+            /* Warna hijau untuk kontras */
         }
 
         /* Styling Konten Utama */
         .main-content {
-            margin-left: 280px; /* Sebesar lebar sidebar */
+            margin-left: 280px;
+            /* Sebesar lebar sidebar */
             padding: 2rem;
             transition: margin-left 0.3s;
         }
@@ -117,14 +123,15 @@
                 width: 0;
                 overflow-x: hidden;
             }
+
             .main-content {
                 margin-left: 0;
                 padding: 1rem;
             }
         }
-
     </style>
 </head>
+
 <body>
 
     <!-- Sidebar -->
@@ -166,7 +173,8 @@
             <!-- Logout Section -->
             <form action="{{ url('/logout') }}" method="POST">
                 @csrf
-                <button type="submit" class="w-full text-left flex items-center p-3 text-red-400 hover:bg-red-500 hover:text-white rounded-r-full transition duration-200">
+                <button type="submit"
+                    class="w-full text-left flex items-center p-3 text-red-400 hover:bg-red-500 hover:text-white rounded-r-full transition duration-200">
                     <span class="icon text-xl">&#10145;</span> <!-- Ikon: Keluar -->
                     Logout
                 </button>
@@ -185,13 +193,13 @@
         </div>
 
         <!-- Notifikasi Darurat (Menggunakan struktur dari success/error Anda) -->
-        @if(session('success'))
+        @if (session('success'))
             <div class="alert-bar bg-green-100 text-green-700">
                 <span class="icon text-2xl">&#9989;</span>
                 {{ session('success') }}
             </div>
         @elseif(session('error'))
-             <div class="alert-bar">
+            <div class="alert-bar">
                 <span class="icon text-2xl">&#9888;</span>
                 {{ session('error') }}
             </div>
@@ -242,32 +250,44 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lokasi</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jenis Bencana</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Lokasi</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Jenis Bencana</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Kab. A, Kec. Merah</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Kab. A, Kec. Merah
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Banjir Bandang</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                     Siaga 1
                                 </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-800 cursor-pointer">Lihat Detail</td>
+                            <td
+                                class="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-800 cursor-pointer">
+                                Lihat Detail</td>
                         </tr>
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Kota B, Kel. Hijau</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Kota B, Kel. Hijau
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Gempa Ringan</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
                                     Pemulihan
                                 </span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-800 cursor-pointer">Lihat Detail</td>
+                            <td
+                                class="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-800 cursor-pointer">
+                                Lihat Detail</td>
                         </tr>
                     </tbody>
                 </table>
@@ -275,7 +295,8 @@
 
             <!-- Tombol Utama Kembali ke "Data" -->
             <div class="text-center mt-8">
-                <a href="{{ url('/kdt') }}" class="inline-block py-2 px-6 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-300">
+                <a href="{{ url('/kdt') }}"
+                    class="inline-block py-2 px-6 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-300">
                     Lanjut ke Halaman Data (KDT)
                 </a>
             </div>
@@ -283,4 +304,5 @@
     </div>
 
 </body>
+
 </html>

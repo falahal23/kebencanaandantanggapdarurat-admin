@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -209,13 +208,13 @@
                 <li class="mt-0.5 w-full">
                     <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors"
                         href="./pages/sign-in.html" <span
-                        class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Sign In</span>
+                        class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Log out</span>
                     </a>
                 </li>
             </ul>
         </div>
-
-        <div class="mx-4">            <p
+        <div class="mx-4">
+            <p
                 class="invisible hidden text-gray-800 text-red-500 text-red-600 after:bg-gradient-to-tl after:from-gray-900 after:to-slate-800 after:from-blue-600 after:to-cyan-400 after:from-red-500 after:to-yellow-400 after:from-green-600 after:to-lime-400 after:from-red-600 after:to-rose-400 after:from-slate-600 after:to-slate-300 text-lime-500 text-cyan-500 text-slate-400 text-fuchsia-500">
             </p>
             <div class="after:opacity-65 after:bg-gradient-to-tl after:from-slate-600 after:to-slate-300 relative flex min-w-0 flex-col items-center break-words rounded-2xl border-0 border-solid border-blue-900 bg-white bg-clip-border shadow-none after:absolute after:top-0 after:bottom-0 after:left-0 after:z-10 after:block after:h-full after:w-full after:rounded-2xl after:content-['']"
@@ -286,46 +285,113 @@
                                 aria-expanded="false">
                                 <i class="cursor-pointer fa fa-bell"></i>
                             </a>
-
-                            <ul dropdown-menu
-                                class="text-sm transform-dropdown before:font-awesome before:leading-default before:duration-350 before:ease-soft lg:shadow-soft-3xl duration-250 min-w-44 before:sm:right-7.5 before:text-5.5 pointer-events-none absolute right-0 top-0 z-50 origin-top list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:right-2 before:left-auto before:top-0 before:z-50 before:inline-block before:font-normal before:text-white before:antialiased before:transition-all before:content-['\f0d8'] sm:-mr-6 lg:absolute lg:right-0 lg:left-auto lg:mt-2 lg:block lg:cursor-pointer">
-                                <li class="relative mb-2">
-                                    <a class="ease-soft py-1.2 clear-both block w-full whitespace-nowrap rounded-lg bg-transparent px-4 duration-300 hover:bg-gray-200 hover:text-slate-700 lg:transition-colors"
-                                        href="javascript:;">
-                                        <div class="flex py-1">
-                                            <div class="my-auto">
-                                                <img src="{{ asset('assets-admin/img/team-2.jpg') }}"
-                                                    class="inline-flex items-center justify-center mr-4 text-sm text-white h-9 w-9 max-w-none rounded-xl"
-                                                    alt="Team Member">
-                                            </div>
-
-                                            <div class="flex flex-col justify-center">
-                                                <h6 class="mb-1 text-sm font-normal leading-normal">
-                                                    <span class="font-semibold">New message</span> from
-                                                    Laur
-                                                </h6>
-                                                <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                    <i class="mr-1 fa fa-clock"></i>
-                                                    13 minutes ago
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-
-                                <li class="relative">
-                                    <a class="ease-soft py-1.2 clear-both block w-full whitespace-nowrap rounded-lg px-4 transition-colors duration-300 hover:bg-gray-200 hover:text-slate-700"
-                                        href="javascript:;">
-                                        <div class="flex py-1">
-
-                                    </a>
-                                </li>
-                            </ul>
+                            </a>
                         </li>
+
+                        <li class="relative">
+                            <a class="ease-soft py-1.2 clear-both block w-full whitespace-nowrap rounded-lg px-4 transition-colors duration-300 hover:bg-gray-200 hover:text-slate-700"
+                                href="javascript:;">
+                                <div class="flex py-1">
+
+                            </a>
+                        </li>
+                    </ul>
+                    </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        <div class="flex flex-wrap my-6 -mx-3">
+            <div class="w-full max-w-full px-3 mt-0 lg:w-12/12 lg:flex-none">
+                <div
+                    class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 bg-white bg-clip-border">
+
+                    <!-- Header -->
+                    <div
+                        class="border-black/12.5 mb-0 flex justify-between items-center border-b bg-white p-6 pb-3 rounded-t-2xl">
+                        <h6 class="text-lg font-semibold">Detail Kejadian Bencana</h6>
+                        <a href="{{ route('kejadian.index') }}"
+                            class="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300 transition">
+                            Kembali
+                        </a>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="flex-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        <div>
+                            <strong>Jenis Bencana:</strong>
+                            <p>{{ $kejadian->jenis_bencana }}</p>
+                        </div>
+
+                        <div>
+                            <strong>Tanggal Kejadian:</strong>
+                            <p>{{ $kejadian->tanggal }}</p>
+                        </div>
+
+                        <div>
+                            <strong>Lokasi:</strong>
+                            <p>{{ $kejadian->lokasi_text }}</p>
+                        </div>
+
+                        <div>
+                            <strong>RT/RW:</strong>
+                            <p>{{ $kejadian->rt }} / {{ $kejadian->rw }}</p>
+                        </div>
+
+                        <div>
+                            <strong>Dampak:</strong>
+                            <p>{{ $kejadian->dampak }}</p>
+                        </div>
+
+                        <div>
+                            <strong>Status Kejadian:</strong>
+                            <p>{{ $kejadian->status_kejadian }}</p>
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <strong>Keterangan:</strong>
+                            <p>{{ $kejadian->keterangan ?? '-' }}</p>
+                        </div>
+
+                        <div class="md:col-span-2 mt-4">
+                            <strong>Media:</strong>
+                            <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                @if ($kejadian->media->count() > 0)
+                                    @foreach ($kejadian->media as $m)
+                                        @php
+                                            $url = asset('storage/'.$m->file_url); // pakai file_url
+                                            $ext = strtolower(pathinfo($m->file_url, PATHINFO_EXTENSION));
+                                        @endphp
+
+                                        @if (in_array($ext, ['jpg', 'jpeg', 'png']))
+                                            <img src="{{ $url }}" alt="Media"
+                                                class="rounded-lg max-h-96 w-full object-cover">
+                                        @elseif(in_array($ext, ['mp4', 'mov']))
+                                            <video controls class="rounded-lg max-h-96 w-full">
+                                                <source src="{{ $url }}">
+                                            </video>
+                                        @else
+                                            <p>Media {{ $m->file_url }} tidak dapat ditampilkan.</p>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <p>Tidak ada media diunggah.</p>
+                                @endif
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
 </body>
 
 <script src="{{ asset('assets-admin/js/plugins/chartjs.min.js') }}" async></script>

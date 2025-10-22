@@ -4,248 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Sign In</title>
+<!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('assets-admin/img/favicon.png') }}">
+
+    <!-- Font Awesome Icons -->
+    <link type="text/css" href="{{ asset('assets-admin/fonts/nucleo-icons.ttf') }}" rel="stylesheet">
+
+    <!-- Volt CSS -->
+    <link type="text/css" href="{{ asset('assets-admin/css/soft-ui-dashboard-tailwind.css') }}" rel="stylesheet">
+
     <style>
-        /* Variabel CSS untuk Warna */
-        :root {
-            --primary-color: #6a1b9a;
-            --secondary-color: #9c27b0;
-            --background-light: #f0f2f5;
-            --text-dark: #333;
-            --text-light: #fff;
-        }
-
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #e0eafc, #cfdef3);
+            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #007bff, #00c6ff);
         }
-
         .container {
-            display: flex;
-            width: 800px;
-            height: 450px;
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .sign-in-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            background: white;
             padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 380px;
             text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
         }
-
-        .sign-in-section h2 {
-            font-size: 32px;
+        h2 {
+            margin-bottom: 20px;
+            color: #007bff;
             font-weight: bold;
-            color: var(--text-dark);
-            margin-bottom: 30px;
         }
-
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .social-icons a {
-            width: 30px;
-            height: 30px;
-            border: 1px solid #ccc;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--text-dark);
-            text-decoration: none;
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
             transition: all 0.3s;
         }
-
-        .social-icons a:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
+        input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
-
-        .sign-in-section p {
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-        }
-
         .forgot-password {
-            font-size: 12px;
-            color: #888;
-            text-decoration: none;
             display: block;
-            margin-bottom: 25px;
-            text-align: left;
-            width: 100%;
-        }
-
-        .btn-sign-in {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-            padding: 10px 40px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-
-        .btn-sign-in:hover {
-            background-color: var(--secondary-color);
-        }
-
-        .sign-up-section {
-            flex: 1;
-            background-color: var(--primary-color);
-            color: var(--text-light);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            text-align: center;
-            border-radius: 20px;
-            position: relative;
-        }
-
-        .sign-up-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--primary-color);
-            border-top-left-radius: 60%;
-            border-bottom-left-radius: 0;
-            border-top-right-radius: 20px;
-            border-bottom-right-radius: 20px;
-            z-index: 0;
-        }
-
-        .sign-up-section * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .sign-up-section h3 {
-            font-size: 24px;
-            font-weight: 600;
             margin-bottom: 15px;
-        }
-
-        .sign-up-section p {
             font-size: 14px;
-            margin-bottom: 30px;
-            line-height: 1.5;
+            color: #007bff;
+            text-decoration: none;
         }
-
-        .btn-sign-up {
-            background-color: transparent;
-            color: var(--text-light);
-            padding: 10px 30px;
-            border: 2px solid var(--text-light);
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background-color 0.3s;
+        .forgot-password:hover {
+            text-decoration: underline;
         }
-
-        .btn-sign-up:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Pesan error & success */
-        .alert {
-            margin-bottom: 20px;
-            padding: 10px;
-            border-radius: 6px;
+        .btn-sign {
             width: 100%;
-            text-align: center;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            margin-top: 10px;
         }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
+        .btn-sign:hover {
+            background-color: #0056b3;
         }
-
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
+        .sign-up-section {
+            margin-top: 30px;
+        }
+        .sign-up-section h3 {
+            color: #333;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="sign-in-section">
-            <h2>Sign In</h2>
+        <h2>Sign In</h2>
 
-            <!-- Pesan sukses atau error -->
-            @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
+        <!-- Pesan sukses atau error -->
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
-            @if(session('error'))
-                <div class="alert alert-error">{{ session('error') }}</div>
-            @endif
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
 
-            <form method="POST" action="{{ route('admin.login.process') }}" style="width: 100%;">
-                @csrf
+        <!-- Form Login -->
+        <form method="POST" action="{{ route('login.process') }}">
+            @csrf
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
 
-                <div class="form-group">
-                    <input type="email" name="email" placeholder="Email" required>
-                </div>
-                <div class="form-group">
-                    <input type="password" name="password" placeholder="Password" required>
-                </div>
+            <a href="#" class="forgot-password">Forgot Your Password?</a>
+            <button type="submit" class="btn-sign">SIGN IN</button>
+        </form>
 
-                <a href="#" class="forgot-password">Forgot Your Password?</a>
 
-                <button type="submit" class="btn-sign-in">SIGN IN</button>
-            </form>
-        </div>
+<!-- Core -->
+    <script src="{{ asset('assets-admin/js/plugins/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('assets-admin/js/core/popper.min.js') }}"></script>
+    <script src="{{ asset('assets-admin/js/core/bootstrap.min.js') }}"></script>
 
-        <div class="sign-up-section">
-            <h3>Hello, Friend!</h3>
-            <p>Register with your personal details to use all of site features.</p>
-            <button class="btn-sign-up">SIGN UP</button>
-        </div>
-    </div>
+    <!-- Volt JS -->
+    <script src="{{ asset('assets-admin/js/soft-ui-dashboard-tailwind.min.js') }}"></script>
 
 </body>
 </html>

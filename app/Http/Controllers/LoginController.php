@@ -6,12 +6,10 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    /**
-     * Tampilkan halaman login
-     */
+
     public function showLoginForm()
     {
-        return view('admin.login'); // pastikan file resources/views/admin/login.blade.php ada
+        return view('admin.login');
     }
 
     /**
@@ -36,7 +34,7 @@ class LoginController extends Controller
             $request->session()->put('admin_email', $validEmail);
 
             // redirect ke dashboard dengan pesan sukses
-            return redirect()->route('admin.dashboard')->with('success', 'Login berhasil. Selamat datang!');
+            return redirect()->route('kejadian.index')->with('success', 'Login berhasil. Selamat datang!');
         }
 
         // kredensial salah
