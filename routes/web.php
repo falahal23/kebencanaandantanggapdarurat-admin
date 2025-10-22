@@ -37,3 +37,4 @@ Route::get('/admin.Dashboard', [KejadianBencanaController::class, 'Dashboard'])-
 // show kejadian
 Route::get('/kejadian/{id}', [KejadianBencanaController::class, 'show'])->name('kejadian.show');
 
+Route::get('kejadian.destroy', [KejadianBencanaController::class, 'index'])->name('kejadian.index');

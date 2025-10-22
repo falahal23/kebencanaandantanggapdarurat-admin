@@ -354,6 +354,8 @@
                             <p>{{ $kejadian->keterangan ?? '-' }}</p>
                         </div>
 
+                    
+
                         <div class="md:col-span-2 mt-4">
                             <strong>Media:</strong>
                             <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">

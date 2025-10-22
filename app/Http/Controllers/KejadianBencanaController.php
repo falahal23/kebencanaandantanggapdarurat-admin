@@ -11,23 +11,7 @@ use Illuminate\Http\Request;
 
 class KejadianBencanaController extends Controller
 {
-    /**
-     * 🏠 Dashboard - ringkasan data
-     */
-    // public function dashboard()
-    // {
-    //     // Ambil data ringkasan dari database
-    //     $total_kejadian = KejadianBencana::count();
-    //     $total_donasi   = DonasiBencana::sum('nilai'); // ✅ ganti dari 'nominal' ke 'nilai'
-    //     $total_logistik = LogistikBencana::sum('stok');
-
-    //     // Kirim ke view dashboard
-    //     return view('dashboard', compact('total_kejadian', 'total_donasi', 'total_logistik'));
-    // }
-
-    /**
-     * 📋 Menampilkan semua data kejadian bencana
-     */
+   
     public function index()
     {
         $data = [
