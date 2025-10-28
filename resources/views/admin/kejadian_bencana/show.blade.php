@@ -354,21 +354,19 @@
                             <p>{{ $kejadian->keterangan ?? '-' }}</p>
                         </div>
 
-                    
-
                         <div class="md:col-span-2 mt-4">
                             <strong>Media:</strong>
                             <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 @if ($kejadian->media->count() > 0)
                                     @foreach ($kejadian->media as $m)
                                         @php
-                                            $url = asset('storage/'.$m->file_url); // pakai file_url
+                                            $url = asset('storage/' . $m->file_url); // pakai file_url
                                             $ext = strtolower(pathinfo($m->file_url, PATHINFO_EXTENSION));
                                         @endphp
 
                                         @if (in_array($ext, ['jpg', 'jpeg', 'png']))
                                             <img src="{{ $url }}" alt="Media"
-                                                class="rounded-lg max-h-96 w-full object-cover">
+                                                class="rounded-lg max-h-96 w-medium object-cover">
                                         @elseif(in_array($ext, ['mp4', 'mov']))
                                             <video controls class="rounded-lg max-h-96 w-full">
                                                 <source src="{{ $url }}">
@@ -382,11 +380,7 @@
                                 @endif
                             </div>
                         </div>
-
-
-
                     </div>
-
                 </div>
             </div>
         </div>

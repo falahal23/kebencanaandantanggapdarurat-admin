@@ -1,308 +1,416 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.admin.app')
+@section('content')
+<body class="m-0 font-sans text-base antialiased font-normal leading-default bg-gray-50 text-slate-500">
+    <main class="ease-soft-in-out xl:ml-100 relative h-full max-h-screen rounded-xl transition-all duration-200">
+        <div class="w-full px-6 py-6 mx-auto">
+            <!-- row 1 -->
+            <div class="flex flex-wrap -mx-3">
+                <!-- card1 -->
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                    <div
+                        class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                        <div class="flex-auto p-4">
+                            <div class="flex flex-row -mx-3">
+                                <div class="flex-none w-2/3 max-w-full px-3">
+                                    <div>
+                                        <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Kejadian
+                                        </p>
+                                        <h5 class="mb-0 font-bold">
+                                            {{ $totalKejadian }}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="px-3 text-right basis-1/3">
+                                    <div
+                                        class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-red-600 to-orange-500">
+                                        <i class="ni ni-world text-lg relative top-3.5 text-white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Kebencanaan dan Tanggap Darurat</title>
-    <!-- Memuat Tailwind CSS untuk styling yang cepat dan responsif -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Menggunakan font Inter yang modern */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
-        :root {
-            --color-primary: #ef4444;
-            /* Merah untuk Darurat */
-            --color-secondary: #10b981;
-            /* Hijau untuk Kesiapsiagaan */
-            --color-dark: #1f2937;
-        }
+                <!-- card2 -->
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                    <div
+                        class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                        <div class="flex-auto p-4">
+                            <div class="flex flex-row -mx-3">
+                                <div class="flex-none w-2/3 max-w-full px-3">
+                                    <div>
+                                        <p class="mb-0 font-sans text-sm font-semibold leading-normal">Kejadian Aktif
+                                        </p>
+                                        <h5 class="mb-0 font-bold">
+                                            {{ $kejadianAktif }}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="px-3 text-right basis-1/3">
+                                    <div
+                                        class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-green-600 to-lime-500">
+                                        <i class="ni ni-check-bold text-lg relative top-3.5 text-white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-        }
 
-        /* Styling Sidebar */
-        .sidebar {
-            width: 280px;
-            background-color: var(--color-dark);
-            color: white;
-            padding: 1.5rem 0;
-            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            z-index: 10;
-        }
+                <!-- card3 -->
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                    <div
+                        class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                        <div class="flex-auto p-4">
+                            <div class="flex flex-row -mx-3">
+                                <div class="flex-none w-2/3 max-w-full px-3">
+                                    <div>
+                                        <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Posko</p>
+                                        <h5 class="mb-0 font-bold">
+                                            {{ $totalPosko }}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="px-3 text-right basis-1/3">
+                                    <div
+                                        class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-blue-600 to-cyan-500">
+                                        <i class="ni ni-building text-lg relative top-3.5 text-white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        .sidebar a {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 1.5rem;
-            margin: 0.25rem 0;
-            transition: all 0.2s;
-            border-radius: 0 50px 50px 0;
-            /* Bentuk elegan */
-        }
+                <!-- card4 -->
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                    <div
+                        class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                        <div class="flex-auto p-4">
+                            <div class="flex flex-row -mx-3">
+                                <div class="flex-none w-2/3 max-w-full px-3">
+                                    <div>
+                                        <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Donasi</p>
+                                        <h5 class="mb-0 font-bold">
+                                            Rp {{ number_format($totalDonasi, 0, ',', '.') }}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="px-3 text-right basis-1/3">
+                                    <div
+                                        class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-yellow-600 to-amber-500">
+                                        <i class="ni ni-credit-card text-lg relative top-3.5 text-white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        .sidebar a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
+            </div>
+            <div class="flex flex-wrap -mx-3 mt-4">
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                    <div
+                        class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                        <div class="flex-auto p-4">
+                            <div class="flex flex-row -mx-3">
+                                <div class="flex-none w-2/3 max-w-full px-3">
+                                    <div>
+                                        <p class="mb-0 font-sans text-sm font-semibold leading-normal">Jenis Logistik
+                                        </p>
+                                        <h5 class="mb-0 font-bold">
+                                            {{ $totalLogistik }}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="px-3 text-right basis-1/3">
+                                    <div
+                                        class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-indigo-600 to-purple-500">
+                                        <i class="ni ni-box-2 text-lg relative top-3.5 text-white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                    <div
+                        class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                        <div class="flex-auto p-4">
+                            <div class="flex flex-row -mx-3">
+                                <div class="flex-none w-2/3 max-w-full px-3">
+                                    <div>
+                                        <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Stok</p>
+                                        <h5 class="mb-0 font-bold">
+                                            {{ $totalStokLogistik }}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="px-3 text-right basis-1/3">
+                                    <div
+                                        class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-slate-600 to-gray-500">
+                                        <i class="ni ni-archive-2 text-lg relative top-3.5 text-white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                    <div
+                        class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                        <div class="flex-auto p-4">
+                            <div class="flex flex-row -mx-3">
+                                <div class="flex-none w-2/3 max-w-full px-3">
+                                    <div>
+                                        <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Distribusi
+                                        </p>
+                                        <h5 class="mb-0 font-bold">
+                                            {{ $totalDistribusi }}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="px-3 text-right basis-1/3">
+                                    <div
+                                        class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-pink-600 to-rose-500">
+                                        <i class="ni ni-send text-lg relative top-3.5 text-white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                    <div
+                        class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                        <div class="flex-auto p-4">
+                            <div class="flex flex-row -mx-3">
+                                <div class="flex-none w-2/3 max-w-full px-3">
+                                    <div>
+                                        <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Penerima
+                                        </p>
+                                        <h5 class="mb-0 font-bold">
+                                            {{ $totalPenerima }}
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="px-3 text-right basis-1/3">
+                                    <div
+                                        class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-teal-600 to-emerald-500">
+                                        <i class="ni ni-single-02 text-lg relative top-3.5 text-white"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        .sidebar a.active {
-            background-color: var(--color-primary);
-            font-weight: 600;
-        }
+            </div>
+            <!-- cards row 4 -->
 
-        .sidebar-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 2rem;
-            color: var(--color-secondary);
-            /* Warna hijau untuk kontras */
-        }
+            <div class="flex flex-wrap my-6 -mx-3">
+                <!-- card Kejadian Bencana -->
+                <div class="w-full max-w-full px-3 mt-0 lg:w-12/12 lg:flex-none">
+                    <div
+                        class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
+                        <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
+                            <div class="flex flex-wrap mt-0 -mx-3 justify-between items-center">
+                                <div class="flex-none w-7/12 max-w-full px-3 mt-0 lg:w-1/2 lg:flex-none">
+                                    <h6>Kejadian Bencana</h6>
+                                    <p class="mb-0 text-sm leading-normal">
+                                        <i class="fa fa-check text-cyan-500"></i>
+                                        Kejadian Bencana di Desa
+                                        <span class="ml-1 font-semibold">TERBARU!</span>
+                                    </p>
+                                </div>
 
-        /* Styling Konten Utama */
-        .main-content {
-            margin-left: 280px;
-            /* Sebesar lebar sidebar */
-            padding: 2rem;
-            transition: margin-left 0.3s;
-        }
+                                <!-- Tombol Tambah -->
 
-        /* Styling Kartu KPI */
-        .kpi-card {
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border-left: 6px solid;
-        }
+                            </div>
+                        </div>
 
-        .kpi-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-        }
+                        <div class="flex-auto p-6 px-0 pb-2">
+                            <div class="overflow-x-auto">
+                                <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                                    <thead class="align-bottom bg-gray-100">
+                                        <tr>
+                                            <th
+                                                class="px-6 py-3 font-bold text-left uppercase text-xxs text-slate-600">
+                                                Jenis Bencana</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-left uppercase text-xxs text-slate-600">
+                                                Tanggal</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-left uppercase text-xxs text-slate-600">
+                                                Lokasi</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase text-xxs text-slate-600">
+                                                Dampak</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase text-xxs text-slate-600">
+                                                Status</th>
 
-        .kpi-value {
-            font-size: 2.25rem;
-            font-weight: 700;
-            margin-top: 0.25rem;
-        }
 
-        .kpi-title {
-            font-weight: 500;
-            color: #6b7280;
-        }
+                                    </thead>
+                                    <tbody>
 
-        /* Utility class untuk ikon Placeholder (karena tidak bisa import Font Awesome) */
-        .icon {
-            font-size: 1.5rem;
-            margin-right: 1rem;
-        }
+                                        @foreach ($kejadian as $item)
+                                            <tr>
+                                            <tr>
+                                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
+                                                    <h6 class="mb-0 text-sm">{{ $item->jenis_bencana }}</h6>
+                                                </td>
+                                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
+                                                    <span
+                                                        class="text-xs font-semibold">{{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</span>
+                                                </td>
+                                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
+                                                    <span class="text-xs font-semibold">
+                                                        {{ $item->lokasi_text }} (RT {{ $item->rt }}/RW
+                                                        {{ $item->rw }})
+                                                    </span>
+                                                </td>
+                                                <td
+                                                    class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap">
+                                                    <span class="text-xs font-semibold">{{ $item->dampak }}</span>
+                                                </td>
+                                                <td
+                                                    class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap">
+                                                    <span
+                                                        class="text-xs font-bold
+                                            @if ($item->status_kejadian == 'Selesai') text-green-600
+                                            @elseif($item->status_kejadian == 'Sedang Ditangani') text-yellow-600
+                                            @else text-red-600 @endif">
+                                                        {{ $item->status_kejadian }}
+                                                    </span>
+                                                </td>
 
-        .alert-bar {
-            background-color: #fecaca;
-            color: #991b1b;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+                                                </form>
+                            </div>
+                            </td>
 
-        /* Media Query untuk Responsif Mobile */
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 0;
-                overflow-x: hidden;
-            }
+                            </tr>
+                            @endforeach
+                            </tbody>
+                            </table>
 
-            .main-content {
-                margin-left: 0;
-                padding: 1rem;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-title">KABENCAANA</div>
-
-        <nav class="space-y-2">
-            <!-- Link Dashboard Aktif -->
-            <a href="#" class="active">
-                <span class="icon">&#9776;</span> <!-- Ikon: Dashboard -->
-                Dashboard Utama
-            </a>
-
-            <a href="#">
-                <span class="icon">&#9888;</span> <!-- Ikon: Peringatan -->
-                Laporan Bencana
-            </a>
-
-            <a href="#">
-                <span class="icon">&#9992;</span> <!-- Ikon: Logistik (Pesawat Kargo) -->
-                Alokasi Sumber Daya
-            </a>
-
-            <a href="#">
-                <span class="icon">&#128100;</span> <!-- Ikon: Grup Relawan -->
-                Manajemen Relawan
-            </a>
-
-            <a href="#">
-                <span class="icon">&#9874;</span> <!-- Ikon: Peta (Gereja/Monumen) -->
-                Peta Lokasi Rawan
-            </a>
-
-            <a href="#" class="mt-8">
-                <span class="icon">&#9994;</span> <!-- Ikon: Pengaturan (Tangan) -->
-                Pengaturan Akun
-            </a>
-
-            <!-- Logout Section -->
-            <form action="{{ url('/logout') }}" method="POST">
-                @csrf
-                <button type="submit"
-                    class="w-full text-left flex items-center p-3 text-red-400 hover:bg-red-500 hover:text-white rounded-r-full transition duration-200">
-                    <span class="icon text-xl">&#10145;</span> <!-- Ikon: Keluar -->
-                    Logout
-                </button>
-            </form>
-        </nav>
-    </div>
-
-    <!-- Konten Utama -->
-    <div class="main-content">
-        <!-- Header Section -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-800">
-                Dashboard Operasi Tanggap Darurat
-            </h1>
-            <p class="text-gray-500">Ringkasan status kebencanaan terkini dan metrik utama.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Notifikasi Darurat (Menggunakan struktur dari success/error Anda) -->
-        @if (session('success'))
-            <div class="alert-bar bg-green-100 text-green-700">
-                <span class="icon text-2xl">&#9989;</span>
-                {{ session('success') }}
-            </div>
-        @elseif(session('error'))
-            <div class="alert-bar">
-                <span class="icon text-2xl">&#9888;</span>
-                {{ session('error') }}
-            </div>
-        @else
-            <div class="alert-bar">
-                <span class="icon text-2xl">&#9888;</span>
-                Perhatian: Tidak ada status darurat aktif yang terdeteksi dalam 24 jam terakhir.
-            </div>
-        @endif
 
-        <!-- KPI Cards Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-
-            <!-- Kartu 1: Bencana Aktif (Primary: Merah) -->
-            <div class="kpi-card" style="border-left-color: var(--color-primary);">
-                <div class="kpi-title">Bencana Aktif</div>
-                <div class="kpi-value text-red-600">3</div>
-                <p class="text-xs text-gray-400 mt-1">Status 24 jam terakhir</p>
-            </div>
-
-            <!-- Kartu 2: Relawan Bertugas (Secondary: Hijau) -->
-            <div class="kpi-card" style="border-left-color: var(--color-secondary);">
-                <div class="kpi-title">Relawan Bertugas</div>
-                <div class="kpi-value text-green-600">45</div>
-                <p class="text-xs text-gray-400 mt-1">Relawan di lapangan</p>
-            </div>
-
-            <!-- Kartu 3: Korban Terdampak (Warning: Kuning) -->
-            <div class="kpi-card" style="border-left-color: #f59e0b;">
-                <div class="kpi-title">Korban Terdampak</div>
-                <div class="kpi-value text-yellow-600">1.200</div>
-                <p class="text-xs text-gray-400 mt-1">Dalam 7 hari terakhir</p>
-            </div>
-
-            <!-- Kartu 4: Stok Bantuan (Info: Biru) -->
-            <div class="kpi-card" style="border-left-color: #3b82f6;">
-                <div class="kpi-title">Stok Bantuan (Kg)</div>
-                <div class="kpi-value text-blue-600">5.8 Tonn</div>
-                <p class="text-xs text-gray-400 mt-1">Persediaan logistik utama</p>
-            </div>
         </div>
-
-        <!-- Area Konten Detail (Tabel Ringkasan) -->
-        <div class="bg-white p-6 rounded-xl shadow-md">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Ringkasan Bencana Utama</h3>
-
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Lokasi</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Jenis Bencana</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Kab. A, Kec. Merah
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Banjir Bandang</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                    Siaga 1
-                                </span>
-                            </td>
-                            <td
-                                class="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-800 cursor-pointer">
-                                Lihat Detail</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Kota B, Kel. Hijau
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Gempa Ringan</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                    Pemulihan
-                                </span>
-                            </td>
-                            <td
-                                class="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-800 cursor-pointer">
-                                Lihat Detail</td>
-                        </tr>
-                    </tbody>
-                </table>
+    </main>
+    <div fixed-plugin>
+        <a fixed-plugin-button
+            class="bottom-7.5 right-7.5 text-xl z-990 shadow-soft-lg rounded-circle fixed cursor-pointer bg-white px-4 py-2 text-slate-700">
+            <i class="py-2 pointer-events-none fa fa-cog"> </i>
+        </a>
+        <!-- -right-90 in loc de 0-->
+        <div fixed-plugin-card
+            class="z-sticky shadow-soft-3xl w-90 ease-soft -right-90 fixed top-0 left-auto flex h-full min-w-0 flex-col break-words rounded-none border-0 bg-white bg-clip-border px-2.5 duration-200">
+            <div class="px-6 pt-4 pb-0 mb-0 bg-white border-b-0 rounded-t-2xl">
+                <div class="float-left">
+                    <h5 class="mt-4 mb-0">Soft UI Configurator</h5>
+                    <p>See our dashboard options.</p>
+                </div>
+                <div class="float-right mt-6">
+                    <button fixed-plugin-close-button
+                        class="inline-block p-0 mb-4 text-xs font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer hover:scale-102 leading-pro ease-soft-in tracking-tight-soft bg-150 bg-x-25 active:opacity-85 text-slate-700">
+                        <i class="fa fa-close"></i>
+                    </button>
+                </div>
+                <!-- End Toggle Button -->
             </div>
-
-            <!-- Tombol Utama Kembali ke "Data" -->
-            <div class="text-center mt-8">
-                <a href="{{ url('/kdt') }}"
-                    class="inline-block py-2 px-6 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-300">
-                    Lanjut ke Halaman Data (KDT)
+            <hr class="h-px mx-0 my-1 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent" />
+            <div class="flex-auto p-6 pt-0 sm:pt-4">
+                <!-- Sidebar Backgrounds -->
+                <div>
+                    <h6 class="mb-0">Sidebar Colors</h6>
+                </div>
+                <a href="javascript:void(0)">
+                    <div class="my-2 text-left" sidenav-colors>
+                        <span
+                            class="text-xs rounded-circle h-5.75 mr-1.25 w-5.75 ease-soft-in-out bg-gradient-to-tl from-purple-700 to-pink-500 relative inline-block cursor-pointer whitespace-nowrap border border-solid border-slate-700 text-center align-baseline font-bold uppercase leading-none text-white transition-all duration-200 hover:border-slate-700"
+                            active-color data-color-from="purple-700" data-color-to="pink-500"
+                            onclick="sidebarColor(this)"></span>
+                        <span
+                            class="text-xs rounded-circle h-5.75 mr-1.25 w-5.75 ease-soft-in-out bg-gradient-to-tl from-gray-900 to-slate-800 relative inline-block cursor-pointer whitespace-nowrap border border-solid border-white text-center align-baseline font-bold uppercase leading-none text-white transition-all duration-200 hover:border-slate-700"
+                            data-color-from="gray-900" data-color-to="slate-800" onclick="sidebarColor(this)"></span>
+                        <span
+                            class="text-xs rounded-circle h-5.75 mr-1.25 w-5.75 ease-soft-in-out bg-gradient-to-tl from-blue-600 to-cyan-400 relative inline-block cursor-pointer whitespace-nowrap border border-solid border-white text-center align-baseline font-bold uppercase leading-none text-white transition-all duration-200 hover:border-slate-700"
+                            data-color-from="blue-600" data-color-to="cyan-400" onclick="sidebarColor(this)"></span>
+                        <span
+                            class="text-xs rounded-circle h-5.75 mr-1.25 w-5.75 ease-soft-in-out bg-gradient-to-tl from-green-600 to-lime-400 relative inline-block cursor-pointer whitespace-nowrap border border-solid border-white text-center align-baseline font-bold uppercase leading-none text-white transition-all duration-200 hover:border-slate-700"
+                            data-color-from="green-600" data-color-to="lime-400" onclick="sidebarColor(this)"></span>
+                        <span
+                            class="text-xs rounded-circle h-5.75 mr-1.25 w-5.75 ease-soft-in-out bg-gradient-to-tl from-red-500 to-yellow-400 relative inline-block cursor-pointer whitespace-nowrap border border-solid border-white text-center align-baseline font-bold uppercase leading-none text-white transition-all duration-200 hover:border-slate-700"
+                            data-color-from="red-500" data-color-to="yellow-400" onclick="sidebarColor(this)"></span>
+                        <span
+                            class="text-xs rounded-circle h-5.75 mr-1.25 w-5.75 ease-soft-in-out bg-gradient-to-tl from-red-600 to-rose-400 relative inline-block cursor-pointer whitespace-nowrap border border-solid border-white text-center align-baseline font-bold uppercase leading-none text-white transition-all duration-200 hover:border-slate-700"
+                            data-color-from="red-600" data-color-to="rose-400" onclick="sidebarColor(this)"></span>
+                    </div>
                 </a>
+                <!-- Sidenav Type -->
+                <div class="mt-4">
+                    <h6 class="mb-0">Sidenav Type</h6>
+                    <p class="text-sm leading-normal">
+                        Choose between 2 different sidenav types.
+                    </p>
+                </div>
+                <div class="flex">
+                    <button transparent-style-btn
+                        class="inline-block w-full px-4 py-3 mb-2 text-xs font-bold text-center text-white uppercase align-middle transition-all border border-transparent border-solid rounded-lg cursor-pointer xl-max:cursor-not-allowed xl-max:opacity-65 xl-max:pointer-events-none xl-max:bg-gradient-to-tl xl-max:from-purple-700 xl-max:to-pink-500 xl-max:text-white xl-max:border-0 hover:scale-102 hover:shadow-soft-xs active:opacity-85 leading-pro ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-to-tl from-purple-700 to-pink-500 bg-fuchsia-500 hover:border-fuchsia-500"
+                        data-class="bg-transparent" active-style>
+                        Transparent
+                    </button>
+                    <button white-style-btn
+                        class="inline-block w-full px-4 py-3 mb-2 ml-2 text-xs font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg cursor-pointer xl-max:cursor-not-allowed xl-max:opacity-65 xl-max:pointer-events-none xl-max:bg-gradient-to-tl xl-max:from-purple-700 xl-max:to-pink-500 xl-max:text-white xl-max:border-0 hover:scale-102 hover:shadow-soft-xs active:opacity-85 leading-pro ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 border-fuchsia-500 bg-none text-fuchsia-500 hover:border-fuchsia-500"
+                        data-class="bg-white">
+                        White
+                    </button>
+                </div>
+                <p class="block mt-2 text-sm leading-normal xl:hidden">
+                    You can change the sidenav type just on desktop view.
+                </p>
+                <!-- Navbar Fixed -->
+                <div class="mt-4">
+                    <h6 class="mb-0">Navbar Fixed</h6>
+                </div>
+                <div class="min-h-6 mb-0.5 block pl-0">
+                    <input navbarFixed
+                        class="rounded-10 duration-250 ease-soft-in-out after:rounded-circle after:shadow-soft-2xl after:duration-250 checked:after:translate-x-5.25 h-5 relative float-left mt-1 ml-auto w-10 cursor-pointer appearance-none border border-solid border-gray-200 bg-slate-800/10 bg-none bg-contain bg-left bg-no-repeat align-top transition-all after:absolute after:top-px after:h-4 after:w-4 after:translate-x-px after:bg-white after:content-[''] checked:border-slate-800/95 checked:bg-slate-800/95 checked:bg-none checked:bg-right"
+                        type="checkbox" />
+                </div>
+                <hr
+                    class="h-px bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent sm:my-6" />
+
+                <a class="inline-block w-full px-6 py-3 mb-4 text-xs font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer active:shadow-soft-xs hover:scale-102 active:opacity-85 leading-pro ease-soft-in tracking-tight-soft bg-150 bg-x-25 border-slate-700 text-slate-700 hover:bg-transparent hover:text-slate-700 hover:shadow-none active:bg-slate-700 active:text-white active:hover:bg-transparent active:hover:text-slate-700 active:hover:shadow-none"
+                    href="https://www.creative-tim.com/learning-lab/tailwind/html/quick-start/soft-ui-dashboard/"
+                    target="_blank">View documentation</a>
+                <div class="w-full text-center">
+                    <a class="github-button" href="https://github.com/creativetimofficial/soft-ui-dashboard-tailwind"
+                        data-icon="octicon-star" data-size="large" data-show-count="true"
+                        aria-label="Star creativetimofficial/soft-ui-dashboard on GitHub">Star</a>
+                    <h6 class="mt-4">Thank you for sharing!</h6>
+                    <a href="https://twitter.com/intent/tweet?text=Check%20Soft%20UI%20Dashboard%20Tailwind%20made%20by%20%40CreativeTim&hashtags=webdesign,dashboard,tailwindcss&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fsoft-ui-dashboard-tailwind"
+                        class="inline-block px-6 py-3 mb-0 mr-2 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer hover:shadow-soft-xs hover:scale-102 active:opacity-85 leading-pro ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 me-2 border-slate-700 bg-slate-700"
+                        target="_blank">
+                        <i class="mr-1 fab fa-twitter"></i> Tweet
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/soft-ui-dashboard-tailwind"
+                        class="inline-block px-6 py-3 mb-0 mr-2 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer hover:shadow-soft-xs hover:scale-102 active:opacity-85 leading-pro ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 me-2 border-slate-700 bg-slate-700"
+                        target="_blank">
+                        <i class="mr-1 fab fa-facebook-square"></i> Share
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-
 </body>
-
 </html>
+@endsection

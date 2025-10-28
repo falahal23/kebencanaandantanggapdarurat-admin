@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Warga;
 use Illuminate\Http\Request;
+use App\Http\Controllers\WargaController;
 
 class WargaController extends Controller
 {
@@ -12,8 +13,8 @@ class WargaController extends Controller
      */
     public function index()
     {
-        $wargas = Warga::latest()->paginate(10);
-        return view('admin.warga.index', compact('wargas'));
+        $warga = Warga::latest()->paginate(10);
+        return view('admin.warga.index', compact('warga'));
     }
 
     /**
@@ -41,7 +42,7 @@ class WargaController extends Controller
 
         Warga::create($validated);
 
-        return redirect()->route('warga.index')->with('success', 'Data warga berhasil ditambahkan!');
+        return redirect()->route('admin.warga.index')->with('success', 'Data warga berhasil ditambahkan!');
     }
 
     /**
@@ -81,7 +82,7 @@ class WargaController extends Controller
 
         $warga->update($validated);
 
-        return redirect()->route('warga.index')->with('success', 'Data warga berhasil diperbarui!');
+        return redirect()->route('admin.warga.index')->with('success', 'Data warga berhasil diperbarui!');
     }
 
     /**
@@ -92,6 +93,6 @@ class WargaController extends Controller
         $warga = Warga::findOrFail($id);
         $warga->delete();
 
-        return redirect()->route('warga.index')->with('success', 'Data warga berhasil dihapus!');
+        return redirect()->route('admin.warga.index')->with('success', 'Data warga berhasil dihapus!');
     }
 }

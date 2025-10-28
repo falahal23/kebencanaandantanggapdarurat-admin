@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class KejadianBencanaController extends Controller
 {
-   
+
     public function index()
     {
         $data = [

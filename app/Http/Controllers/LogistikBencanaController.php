@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LogistikBencana;
 use App\Models\KejadianBencana;
 use Illuminate\Http\Request;
+use App\Http\Controllers\DashboardController;
 
 class LogistikBencanaController extends Controller
 {

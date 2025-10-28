@@ -8,11 +8,16 @@ use App\Http\Controllers\{
     DonasiBencanaController,
     LogistikBencanaController,
     DistribusiLogistikController,
-    LoginController
+    LoginController,
+    DashboardController,
+    UserController,
+    WargaController
 };
 
 // Dashboard (opsional)
-Route::get('/', [KejadianBencanaController::class, 'index']);
+
+
+Route::get('/kejadian', [KejadianBencanaController::class, 'index']);
 
 // Modul utama
 Route::resource('kejadian', KejadianBencanaController::class);
@@ -20,21 +25,50 @@ Route::resource('posko', PoskoBencanaController::class);
 Route::resource('donasi', DonasiBencanaController::class);
 Route::resource('logistik', LogistikBencanaController::class);
 Route::resource('distribusi', DistribusiLogistikController::class);
+Route::resource('warga', WargaController::class);
+
 
 // Menampilkan halaman login
-Route::get('/admin.login', [LoginController::class, 'showLoginForm'])->name('login');
-
+Route::get('/', [LoginController::class, 'index'])->name('login');
 // Proses login
-Route::post('/admin.login', [LoginController::class, 'login'])->name('login.process');
+Route::post('/login', [LoginController::class, 'login'])->name('login.process');
+
+// Tampilkan form register
+Route::get('/register', [UserController::class, 'create'])->name('user.create');
+
+// Proses simpan data register
+Route::post('/register', [UserController::class, 'store'])->name('user.store');
 
 // Logout user
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
 
-// Halaman dashboard utama
-Route::get('/admin.Dashboard', [KejadianBencanaController::class, 'Dashboard'])->name('Dashboard');
+// Halaman index kejadian bencana
+Route::get('/admin.kejadian_bencana.index', [KejadianBencanaController::class, 'index'])->name('kejadian_bencana.index');
 
-// show kejadian
-Route::get('/kejadian/{id}', [KejadianBencanaController::class, 'show'])->name('kejadian.show');
+//Halaman index posko Bencana
+Route::get('/admin.posko_bencana.index', [KejadianBencanaController::class, 'index'])->name('posko_bencana.index');
 
-Route::get('kejadian.destroy', [KejadianBencanaController::class, 'index'])->name('kejadian.index');
+//
+
+// Media Upload
+Route::post('/media/upload', [MediaController::class, 'upload'])->name('media.upload');
+
+//user
+route:: resource('user', UserController::class);
+
+route:: resource('user/index', UserController::class);
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('user', UserController::class);
+});
+
+
+//warga
+Route::resource('warga', WargaController::class);
+
+Route::prefix('admin')->name('admin.')->group(function() {
+    Route::resource('warga', WargaController::class);
+});
+
