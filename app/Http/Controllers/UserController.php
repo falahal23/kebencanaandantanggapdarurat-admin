@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         $data['dataUser'] = User::latest()->get();
-        return view('admin.user.index', $data);
+        return view('pages.admin.user.index', $data);
     }
 
     /**
@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.user.create');
+        return view('pages.admin.user.create');
     }
 
     /**
@@ -35,16 +35,17 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
         ]);
-
+        //Hash make unkb enskripsi password
         try {
             User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
-
+            //Redireck dan sukses
             return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan!');
         } catch (\Exception $e) {
+            //Eroro
             return redirect()->back()->withInput()->with('error', '❌ Terjadi kesalahan: ' . $e->getMessage());
         }
     }
@@ -55,7 +56,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('admin.user.edit', compact('user'));
+        return view('pages.admin.user.edit', compact('user'));
     }
 
     /**
@@ -104,6 +105,6 @@ class UserController extends Controller
 
     public function login () {
 
-        
+
     }
 }

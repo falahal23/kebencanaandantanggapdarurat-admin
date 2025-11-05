@@ -93,7 +93,7 @@
                                                 <!-- Tombol Edit -->
                                                 <a href="{{ route('warga.edit', $item->warga_id) }}"
                                                     class="inline-block px-3 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
-                                                    <i class="fa fa-edit mr-1">Edit</i>
+                                                    <i class="fa fa-edit mr-1">✏️Edit</i>
                                                 </a>
                                                 <!-- Tombol Hapus -->
                                                 <form action="{{ route('warga.destroy', $item->warga_id) }}" method="POST"
@@ -102,7 +102,7 @@
                                                     @method('DELETE')
                                                     <button type="submit"
                                                         class="inline-block px-3 py-2 text-white bg-gradient-to-r from-red-600 to-Rose-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
-                                                        <i class="fa fa-trash mr-1">Hapus</i>
+                                                        <i class="fa fa-trash mr-1">🗑️Hapus</i>
                                                     </button>
                                                 </form>
                                             </div>

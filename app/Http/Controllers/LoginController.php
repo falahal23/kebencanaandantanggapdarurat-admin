@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 use Illuminate\Validation\Rules\Password;
 
 class LoginController extends Controller
@@ -12,39 +11,39 @@ class LoginController extends Controller
     // 🔹 Halaman login
     public function index()
     {
-        return view('login');
+        return view('pages.Auth.login');
     }
 
     // 🔹 Halaman register
     public function registerForm()
     {
-        return view('admin.auth.register');
+        return view('pages.Auth.register');
     }
 
     // 🔹 Proses login
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required|min:6',
         ], [
-            'email.required' => 'Email wajib diisi',
-            'email.email' => 'Format email tidak valid',
+            'email.required'    => 'Email wajib diisi',
+            'email.email'       => 'Format email tidak valid',
             'password.required' => 'Password wajib diisi',
-            'password.min' => 'Password minimal 6 karakter',
+            'password.min'      => 'Password minimal 6 karakter',
         ]);
 
         $user = User::where('email', $request->email)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
             session([
-                'user_id' => $user->id,
-                'user_name' => $user->name,
-                'user_email' => $user->email
+                'user_id'    => $user->id,
+                'user_name'  => $user->name,
+                'user_email' => $user->email,
             ]);
 
             // 🔸 Langsung ke halaman home.index
-            return redirect()->route('dashboard')->with('success', 'Selamat datang, ' . $user->name . '!');
+            return redirect()->route('dashboard')->with('success');
         }
 
         return back()->withErrors(['password' => 'Email atau password salah'])->withInput();
@@ -54,27 +53,27 @@ class LoginController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email',
+            'name'     => 'required|string|max:100',
+            'email'    => 'required|email|unique:users,email',
             'password' => ['required', 'confirmed', Password::min(6)->letters()->mixedCase()->numbers()],
         ], [
-            'name.required' => 'Nama wajib diisi',
-            'email.required' => 'Email wajib diisi',
-            'email.unique' => 'Email sudah digunakan',
-            'password.required' => 'Password wajib diisi',
+            'name.required'      => 'Nama wajib diisi',
+            'email.required'     => 'Email wajib diisi',
+            'email.unique'       => 'Email sudah digunakan',
+            'password.required'  => 'Password wajib diisi',
             'password.confirmed' => 'Konfirmasi password tidak sesuai',
-            'password.min' => 'Password minimal 6 karakter dan harus mengandung huruf besar, kecil, dan angka',
+            'password.min'       => 'Password minimal 6 karakter dan harus mengandung huruf besar, kecil, dan angka',
         ]);
 
-         $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         if ($user) {
-        return back()->withErrors(['email' => 'Email sudah digunakan'])->withInput();
+            return back()->withErrors(['email' => 'Email sudah digunakan'])->withInput();
         }
 
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
@@ -82,9 +81,15 @@ class LoginController extends Controller
     }
 
     // 🔹 Logout
-    public function logout()
+    public function logout(Request $request)
     {
-        session()->forget(['user_id', 'user_name', 'user_email']);
-        return redirect()->route('login.index')->with('success', 'Anda telah logout.');
+        // Hapus semua session login manual
+        $request->session()->forget(['user_id', 'user_name', 'user_email']);
+
+        // Atau bisa juga hapus semua session:
+        // $request->session()->flush();
+
+        return redirect()->route('login.index')->with('success', '✅ Anda telah logout!');
     }
+
 }

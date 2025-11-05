@@ -14,7 +14,7 @@ class WargaController extends Controller
     public function index()
     {
         $warga = Warga::latest()->paginate(10);
-        return view('admin.warga.index', compact('warga'));
+        return view('pages.admin.warga.index', compact('warga'));
     }
 
     /**
@@ -22,7 +22,7 @@ class WargaController extends Controller
      */
     public function create()
     {
-        return view('admin.warga.create');
+        return view('pages.admin.warga.create');
     }
 
     /**
@@ -42,7 +42,7 @@ class WargaController extends Controller
 
         Warga::create($validated);
 
-        return redirect()->route('admin.warga.index')->with('success', 'Data warga berhasil ditambahkan!');
+        return redirect()->route('pages.admin.warga.index')->with('success', 'Data warga berhasil ditambahkan!');
     }
 
     /**
@@ -51,7 +51,7 @@ class WargaController extends Controller
     public function show($id)
     {
         $warga = Warga::findOrFail($id);
-        return view('admin.warga.show', compact('warga'));
+        return view('pages.admin.warga.show', compact('warga'));
     }
 
     /**
@@ -60,7 +60,7 @@ class WargaController extends Controller
     public function edit($id)
     {
         $warga = Warga::findOrFail($id);
-        return view('admin.warga.edit', compact('warga'));
+        return view('pages.admin.warga.edit', compact('warga'));
     }
 
     /**
@@ -82,7 +82,7 @@ class WargaController extends Controller
 
         $warga->update($validated);
 
-        return redirect()->route('admin.warga.index')->with('success', 'Data warga berhasil diperbarui!');
+        return redirect()->route('pages.admin.warga.index')->with('success', 'Data warga berhasil diperbarui!');
     }
 
     /**
@@ -93,6 +93,6 @@ class WargaController extends Controller
         $warga = Warga::findOrFail($id);
         $warga->delete();
 
-        return redirect()->route('admin.warga.index')->with('success', 'Data warga berhasil dihapus!');
+        return redirect()->route('pages.admin.warga.index')->with('success', 'Data warga berhasil dihapus!');
     }
 }

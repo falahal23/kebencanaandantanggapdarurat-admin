@@ -30,7 +30,7 @@ class DashboardController extends Controller
             'kejadian'          => KejadianBencana::all(), // ✅ Tambahkan di array
         ];
 
-        return view('dashboard', $data);
+        return view('pages.admin.dashboard', $data);
     }
 
     /**

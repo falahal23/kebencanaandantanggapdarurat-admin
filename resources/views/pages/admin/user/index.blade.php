@@ -63,7 +63,7 @@
                                                 {{-- Tombol Edit --}}
                                                 <a href="{{ route('user.edit', $user->id) }}"
                                                    class="inline-block px-3 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
-                                                    <i class="fa fa-trash mr-1"></i> Edit User
+                                                    <i class="bi bi-pencil-square"></i>✏️Edit User
                                                 </a>
                                         </td>
 
@@ -75,7 +75,7 @@
                                                 @method('DELETE')
                                                 <button type="submit"
                                                     class="inline-block px-3 py-2 text-white bg-gradient-to-r from-red-600 to-Rose-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
-                                                    <i class="fa fa-trash mr-1"></i> Hapus User
+                                                    <i class="bi bi-trash"></i>🗑️Hapus User
                                                 </button>
                                             </form>
                                         </td>

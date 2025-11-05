@@ -29,9 +29,11 @@ Route::resource('warga', WargaController::class);
 
 
 // Menampilkan halaman login
-Route::get('/', [LoginController::class, 'index'])->name('login');
+Route::get('/', [LoginController::class, 'index'])->name('login.index');
 // Proses login
 Route::post('/login', [LoginController::class, 'login'])->name('login.process');
+//Logout
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Tampilkan form register
 Route::get('/register', [UserController::class, 'create'])->name('user.create');
@@ -68,7 +70,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 //warga
 Route::resource('warga', WargaController::class);
 
+Route::get('/pages/admin/warga', [WargaController::class, 'index'])->name('pages.admin.warga.index');
+
+
 Route::prefix('admin')->name('admin.')->group(function() {
     Route::resource('warga', WargaController::class);
 });
+
 

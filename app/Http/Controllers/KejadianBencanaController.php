@@ -26,7 +26,7 @@ class KejadianBencanaController extends Controller
             'kejadian'          => KejadianBencana::all(), // ✅ Tambahkan di array
         ];
 
-        return view('admin.kejadian_bencana.index', $data);
+        return view('pages.admin.kejadian_bencana.index', $data);
     }
 
     /**
@@ -34,7 +34,7 @@ class KejadianBencanaController extends Controller
      */
     public function create()
     {
-        return view('admin.kejadian_bencana.create');
+        return view('pages.admin.kejadian_bencana.create');
     }
 
     /**
@@ -95,7 +95,7 @@ class KejadianBencanaController extends Controller
     {
         // $kejadian = KejadianBencana::with('media')->findOrFail($id);
         $kejadian = KejadianBencana::findOrFail($id);
-        return view('admin.kejadian_bencana.show', compact('kejadian'));
+        return view('pages.admin.kejadian_bencana.show', compact('kejadian'));
     }
 
     /**
@@ -104,7 +104,7 @@ class KejadianBencanaController extends Controller
     public function edit($id)
     {
         $kejadian = KejadianBencana::findOrFail($id);
-        return view('admin.kejadian_bencana.edit', compact('kejadian'));
+        return view('pages.admin.kejadian_bencana.edit', compact('kejadian'));
     }
 
     /**
@@ -193,7 +193,7 @@ class KejadianBencanaController extends Controller
             }
         }
 
-        return redirect()->route('kejadian.index')->with('success', 'Data kejadian dan media berhasil diperbarui!');
+        return redirect()->route('kejadian.index')->with('success',);
     }
 
     /**
@@ -204,7 +204,7 @@ class KejadianBencanaController extends Controller
         $kejadian = KejadianBencana::findOrFail($id);
         $kejadian->delete();
 
-        return back()->with('success', 'Data kejadian berhasil dihapus.');
+        return back()->with('success',);
     }
 
 }
