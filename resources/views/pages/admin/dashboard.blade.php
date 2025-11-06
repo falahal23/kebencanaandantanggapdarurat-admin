@@ -6,7 +6,7 @@
             <div class="w-full px-6 py-6 mx-auto">
  {{-- StartWA --}}
                 <!-- Floating WhatsApp Button -->
-                <a href="https://wa.me/6281266007367" target="_blank" id="whatsapp-float">
+                {{-- <a href="https://wa.me/6281266007367" target="_blank" id="whatsapp-float">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" width="45"
                         height="45">
                 </a>
@@ -32,7 +32,7 @@
                         transform: scale(1.1);
                         background-color: #20b955;
                     }
-                </style>
+                </style> --}}
 
 {{-- EndWa --}}
 
