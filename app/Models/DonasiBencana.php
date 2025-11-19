@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +10,7 @@ class DonasiBencana extends Model
 
     protected $table = 'donasi_bencana';
     protected $primaryKey = 'donasi_id';
+
     protected $fillable = [
         'kejadian_id',
         'donatur_nama',
@@ -18,13 +18,16 @@ class DonasiBencana extends Model
         'nilai',
     ];
 
+    // Relasi ke Kejadian Bencana
     public function kejadian()
     {
-        return $this->belongsTo(KejadianBencana::class, 'kejadian_id');
+        return $this->belongsTo(KejadianBencana::class, 'kejadian_id', 'kejadian_id');
     }
+
 
     public function media()
     {
-        return $this->hasMany(Media::class, 'ref_id')->where('ref_table', 'donasi_bencana');
+        return $this->hasMany(Media::class, 'ref_id', 'donasi_id')
+                    ->where('ref_table', 'donasi_bencana');
     }
 }

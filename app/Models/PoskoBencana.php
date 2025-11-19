@@ -19,9 +19,10 @@ class PoskoBencana extends Model
         'penanggung_jawab',
     ];
 
-    public function kejadian()
+       public function kejadian()
     {
-        return $this->belongsTo(KejadianBencana::class, 'kejadian_id');
+        return $this->belongsTo(KejadianBencana::class, 'kejadian_id', 'kejadian_id');
+
     }
 
     public function distribusi()
@@ -31,6 +32,7 @@ class PoskoBencana extends Model
 
     public function media()
     {
-        return $this->hasMany(Media::class, 'ref_id')->where('ref_table', 'posko_bencana');
+        return $this->hasMany(Media::class, 'ref_id', 'posko_id')
+                    ->where('ref_table', 'posko_bencana');
     }
 }

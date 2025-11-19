@@ -42,8 +42,8 @@ class LoginController extends Controller
                 'user_email' => $user->email,
             ]);
 
-            // 🔸 Langsung ke halaman home.index
-            return redirect()->route('dashboard')->with('success');
+            // ✅ SweetAlert success (ditambahkan isi pesan)
+            return redirect()->route('dashboard')->with('success', 'Berhasil login!');
         }
 
         return back()->withErrors(['password' => 'Email atau password salah'])->withInput();
@@ -83,13 +83,8 @@ class LoginController extends Controller
     // 🔹 Logout
     public function logout(Request $request)
     {
-        // Hapus semua session login manual
         $request->session()->forget(['user_id', 'user_name', 'user_email']);
-
-        // Atau bisa juga hapus semua session:
-        // $request->session()->flush();
 
         return redirect()->route('login.index')->with('success', '✅ Anda telah logout!');
     }
-
 }

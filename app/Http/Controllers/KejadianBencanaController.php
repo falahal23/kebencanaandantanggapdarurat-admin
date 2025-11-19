@@ -193,7 +193,7 @@ class KejadianBencanaController extends Controller
             }
         }
 
-        return redirect()->route('kejadian.index')->with('success',);
+        return redirect()->route('kejadian.index')->with('success', );
     }
 
     /**
@@ -204,7 +204,7 @@ class KejadianBencanaController extends Controller
         $kejadian = KejadianBencana::findOrFail($id);
         $kejadian->delete();
 
-        return back()->with('success',);
+        return back()->with('success', );
     }
 
 }

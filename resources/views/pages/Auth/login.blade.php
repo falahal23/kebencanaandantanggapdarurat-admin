@@ -108,10 +108,6 @@
             text-decoration: none;
         }
 
-        .forgot-password:hover {
-            text-decoration: underline;
-        }
-
         .btn-sign {
             width: 100%;
             padding: 12px;
@@ -141,22 +137,6 @@
             text-decoration: none;
         }
 
-        .sign-up-section a:hover {
-            text-decoration: underline;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         @media (max-width: 900px) {
             .left {
                 display: none;
@@ -178,24 +158,15 @@
     <div class="wrapper">
         <!-- Bagian Kiri -->
         <div class="left">
-            <img src="{{ asset('assets-admin/img/apple-icon.png') }}"alt="Kebencanaan">
+            <img src="{{ asset('assets-admin/img/apple-icon.png') }}" alt="Kebencanaan">
             <h1>Sistem Kebencanaan & Tanggap Darurat</h1>
-            <p>Membantu koordinasi cepat antara petugas, relawan, dan masyarakat dalam menghadapi situasi bencana secara
-                terintegrasi dan efisien.</p>
+            <p>Membantu koordinasi cepat antara petugas, relawan, dan masyarakat.</p>
         </div>
 
         <!-- Bagian Kanan -->
         <div class="right">
+
             <h2>Sign In</h2>
-
-            <!-- Pesan sukses atau error -->
-            @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
-
-            @if (session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-            @endif
 
             <!-- Form Login -->
             <form method="POST" action="{{ route('login.process') }}">
@@ -210,6 +181,7 @@
                     <a href="{{ route('user.create') }}">Mau Registrasi?</a>
                 </div>
             </form>
+
         </div>
     </div>
 
@@ -217,9 +189,72 @@
     <script src="{{ asset('assets-admin/js/plugins/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets-admin/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('assets-admin/js/core/bootstrap.min.js') }}"></script>
-
-    <!-- Volt JS -->
     <script src="{{ asset('assets-admin/js/soft-ui-dashboard-tailwind.min.js') }}"></script>
+
+    <!-- ✅ SWEETALERT2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- ✅ SUCCESS --}}
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
+    <!-- ✅ SWEETALERT2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- ✅ SUCCESS --}}
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session("success") }}',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
+
+    {{-- ✅ ERROR MESSAGE (session error) --}}
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: '{{ session("error") }}',
+            });
+        </script>
+    @endif
+
+    {{-- ✅ ERROR VALIDATION --}}
+    @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan!',
+                html: `{!! implode('<br>', $errors->all()) !!}`,
+            });
+        </script>
+    @endif
+
+    {{-- ✅ ERROR SPECIFIC: password salah --}}
+    @if ($errors->has('password'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Gagal!',
+                text: '{{ $errors->first("password") }}',
+            });
+        </script>
+    @endif
+
 
 </body>
 

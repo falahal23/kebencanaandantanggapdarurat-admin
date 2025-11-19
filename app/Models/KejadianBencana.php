@@ -23,9 +23,10 @@ class KejadianBencana extends Model
     ];
 
     // Relasi ke Posko
+
     public function posko()
     {
-        return $this->hasMany(PoskoBencana::class, 'kejadian_id');
+        return $this->hasMany(PoskoBencana::class, 'kejadian_id', 'kejadian_id');
     }
 
     // Relasi ke Donasi
@@ -43,7 +44,7 @@ class KejadianBencana extends Model
     // Relasi ke Media (banyak file)
     public function media()
     {
-        return $this->hasMany(Media::class, 'ref_id')
-            ->where('ref_table', 'kejadian_bencana');
+        return $this->hasMany(Media::class, 'ref_id', 'kejadian_id')
+                    ->where('ref_table', 'kejadian_bencana');
     }
 }

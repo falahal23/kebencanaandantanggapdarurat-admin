@@ -1,19 +1,10 @@
 <!DOCTYPE html>
 <html>
-<!-- Font Awesome (ikon untuk tombol edit, hapus, dll) -->
-
-
-
-
 <head>
     <!-- Font Awesome CDN -->
-<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    integrity="sha512-Fo3rlrZj/k7ujTnHg4C+6Zw5qPcbK6Ra+qPp7A64kL4B8p6jWc5o6VbG6DRmY7wZkITzB8sH3Vf7+e8Exs3U9Q=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/k7ujTnHg4C+6Zw5qPcbK6Ra+qPp7A64kL4B8p6jWc5o6VbG6DRmY7wZkITzB8sH3Vf7+e8Exs3U9Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Font Awesome (ikon untuk tombol edit, hapus, dll) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -45,6 +36,16 @@
     <link href="{{ asset('assets-admin/css/soft-ui-dashboard-tailwind.css?v=1.0.5') }}" rel="stylesheet" />
 
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+
+
+    <style>
+        .media-image {
+            max-width: 400px;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 
 {{-- start Css --}}
@@ -53,7 +54,14 @@
 </head>
 
 <body>
-
+    <style>
+        .media-image {
+            max-width: 400px;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+    </style>
     <!-- Floating WhatsApp Button (Tailwind) -->
     <div id="wa-fab" class="fixed right-6 bottom-6 z-50">
         <button id="wa-button"
@@ -148,6 +156,42 @@
         <div class="alert alert-danger">
             {{ session('error') }}
         </div>
+    @endif
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- ✅ SUCCESS MESSAGE --}}
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
+
+    {{-- ✅ ERROR MESSAGE (Laravel Validation & Login gagal) --}}
+    @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Kesalahan!',
+                html: `{!! implode('<br>', $errors->all()) !!}`,
+            });
+        </script>
+    @endif
+
+    {{-- ✅ ERROR MESSAGE (session error) --}}
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: '{{ session('error') }}',
+            });
+        </script>
     @endif
 
 
