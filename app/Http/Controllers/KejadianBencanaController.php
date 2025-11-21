@@ -14,6 +14,8 @@ class KejadianBencanaController extends Controller
 
     public function index()
     {
+        // Menggunakan paginate() untuk mengambil data dengan penomoran halaman.
+        // Data 'kejadian' sekarang adalah instance Paginator, bukan Collection.
         $data = [
             'totalKejadian'     => KejadianBencana::count(),
             'kejadianAktif'     => KejadianBencana::where('status_kejadian', 'Aktif')->count(),
@@ -23,7 +25,7 @@ class KejadianBencanaController extends Controller
             'totalStokLogistik' => LogistikBencana::sum('stok'),
             'totalDistribusi'   => DistribusiLogistik::count(),
             'totalPenerima'     => DistribusiLogistik::distinct('penerima')->count('penerima'),
-            'kejadian'          => KejadianBencana::all(), // ✅ Tambahkan di array
+            'kejadian'          => KejadianBencana::orderBy('tanggal', 'desc')->paginate(10), // ✅ Implementasi Pagination (10 item per halaman)
         ];
 
         return view('pages.admin.kejadian_bencana.index', $data);
@@ -53,7 +55,7 @@ class KejadianBencanaController extends Controller
             'status_kejadian' => 'required|string|max:50',
             'keterangan'      => 'nullable|string',
 
-                                                                                           // Validasi media tunggal
+            // Validasi media tunggal
             'media'           => 'nullable|file|mimes:jpg,jpeg,png,mp4,mov,pdf|max:20480', // max 20MB
             'caption'         => 'nullable|string|max:255',
         ]);
@@ -93,7 +95,7 @@ class KejadianBencanaController extends Controller
      */
     public function show($id)
     {
-        // $kejadian = KejadianBencana::with('media')->findOrFail($id);
+        // Menggunakan with('media') untuk memuat relasi media jika diperlukan untuk view show
         $kejadian = KejadianBencana::findOrFail($id);
         return view('pages.admin.kejadian_bencana.show', compact('kejadian'));
     }
@@ -193,7 +195,8 @@ class KejadianBencanaController extends Controller
             }
         }
 
-        return redirect()->route('kejadian.index')->with('success', );
+        // ✅ Perbaikan: Mengganti success message yang kosong
+        return redirect()->route('kejadian.index')->with('success', 'Data kejadian bencana berhasil diperbarui!');
     }
 
     /**
@@ -202,9 +205,25 @@ class KejadianBencanaController extends Controller
     public function destroy($id)
     {
         $kejadian = KejadianBencana::findOrFail($id);
+
+        // Opsional: Hapus media yang terkait
+        $media = Media::where('ref_table', 'kejadian_bencana')
+            ->where('ref_id', $kejadian->kejadian_id)
+            ->first();
+
+        if ($media) {
+            // Hapus file fisik
+            if (\Storage::disk('public')->exists($media->file_url)) {
+                \Storage::disk('public')->delete($media->file_url);
+            }
+            // Hapus record dari database
+            $media->delete();
+        }
+
         $kejadian->delete();
 
-        return back()->with('success', );
+        // ✅ Perbaikan: Mengganti success message yang kosong
+        return back()->with('success', 'Data kejadian bencana berhasil dihapus!');
     }
 
 }

@@ -80,3 +80,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::delete('donasi/{donasi}/media/{media}', [DonasiBencanaController::class, 'destroyMedia'])
         ->name('donasi.media.destroy');
 });
+
+// Logistik Bencana
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('logistik_bencana', LogistikBencanaController::class);
+});
+
+// Distribusi Logistik
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('distribusi_logistik', DistribusiLogistikController::class);
+});
+

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,9 +8,9 @@ class DistribusiLogistik extends Model
 {
     use HasFactory;
 
-    protected $table = 'distribusi_logistik';
+    protected $table      = 'distribusi_logistik';
     protected $primaryKey = 'distribusi_id';
-    public $timestamps = true;
+    public $timestamps    = true;
 
     protected $fillable = [
         'logistik_id',
@@ -38,4 +37,11 @@ class DistribusiLogistik extends Model
     {
         return $this->belongsTo(Warga::class, 'penerima', 'warga_id');
     }
+
+    public function media()
+    {
+        return $this->hasOne(Media::class, 'ref_id')
+            ->where('ref_table', 'distribusi_logistik');
+    }
+
 }

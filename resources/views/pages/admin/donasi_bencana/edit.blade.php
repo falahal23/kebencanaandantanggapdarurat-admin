@@ -63,7 +63,7 @@
 
             <div class="mt-8">
                 <a href="{{ route('admin.donasi.index') }}"
-                    class="px-5 py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 transition">
+                    class="px-2 py-1 text-xs text-white rounded-lg bg-gray-600 hover:bg-gray-700 transition font-semibold shadow-md whitespace-nowrap">
                     ← Kembali
                 </a>
             </div>

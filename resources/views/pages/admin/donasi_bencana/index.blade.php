@@ -29,26 +29,24 @@
 
         {{-- Tabel Donasi --}}
         <div class="bg-white shadow rounded-lg p-4 overflow-x-auto">
-            <table class="w-full text-sm text-left text-gray-600 border-collapse">
+            <table class="min-w-full text-sm text-left text-gray-600 border-collapse">
                 <thead class="bg-gray-100">
                     <tr>
-                        <th class="px-4 py-2">ID</th>
-                        <th class="px-4 py-2">Donatur</th>
-                        <th class="px-4 py-2">Jenis</th>
-                        <th class="px-4 py-2">Nilai</th>
-                        <th class="px-4 py-2">Kejadian</th>
-                        <th class="px-4 py-2 text-center">Aksi</th>
+                        <th class="px-4 py-2 whitespace-nowrap">ID</th>
+                        <th class="px-4 py-2 whitespace-nowrap">Donatur</th>
+                        <th class="px-4 py-2 whitespace-nowrap">Jenis</th>
+                        <th class="px-4 py-2 whitespace-nowrap">Nilai</th>
+                        <th class="px-4 py-2 whitespace-nowrap">Kejadian</th>
+                        <th class="px-4 py-2 text-center whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     @forelse($donasi as $d)
-                        <tr>
+                        <tr class="hover:bg-gray-50">
                             <td class="px-4 py-2">{{ $d->donasi_id }}</td>
                             <td class="px-4 py-2">{{ $d->donatur_nama }}</td>
                             <td class="px-4 py-2">{{ $d->jenis }}</td>
                             <td class="px-4 py-2">{{ number_format($d->nilai, 0, ',', '.') }}</td>
-
-                            {{-- Data Kejadian --}}
                             <td class="px-4 py-2">
                                 @if ($d->kejadian)
                                     {{ $d->kejadian->jenis_bencana }} |
@@ -59,24 +57,33 @@
                                 @endif
                             </td>
 
-                            {{-- Aksi --}}
-                            <td class="px-4 py-2 text-center space-x-1">
-                                <a href="{{ route('admin.donasi.show', $d->donasi_id) }}"
-                                    class="px-2 py-1 font-bold text-white rounded-lg bg-gray-600 hover:bg-gray-700 transition">
-                                    👁️ Lihat Detail</a>
+                                <td class="px-4 py-3 text-center">
+                                        <div class="flex flex-row justify-center items-center gap-1.5">
 
-                                <a href="{{ route('admin.donasi.edit', $d->donasi_id) }}"
-                                    class="inline-block px-4 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-xs font-semibold shadow-md hover:shadow-lg transition">
-                                    ✏️ Edit</a>
+                                            {{-- Tombol Lihat Detail (Warna Netral/Gray) --}}
+                                            <a href="{{ route('admin.donasi.show', $d->donasi_id) }}"
+                                                class="px-2 py-1 text-xs text-white rounded-lg bg-gray-600 hover:bg-gray-700 transition font-semibold shadow-md whitespace-nowrap">
+                                                🔍 Detail
+                                            </a>
 
-                                <form action="{{ route('admin.donasi.destroy', $d->donasi_id) }}" method="POST"
-                                    class="inline-block" onsubmit="return confirm('Yakin hapus data?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="inline-block px-4 py-2 text-white bg-gradient-to-r from-red-600 to-rose-400 rounded-lg text-xs font-semibold shadow-md hover:shadow-lg transition">
-                                        🗑️ Hapus</button>
-                                </form>
+                                            {{-- Tombol Edit (Warna Primer/Indigo) --}}
+                                            <a href="{{ route('admin.donasi.edit', $d->donasi_id) }}"
+                                                class="px-2 py-1 text-xs text-black bg-indigo-500 hover:bg-blue-600 rounded-lg font-semibold shadow-md transition whitespace-nowrap">
+                                                ✏️ Edit
+                                            </a>
+
+                                            {{-- Tombol Hapus (Warna Bahaya/Red) --}}
+                                            <form action="{{ route('admin.donasi.destroy', $d->donasi_id) }}" method="POST"
+                                                class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus donasi ini secara permanen?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="px-2 py-1 text-xs text-black bg-red-600 hover:bg-red-700 rounded-lg font-semibold shadow-md transition whitespace-nowrap">
+                                                    🗑️ Hapus
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
                             </td>
                         </tr>
                     @empty
@@ -87,10 +94,10 @@
                 </tbody>
             </table>
 
-            {{-- Pagination --}}
             <div class="mt-4">
                 {{ $donasi->links() }}
             </div>
         </div>
+
     </div>
 @endsection

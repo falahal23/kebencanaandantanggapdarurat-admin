@@ -134,7 +134,7 @@
 
             <!-- Distribusi Logistik -->
             <li class="mt-0.5 w-full">
-                <a href="{{ route('logistik.index') }}"
+                <a href="{{ route('distribusi.index') }}"
                     class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors hover:bg-blue-50 rounded-lg">
 
                     <div

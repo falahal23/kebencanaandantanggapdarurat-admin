@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\User;
@@ -14,17 +15,17 @@ class CreateFirstUserSeeder extends Seeder
 
         // 🔹 1. Buat admin default (pakai Gmail)
         User::create([
-            'name'     => 'Falahal',
-            'email'    => 'falahal12@gmail.com',
-            'password' => Hash::make('flhl1224'),
+            'name'     => 'Falahal Nabil',
+            'email'    => 'falahal22@gmail.com',
+            'password' => Hash::make('12345671'),
         ]);
 
-        // 🔹 2. Buat 10 user random
-        for ($i = 0; $i < 10; $i++) {
+        // 🔹 2. Buat 100 user random
+        for ($i = 0; $i < 100; $i++) {
             User::create([
                 'name'     => $faker->name(),
                 'email'    => $faker->unique()->safeEmail(),
-                'password' => Hash::make('password'),
+                'password' => Hash::make('password'), // semua user random pakai password 'password'
             ]);
         }
     }

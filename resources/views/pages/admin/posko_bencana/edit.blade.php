@@ -3,9 +3,7 @@
 @section('content')
     <div class="container mx-auto px-4 py-6">
         <!-- Tombol Kembali -->
-        <a href="{{ route('admin.posko.index') }}" class="text-pink-600 hover:underline mb-6 inline-block">
-            ← Kembali ke Daftar Posko
-        </a>
+
 
         <div class="bg-white shadow-lg rounded-lg p-6">
             <h1 class="text-2xl font-semibold mb-6 text-gray-700">Edit Posko Bencana</h1>
@@ -65,7 +63,8 @@
                         <label class="block font-medium mb-2">Foto Lama</label>
                         @php $media = $posko->media->first(); @endphp
                         @if ($media)
-                            <img src="{{ asset('storage/' . $media->file_url) }}" class="w-52 h-52 object-cover rounded shadow">
+                            <img src="{{ asset('storage/' . $media->file_url) }}"
+                                class="w-52 h-52 object-cover rounded shadow">
                         @else
                             <p class="text-gray-500">Tidak ada foto.</p>
                         @endif
@@ -82,10 +81,16 @@
                 <!-- Submit / Update Button -->
                 <div class="mt-6">
                     <button type="submit"
-                                class="px-6 py-3 font-bold text-white uppercase bg-gradient-to-tl from-gray-900 to-slate-800 rounded-lg shadow-md hover:scale-102 transition">
+                        class="px-6 py-3 font-bold text-white uppercase bg-gradient-to-tl from-gray-900 to-slate-800 rounded-lg shadow-md hover:scale-102 transition">
                         <i class="fa fa-save mr-2"></i> Update Data
                     </button>
+                    <a href="{{ route('admin.posko.index') }}"
+                        class="px-6 py-4 text-xs text-white rounded-lg bg-gray-600 hover:bg-gray-700 transition font-bold shadow-md whitespace-nowrap">
+                        ← Kembali ke Daftar Posko
+                    </a>
+
                 </div>
+
             </form>
         </div>
     </div>

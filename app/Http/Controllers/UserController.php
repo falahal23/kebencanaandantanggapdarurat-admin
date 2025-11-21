@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -13,7 +12,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data['dataUser'] = User::latest()->get();
+        // Menggunakan paginate(10) untuk membagi data menjadi halaman-halaman.
+        // Angka 10 bisa diubah sesuai jumlah user yang ingin ditampilkan per halaman.
+        $data['dataUser'] = User::latest()->paginate(10);
+
         return view('pages.admin.user.index', $data);
     }
 
@@ -31,21 +33,23 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|min:3',
-            'email' => 'required|email|unique:users,email',
+            'name'     => 'required|min:3',
+            // Memastikan email unik di tabel users
+            'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
         ]);
-        //Hash make unkb enskripsi password
+
         try {
             User::create([
-                'name' => $request->name,
-                'email' => $request->email,
+                'name'     => $request->name,
+                'email'    => $request->email,
                 'password' => Hash::make($request->password),
             ]);
-            //Redireck dan sukses
-            return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan!');
+
+            // Redirek dan sukses
+            return redirect()->route('user.index')->with('success', '✅ User berhasil ditambahkan!');
         } catch (\Exception $e) {
-            //Eroro
+            // Error
             return redirect()->back()->withInput()->with('error', '❌ Terjadi kesalahan: ' . $e->getMessage());
         }
     }
@@ -65,8 +69,9 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|min:3',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'name'     => 'required|min:3',
+            // Unique email, kecuali untuk user dengan ID saat ini
+            'email'    => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|min:6|confirmed',
         ]);
 
@@ -74,7 +79,7 @@ class UserController extends Controller
 
         try {
             $data = [
-                'name' => $request->name,
+                'name'  => $request->name,
                 'email' => $request->email,
             ];
 
@@ -84,7 +89,8 @@ class UserController extends Controller
             }
 
             $user->update($data);
-            return redirect()->route('user.index')->with('success',);
+            // Menambahkan pesan sukses yang hilang
+            return redirect()->route('user.index')->with('success', '✅ Data User berhasil diperbarui!');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('error', '❌ Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -103,8 +109,8 @@ class UserController extends Controller
         }
     }
 
-    public function login () {
-
-
+    public function login()
+    {
+        // Logika login, jika ada
     }
 }

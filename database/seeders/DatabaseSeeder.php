@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder
             KejadianBencanaSeeder::class,
             PoskoBencanaSeeder::class,
             DonasiBencanaSeeder::class,
+            DistribusiLogistikSeeder::class,
+            LogistikBencanaSeeder::class,
+            WargaSeeder::class,
         ]);
     }
 }

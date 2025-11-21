@@ -1,14 +1,13 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Media extends Model
 {
-    protected $table = 'media';
+    protected $table      = 'media';
     protected $primaryKey = 'media_id';
-    public $timestamps = true;
+    public $timestamps    = true;
 
     protected $fillable = [
         'ref_table',
@@ -16,7 +15,7 @@ class Media extends Model
         'file_url',
         'caption',
         'mime_type',
-        'sort_order'
+        'sort_order',
     ];
 
     // Relasi polymorphic manual
@@ -24,4 +23,10 @@ class Media extends Model
     {
         return $this->morphTo(__FUNCTION__, 'ref_table', 'ref_id');
     }
+
+    public function distribusi()
+    {
+        return $this->belongsTo(DistribusiLogistik::class, 'distribusi_id', 'distribusi_id');
+    }
+
 }

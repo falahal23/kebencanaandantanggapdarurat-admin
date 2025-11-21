@@ -62,8 +62,8 @@
                                             <div class="flex items-center justify-center gap-2">
                                                 {{-- Tombol Edit --}}
                                                 <a href="{{ route('user.edit', $user->id) }}"
-                                                   class="inline-block px-3 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
-                                                    <i class="bi bi-pencil-square"></i>✏️Edit User
+                                                    class="inline-block px-3 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
+                                                    <i class="bi bi-pencil-square"></i>✏️Edit
                                                 </a>
                                         </td>
 
@@ -75,7 +75,7 @@
                                                 @method('DELETE')
                                                 <button type="submit"
                                                     class="inline-block px-3 py-2 text-white bg-gradient-to-r from-red-600 to-Rose-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
-                                                    <i class="bi bi-trash"></i>🗑️Hapus User
+                                                    <i class="bi bi-trash"></i>🗑️Hapus
                                                 </button>
                                             </form>
                                         </td>
@@ -93,7 +93,9 @@
                     </table>
                 </div>
             </div>
-
+            <div class="mt-6 flex justify-center">
+                {{ $dataUser->links() }}
+            </div>
         </div>
     </div>
     </div>
