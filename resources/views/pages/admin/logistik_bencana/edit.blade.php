@@ -8,7 +8,7 @@
 
                 <!-- Header -->
                 <div class="p-6 border-b">
-                    <h6 class="text-lg font-bold">Edit Logistik Bencana</h6>
+                    <h6 class="text-lg font-bold">🖊️Edit Logistik Bencana</h6>
                     <p class="text-sm text-slate-500 mt-1">Perbarui data logistik sesuai kebutuhan.</p>
                 </div>
 
@@ -18,7 +18,7 @@
                     <form action="{{ route('admin.logistik_bencana.update', $logistik->logistik_id) }}" method="POST">
                         @csrf
                         @method('PUT')
-                        
+
                         <!-- Kejadian -->
                         <label class="block mb-2 font-medium">Kejadian Bencana</label>
                         <select name="kejadian_id" class="w-full border rounded p-2 mb-4" required>
@@ -66,7 +66,7 @@
                             </a>
                             <button type="submit"
                                 class="inline-block px-4 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-xs font-semibold shadow-md hover:shadow-lg transition">
-                                Update
+                                💾Update
                             </button>
                         </div>
 

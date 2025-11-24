@@ -22,10 +22,54 @@
                         <div class="flex-none w-5/12 max-w-full px-3 text-right">
                             <a href="{{ route('warga.create') }}"
                                 class="inline-block px-4 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
-                                <i class="fa fa-plus mr-1"></i> Tambah Warga
+                                <i class="fa fa-plus mr-1"></i> ✚ Tambah Warga
                             </a>
                         </div>
                     </div>
+                    <div class="p-6">
+                        <form action="{{ route('warga.index') }}" method="GET" class="flex flex-wrap gap-2 items-center">
+                            {{-- Search --}}
+                            <input type="text" name="search" placeholder="Cari nama, no. KTP atau email"
+                                value="{{ request('search') }}" class="border rounded px-3 py-2 text-sm w-full md:w-1/3">
+
+                            {{-- Filter Jenis Kelamin --}}
+                            <select name="jenis_kelamin" class="border rounded px-3 py-2 text-sm">
+                                <option value="">-- Semua Jenis Kelamin --</option>
+                                <option value="Laki-laki" {{ request('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>
+                                    Laki-laki</option>
+                                <option value="Perempuan" {{ request('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>
+                                    Perempuan</option>
+                            </select>
+
+                            {{-- Filter Agama --}}
+                            <select name="agama" class="border rounded px-3 py-2 text-sm">
+                                <option value="">-- Semua Agama --</option>
+                                <option value="Islam" {{ request('agama') == 'Islam' ? 'selected' : '' }}>Islam</option>
+                                <option value="Kristen" {{ request('agama') == 'Kristen' ? 'selected' : '' }}>Kristen
+                                </option>
+                                <option value="Katolik" {{ request('agama') == 'Katolik' ? 'selected' : '' }}>Katolik
+                                </option>
+                                <option value="Hindu" {{ request('agama') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                                <option value="Buddha" {{ request('agama') == 'Buddha' ? 'selected' : '' }}>Buddha</option>
+                                <option value="Konghucu" {{ request('agama') == 'Konghucu' ? 'selected' : '' }}>Konghucu
+                                </option>
+                            </select>
+
+                            <button type="submit"
+                                class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition text-sm">
+                                🔍
+                            </button>
+
+                            @if (request()->has('search') && request('search') != '')
+                                <a href="{{ route('warga.index') }}"
+                                    class="px-4 py-2 bg-gray-300 text-black rounded-lg shadow hover:bg-gray-400 transition text-sm">
+                                    ⟲
+                                </a>
+                            @endif
+                        </form>
+                    </div>
+
+
                 </div>
 
                 <!-- Body Card -->
@@ -120,8 +164,8 @@
                     </div>
 
                     <!-- Pagination -->
-                    <div class="flex justify-end mt-4 mx-6">
-                        {{ $warga->links('pagination::tailwind') }}
+                    <div class="mt-6 flex justify-center">
+                        {{ $warga->links() }}
                     </div>
                 </div>
             </div>

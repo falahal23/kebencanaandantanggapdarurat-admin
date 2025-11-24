@@ -6,7 +6,8 @@
 
 
         <div class="bg-white shadow-lg rounded-lg p-6">
-            <h1 class="text-2xl font-semibold mb-6 text-gray-700">Edit Posko Bencana</h1>
+            <h6 class="text-2xl font-semibold mb-6 text-gray-700">
+                🖊️Edit Posko Bencana</h6>
 
             <!-- Form Edit Posko -->
             <form action="{{ route('admin.posko.update', $posko->posko_id) }}" method="POST" enctype="multipart/form-data">
@@ -82,7 +83,7 @@
                 <div class="mt-6">
                     <button type="submit"
                         class="px-6 py-3 font-bold text-white uppercase bg-gradient-to-tl from-gray-900 to-slate-800 rounded-lg shadow-md hover:scale-102 transition">
-                        <i class="fa fa-save mr-2"></i> Update Data
+                        <i class="fa fa-save mr-2"></i> 💾Update Data
                     </button>
                     <a href="{{ route('admin.posko.index') }}"
                         class="px-6 py-4 text-xs text-white rounded-lg bg-gray-600 hover:bg-gray-700 transition font-bold shadow-md whitespace-nowrap">

@@ -13,6 +13,35 @@
                 <i class="fa fa-plus mr-1"></i> Tambah Donasi
             </a>
         </div>
+        <form method="GET" class="mb-4 flex gap-3">
+
+            {{-- Search --}}
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari donatur / jenis donasi..."
+                class="px-3 py-2 border rounded-lg w-60">
+
+            {{-- Filter Kejadian --}}
+            <select name="kejadian_id" class="px-3 py-2 border rounded-lg">
+                <option value="">-- Semua Kejadian --</option>
+                @foreach ($kejadianList as $k)
+                    <option value="{{ $k->kejadian_id }}" {{ request('kejadian_id') == $k->kejadian_id ? 'selected' : '' }}>
+                        {{ $k->jenis_bencana }}
+                    </option>
+                @endforeach
+            </select>
+
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold">
+                🔍
+            </button>
+
+            {{-- Reset --}}
+            @if (request()->has('search') && request('search') != '')
+                <a href="{{ route('user.index') }}"
+                    class="px-4 py-2 bg-gray-300 text-black rounded-lg shadow hover:bg-gray-400 transition text-sm flex items-center justify-center">
+                    ⟲
+                </a>
+            @endif
+        </form>
+
 
         {{-- Notifikasi --}}
         @if (session('success'))
@@ -57,33 +86,34 @@
                                 @endif
                             </td>
 
-                                <td class="px-4 py-3 text-center">
-                                        <div class="flex flex-row justify-center items-center gap-1.5">
+                            <td class="px-4 py-3 text-center">
+                                <div class="flex flex-row justify-center items-center gap-1.5">
 
-                                            {{-- Tombol Lihat Detail (Warna Netral/Gray) --}}
-                                            <a href="{{ route('admin.donasi.show', $d->donasi_id) }}"
-                                                class="px-2 py-1 text-xs text-white rounded-lg bg-gray-600 hover:bg-gray-700 transition font-semibold shadow-md whitespace-nowrap">
-                                                🔍 Detail
-                                            </a>
+                                    {{-- Tombol Lihat Detail (Warna Netral/Gray) --}}
+                                    <a href="{{ route('admin.donasi.show', $d->donasi_id) }}"
+                                        class="px-2 py-1 text-xs text-white rounded-lg bg-gray-600 hover:bg-gray-700 transition font-semibold shadow-md whitespace-nowrap">
+                                        🔍 Detail
+                                    </a>
 
-                                            {{-- Tombol Edit (Warna Primer/Indigo) --}}
-                                            <a href="{{ route('admin.donasi.edit', $d->donasi_id) }}"
-                                                class="px-2 py-1 text-xs text-black bg-indigo-500 hover:bg-blue-600 rounded-lg font-semibold shadow-md transition whitespace-nowrap">
-                                                ✏️ Edit
-                                            </a>
+                                    {{-- Tombol Edit (Warna Primer/Indigo) --}}
+                                    <a href="{{ route('admin.donasi.edit', $d->donasi_id) }}"
+                                        class="px-2 py-1 text-xs text-black bg-indigo-500 hover:bg-blue-600 rounded-lg font-semibold shadow-md transition whitespace-nowrap">
+                                        ✏️ Edit
+                                    </a>
 
-                                            {{-- Tombol Hapus (Warna Bahaya/Red) --}}
-                                            <form action="{{ route('admin.donasi.destroy', $d->donasi_id) }}" method="POST"
-                                                class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin menghapus donasi ini secara permanen?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    class="px-2 py-1 text-xs text-black bg-red-600 hover:bg-red-700 rounded-lg font-semibold shadow-md transition whitespace-nowrap">
-                                                    🗑️ Hapus
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
+                                    {{-- Tombol Hapus (Warna Bahaya/Red) --}}
+                                    <form action="{{ route('admin.donasi.destroy', $d->donasi_id) }}" method="POST"
+                                        class="inline-block"
+                                        onsubmit="return confirm('Apakah Anda yakin ingin menghapus donasi ini secara permanen?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="px-2 py-1 text-xs text-black bg-red-600 hover:bg-red-700 rounded-lg font-semibold shadow-md transition whitespace-nowrap">
+                                            🗑️ Hapus
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
                             </td>
                         </tr>
                     @empty
@@ -93,8 +123,7 @@
                     @endforelse
                 </tbody>
             </table>
-
-            <div class="mt-4">
+            <div class="mt-6 flex justify-center">
                 {{ $donasi->links() }}
             </div>
         </div>

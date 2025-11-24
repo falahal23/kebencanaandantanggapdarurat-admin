@@ -8,7 +8,7 @@
 
                 <!-- Header -->
                 <div class="p-6 border-b">
-                    <h6 class="text-lg font-bold">Tambah Logistik Bencana</h6>
+                    <h6 class="text-lg font-bold">➕Logistik Bencana</h6>
                     <p class="text-sm text-slate-500 mt-1">Lengkapi form berikut untuk menambahkan data logistik baru.</p>
                 </div>
 
@@ -64,7 +64,7 @@
                         <div class="flex justify-end space-x-2">
                             <button type="submit"
                                 class="px-6 py-3 font-bold text-center text-white uppercase rounded-lg bg-gradient-to-tl from-gray-900 to-slate-800 hover:scale-102 shadow-soft-md transition">
-                                <i class="fa fa-save mr-1"></i> Simpan Data Logistik
+                                <i class="fa fa-save mr-1"></i> 💾Simpan
                             </button>
 
                             <a href="{{ route('admin.logistik_bencana.index') }}"

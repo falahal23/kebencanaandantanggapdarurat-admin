@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\LogistikBencana;
 use App\Models\KejadianBencana;
+use App\Models\LogistikBencana;
 use Illuminate\Http\Request;
 
 class LogistikBencanaController extends Controller
@@ -11,10 +10,32 @@ class LogistikBencanaController extends Controller
     // =======================
     // INDEX
     // =======================
-    public function index()
+    public function index(Request $request)
     {
-        $logistik = LogistikBencana::with('kejadian')->get();
-        return view('pages.admin.logistik_bencana.index', compact('logistik'));
+        $query = LogistikBencana::with('kejadian');
+
+        // 🔍 SEARCH
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_barang', 'like', "%{$search}%")
+                    ->orWhere('sumber', 'like', "%{$search}%");
+            });
+        }
+
+        // 🗂 FILTER KEJADIAN
+        if ($request->filled('kejadian_id')) {
+            $query->where('kejadian_id', $request->kejadian_id);
+        }
+
+        $logistik = $query->orderBy('logistik_id', 'DESC')
+            ->paginate(10)
+            ->withQueryString();
+
+        // 🔹 Tambahkan ini supaya compact('kejadians') tidak error
+        $kejadians = KejadianBencana::orderBy('tanggal', 'desc')->get();
+
+        return view('pages.admin.logistik_bencana.index', compact('logistik', 'kejadians'));
     }
 
     // =======================
@@ -42,7 +63,7 @@ class LogistikBencanaController extends Controller
         LogistikBencana::create($validated);
 
         return redirect()->route('admin.logistik_bencana.index')
-                         ->with('success', 'Data logistik berhasil ditambahkan.');
+            ->with('success', 'Data logistik berhasil ditambahkan.');
     }
 
     // =======================
@@ -73,7 +94,7 @@ class LogistikBencanaController extends Controller
         $logistik->update($validated);
 
         return redirect()->route('admin.logistik_bencana.index')
-                         ->with('success', 'Data logistik berhasil diperbarui.');
+            ->with('success', 'Data logistik berhasil diperbarui.');
     }
 
     // =======================
@@ -85,6 +106,6 @@ class LogistikBencanaController extends Controller
         $logistik->delete();
 
         return redirect()->route('admin.logistik_bencana.index')
-                         ->with('success', 'Data logistik berhasil dihapus.');
+            ->with('success', 'Data logistik berhasil dihapus.');
     }
 }

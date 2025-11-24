@@ -11,11 +11,37 @@ class WargaController extends Controller
     /**
      * Tampilkan semua data warga
      */
-    public function index()
-    {
-        $warga = Warga::latest()->paginate(10);
-        return view('pages.admin.warga.index', compact('warga'));
+   public function index(Request $request)
+{
+    $query = Warga::query();
+
+    // 🔍 Search
+    if ($request->filled('search')) {
+        $search = $request->input('search');
+        $query->where(function($q) use ($search) {
+            $q->where('nama', 'like', "%{$search}%")
+              ->orWhere('no_ktp', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%");
+        });
     }
+
+    // 🗂 Filter jenis kelamin
+    if ($request->filled('jenis_kelamin')) {
+        $query->where('jenis_kelamin', $request->jenis_kelamin);
+    }
+
+    // 🗂 Filter agama
+    if ($request->filled('agama')) {
+        $query->where('agama', $request->agama);
+    }
+
+    // Ambil data warga dengan pagination
+    $warga = $query->orderBy('nama', 'asc')
+                   ->paginate(10)
+                   ->withQueryString(); // biar search/filter tetap terbawa saat pagination
+
+    return view('pages.admin.warga.index', compact('warga'));
+}
 
     /**
      * Tampilkan form tambah warga

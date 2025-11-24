@@ -12,24 +12,64 @@ use Illuminate\Http\Request;
 class KejadianBencanaController extends Controller
 {
 
-    public function index()
-    {
-        // Menggunakan paginate() untuk mengambil data dengan penomoran halaman.
-        // Data 'kejadian' sekarang adalah instance Paginator, bukan Collection.
-        $data = [
-            'totalKejadian'     => KejadianBencana::count(),
-            'kejadianAktif'     => KejadianBencana::where('status_kejadian', 'Aktif')->count(),
-            'totalPosko'        => PoskoBencana::count(),
-            'totalDonasi'       => DonasiBencana::sum('nilai'),
-            'totalLogistik'     => LogistikBencana::count(),
-            'totalStokLogistik' => LogistikBencana::sum('stok'),
-            'totalDistribusi'   => DistribusiLogistik::count(),
-            'totalPenerima'     => DistribusiLogistik::distinct('penerima')->count('penerima'),
-            'kejadian'          => KejadianBencana::orderBy('tanggal', 'desc')->paginate(10), // ✅ Implementasi Pagination (10 item per halaman)
-        ];
+    public function index(Request $request)
+{
+    // Query dasar
+    $query = KejadianBencana::query();
 
-        return view('pages.admin.kejadian_bencana.index', $data);
+    // ============================
+    // 🔍 FITUR SEARCH
+    // ============================
+    if ($request->search) {
+        $query->where(function ($q) use ($request) {
+            $q->where('jenis_bencana', 'like', "%{$request->search}%")
+              ->orWhere('lokasi_text', 'like', "%{$request->search}%")
+              ->orWhere('keterangan', 'like', "%{$request->search}%");
+        });
     }
+
+    // ============================
+    // 🔽 FILTER JENIS BENCANA
+    // ============================
+    if ($request->jenis_bencana) {
+        $query->where('jenis_bencana', $request->jenis_bencana);
+    }
+
+    // ============================
+    // 🔽 FILTER STATUS
+    // ============================
+    if ($request->status_kejadian) {
+        $query->where('status_kejadian', $request->status_kejadian);
+    }
+
+    // ============================
+    // 🔽 FILTER TANGGAL RANGE
+    // ============================
+    if ($request->tanggal_mulai && $request->tanggal_akhir) {
+        $query->whereBetween('tanggal', [
+            $request->tanggal_mulai,
+            $request->tanggal_akhir
+        ]);
+    }
+
+    // Ambil data dengan filter
+    $kejadian = $query->orderBy('tanggal', 'desc')->paginate(10)->withQueryString();
+
+    // Dashboard / summary tetap aman
+    $data = [
+        'totalKejadian'     => KejadianBencana::count(),
+        'kejadianAktif'     => KejadianBencana::where('status_kejadian', 'Aktif')->count(),
+        'totalPosko'        => PoskoBencana::count(),
+        'totalDonasi'       => DonasiBencana::sum('nilai'),
+        'totalLogistik'     => LogistikBencana::count(),
+        'totalStokLogistik' => LogistikBencana::sum('stok'),
+        'totalDistribusi'   => DistribusiLogistik::count(),
+        'totalPenerima'     => DistribusiLogistik::distinct('penerima')->count('penerima'),
+        'kejadian'          => $kejadian,
+    ];
+
+    return view('pages.admin.kejadian_bencana.index', $data);
+}
 
     /**
      * ➕ Form tambah data

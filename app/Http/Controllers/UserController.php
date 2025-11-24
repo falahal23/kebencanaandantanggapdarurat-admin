@@ -10,13 +10,29 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Menggunakan paginate(10) untuk membagi data menjadi halaman-halaman.
-        // Angka 10 bisa diubah sesuai jumlah user yang ingin ditampilkan per halaman.
-        $data['dataUser'] = User::latest()->paginate(10);
+        $query = User::query();
 
-        return view('pages.admin.user.index', $data);
+        // 🔍 Search by name atau email
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        // 🗂 Filter berdasarkan role (opsional, misal ada kolom role)
+        if ($request->filled('role')) {
+            $query->where('role', $request->role);
+        }
+
+        $dataUser = $query->orderBy('name', 'asc')
+            ->paginate(10)
+            ->withQueryString(); // biar query search tetap terbawa saat pagination
+
+        return view('pages.admin.user.index', compact('dataUser'));
     }
 
     /**

@@ -22,11 +22,45 @@
                         <div class="flex-none w-5/12 max-w-full px-3 text-right">
                             <a href="{{ route('admin.logistik_bencana.create') }}"
                                 class="inline-block px-4 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
-                                <i class="fa fa-plus mr-1"></i> Tambah Logistik
+                                <i class="fa fa-plus mr-1"></i> ✚ Tambah Data Logistik
                             </a>
                         </div>
                     </div>
+                    <form method="GET" class="flex flex-wrap gap-2 items-center mb-4 mx-6">
+
+                        <!-- Search -->
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Cari nama barang atau sumber" class="px-3 py-2 border rounded-lg text-sm">
+
+                        <!-- Filter Kejadian -->
+                        <select name="kejadian_id" class="px-3 py-2 border rounded-lg text-sm">
+                            <option value="">Semua Kejadian</option>
+                            @foreach ($kejadians as $kejadian)
+                                <option value="{{ $kejadian->id }}"
+                                    {{ request('kejadian_id') == $kejadian->id ? 'selected' : '' }}>
+                                    {{ $kejadian->jenis_bencana }} - {{ $kejadian->lokasi_text }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        <!-- Submit -->
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-black rounded-lg text-sm hover:bg-blue-500 transition">
+                            🔍
+                        </button>
+
+                        <!-- Reset -->
+                        @if (request()->has('search') && request('search') != '')
+                            <a href="{{ route('logistik.index') }}"
+                                class="w-12 h-12 flex items-center justify-center text-xl font-bold text-white bg-gray-600 rounded-lg hover:bg-gray-700 transition duration-150">
+                                ⟲
+                            </a>
+                        @endif
+                    </form>
+
                 </div>
+
+
 
                 <!-- Body Card -->
                 <div class="flex-auto p-6 px-0 pb-2">
@@ -55,15 +89,19 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($logistik as $index => $item)
+                                @forelse($logistik as $item)
                                     <tr>
                                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
-                                            <span class="text-xs font-semibold">{{ $index + 1 }}</span>
+                                            <span class="text-xs font-semibold">
+                                                {{ $logistik->firstItem() + $loop->index }}
+                                            </span>
                                         </td>
+
 
                                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
                                             <span class="text-xs font-semibold">{{ $item->nama_barang }}</span>
                                         </td>
+
 
                                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
                                             <span class="text-xs font-semibold">{{ $item->satuan }}</span>
@@ -127,9 +165,9 @@
 
                     <!-- Pagination -->
                     {{-- Jika ingin pakai pagination, pastikan controller pakai paginate() --}}
-                    {{-- <div class="flex justify-end mt-4 mx-6">
-                        {{ $logistik->links('pagination::tailwind') }}
-                    </div> --}}
+                    <div class="mt-6 flex justify-center">
+                        {{ $logistik->links() }}
+                    </div>
 
                 </div>
             </div>

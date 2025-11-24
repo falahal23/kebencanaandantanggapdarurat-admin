@@ -9,7 +9,7 @@
                     <!-- Header Card -->
                     <div
                         class="border-black/12.5 mb-0 rounded-t-2xl border-b border-solid bg-white p-6 pb-3 flex justify-between items-center">
-                        <h6 class="text-lg font-semibold">Tambah Kejadian Bencana</h6>
+                        <h6 class="text-lg font-semibold">➕Tambah Kejadian Bencana</h6>
                         <a href="{{ route('kejadian.index') }}"
                             class="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300 transition">
                             Kembali
@@ -94,8 +94,8 @@
 
                                 </div>
                                 <div class="mt-4">
-                                    <label for="media" class="block text-sm font-medium text-gray-700">Upload
-                                        Media</label>
+                                    <label for="media" class="block text-sm font-medium text-gray-700">💾Upload
+                                        </label>
                                     <input type="file" name="media" class="mt-1 block w-full border rounded-lg">
                                 </div>
                             </div>

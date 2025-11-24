@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\DistribusiLogistik; // Pastikan model ini sudah di-import
+use App\Models\DistribusiLogistik;
 use App\Models\LogistikBencana;
 use App\Models\Media;
 use App\Models\PoskoBencana;
@@ -13,15 +13,34 @@ class DistribusiLogistikController extends Controller
     // =======================
     // INDEX
     // =======================
-    public function index()
+    public function index(Request $request)
     {
-        // ✅ Perubahan: Menggunakan paginate(10) dan mengurutkan berdasarkan tanggal distribusi terbaru
-        $distribusi = DistribusiLogistik::with('logistik', 'posko', 'media', 'warga')
-            ->orderBy('tanggal', 'desc')
-            ->paginate(10);
+        $query = DistribusiLogistik::with('logistik', 'posko', 'media', 'warga');
 
-        // $distribusi sekarang berisi objek Paginator
-        return view('pages.admin.distribusi_logistik.index', compact('distribusi'));
+        // 🔍 SEARCH: logistik nama atau posko nama
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->whereHas('logistik', function ($q) use ($search) {
+                $q->where('nama_barang', 'like', "%{$search}%");
+            })->orWhereHas('posko', function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%");
+            });
+        }
+
+        // 🗂 FILTER: posko_id
+        if ($request->filled('posko_id')) {
+            $query->where('posko_id', $request->posko_id);
+        }
+
+        // Ambil semua posko untuk filter dropdown
+        $poskos = PoskoBencana::orderBy('nama')->get();
+
+        // Pagination & urut terbaru
+        $distribusi = $query->orderBy('tanggal', 'desc')
+            ->paginate(10)
+            ->withQueryString(); // query search/filter tetap terbawa
+
+        return view('pages.admin.distribusi_logistik.index', compact('distribusi', 'poskos'));
     }
 
     // =======================
@@ -51,26 +70,20 @@ class DistribusiLogistikController extends Controller
             'bukti'       => 'nullable|image|max:2048',
         ]);
 
-        // 1. Ambil file 'bukti' dari request, lalu hapus dari array $validated
         $buktiFile = $request->file('bukti');
         unset($validated['bukti']);
 
-        // 2. Simpan distribusi logistik ke database
         $distribusi = DistribusiLogistik::create($validated);
 
-        // 3. Upload bukti distribusi jika ada
         if ($buktiFile) {
-            $file = $buktiFile;
-            $name = time() . '_' . $file->getClientOriginalName();
-            // ✅ Menggunakan Storage::disk('public')->putFileAs() adalah praktik yang lebih baik di Laravel
-            // Jika ingin tetap menggunakan public_path, pastikan direktori sudah ada.
-            $file->move(public_path('uploads/distribusi'), $name);
+            $name = time() . '_' . $buktiFile->getClientOriginalName();
+            $buktiFile->move(public_path('uploads/distribusi'), $name);
 
             Media::create([
                 'ref_table' => 'distribusi_logistik',
                 'ref_id'    => $distribusi->distribusi_id,
                 'file_url'  => '/uploads/distribusi/' . $name,
-                'mime_type' => $file->getClientMimeType(),
+                'mime_type' => $buktiFile->getClientMimeType(),
                 'file_name' => $name,
             ]);
         }
@@ -85,7 +98,6 @@ class DistribusiLogistikController extends Controller
     public function show($id)
     {
         $distribusi = DistribusiLogistik::with('logistik', 'posko', 'media', 'warga')->findOrFail($id);
-
         return view('pages.admin.distribusi_logistik.show', compact('distribusi'));
     }
 
@@ -99,9 +111,7 @@ class DistribusiLogistikController extends Controller
         $posko      = PoskoBencana::all();
         $warga      = Warga::all();
 
-        return view('pages.admin.distribusi_logistik.edit', compact(
-            'distribusi', 'logistik', 'posko', 'warga'
-        ));
+        return view('pages.admin.distribusi_logistik.edit', compact('distribusi', 'logistik', 'posko', 'warga'));
     }
 
     // =======================
@@ -121,24 +131,15 @@ class DistribusiLogistikController extends Controller
 
         $distribusi = DistribusiLogistik::findOrFail($id);
 
-        // 1. Pisahkan bukti (file) dari data yang akan diupdate ke model
         $buktiFile = $request->file('bukti');
         unset($validated['bukti']);
 
-        // 2. Update data utama
         $distribusi->update($validated);
 
-        // 3. Upload foto baru (jika ada)
         if ($buktiFile) {
-
-            // Hapus media lama
-            $old = Media::where('ref_table', 'distribusi_logistik')
-                ->where('ref_id', $id)
-                ->first();
-
+            $old = Media::where('ref_table', 'distribusi_logistik')->where('ref_id', $id)->first();
             if ($old) {
                 $oldPath = public_path($old->file_url);
-
                 if (file_exists($oldPath)) {
                     unlink($oldPath);
                 }
@@ -146,16 +147,14 @@ class DistribusiLogistikController extends Controller
                 $old->delete();
             }
 
-            // Upload file baru
-            $file = $buktiFile;
-            $name = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/distribusi'), $name);
+            $name = time() . '_' . $buktiFile->getClientOriginalName();
+            $buktiFile->move(public_path('uploads/distribusi'), $name);
 
             Media::create([
                 'ref_table' => 'distribusi_logistik',
                 'ref_id'    => $id,
                 'file_url'  => '/uploads/distribusi/' . $name,
-                'mime_type' => $file->getClientMimeType(),
+                'mime_type' => $buktiFile->getClientMimeType(),
                 'file_name' => $name,
             ]);
         }
@@ -171,14 +170,9 @@ class DistribusiLogistikController extends Controller
     {
         $distribusi = DistribusiLogistik::findOrFail($id);
 
-        // Hapus media terkait
-        $media = Media::where('ref_table', 'distribusi_logistik')
-            ->where('ref_id', $id)
-            ->first();
-
+        $media = Media::where('ref_table', 'distribusi_logistik')->where('ref_id', $id)->first();
         if ($media) {
             $filePath = public_path($media->file_url);
-
             if (file_exists($filePath)) {
                 unlink($filePath);
             }
@@ -186,7 +180,6 @@ class DistribusiLogistikController extends Controller
             $media->delete();
         }
 
-        // Hapus data utama
         $distribusi->delete();
 
         return redirect()->route('admin.distribusi_logistik.index')

@@ -7,7 +7,7 @@
 
                 <div class="flex justify-between items-center mb-6">
                     <div>
-                        <h6 class="text-lg font-semibold">Edit Distribusi Logistik</h6>
+                        <h6 class="text-lg font-semibold">🖊️Edit Distribusi Logistik</h6>
                         <p class="text-sm text-slate-500">Perbarui data distribusi logistik</p>
                     </div>
                     <a href="{{ route('admin.distribusi_logistik.index') }}"

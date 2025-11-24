@@ -93,7 +93,7 @@
                     <div class="mt-6 flex justify-end space-x-2">
                         <button type="submit"
                                 class="px-6 py-3 font-bold text-center text-white uppercase rounded-lg bg-gradient-to-tl from-gray-900 to-slate-800 hover:scale-102 shadow-soft-md transition">
-                            <i class="fa fa-save mr-1"></i> Simpan Data
+                            <i class="fa fa-save mr-1"></i> 💾Simpan Data
                         </button>
                     </div>
                 </form>

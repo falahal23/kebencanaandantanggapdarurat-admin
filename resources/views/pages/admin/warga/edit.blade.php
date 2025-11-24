@@ -7,7 +7,7 @@
 
             <!-- Header Card -->
             <div class="border-b border-gray-200 p-6 flex justify-between items-center">
-                <h6 class="text-lg font-semibold">Edit Data Warga</h6>
+                <h6 class="text-lg font-semibold">🖊️Edit Data Warga</h6>
                 <a href="{{ route('warga.index') }}"
                    class="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300 transition">
                     Kembali
@@ -92,7 +92,7 @@
 
                         <button type="submit"
                                 class="px-6 py-3 font-bold text-white uppercase bg-gradient-to-tl from-gray-900 to-slate-800 rounded-lg shadow-md hover:scale-102 transition">
-                            Perbarui Data
+                            💾Perbarui Data
                         </button>
                     </div>
                 </form>

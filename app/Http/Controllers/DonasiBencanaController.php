@@ -9,10 +9,31 @@ use Illuminate\Support\Facades\Storage;
 
 class DonasiBencanaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $donasi = DonasiBencana::with('kejadian')->paginate(10);
-        return view('pages.admin.donasi_bencana.index', compact('donasi'));
+        $query = DonasiBencana::with('kejadian');
+
+        // === SEARCH ===
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('donatur_nama', 'like', '%' . $request->search . '%')
+                    ->orWhere('jenis', 'like', '%' . $request->search . '%')
+                    ->orWhere('nilai', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // === FILTER KEJADIAN ===
+        if ($request->kejadian_id) {
+            $query->where('kejadian_id', $request->kejadian_id);
+        }
+
+        // Eksekusi query
+        $donasi = $query->paginate(10)->appends($request->query());
+
+        // Untuk dropdown filter
+        $kejadianList = KejadianBencana::select('kejadian_id', 'jenis_bencana')->get();
+
+        return view('pages.admin.donasi_bencana.index', compact('donasi', 'kejadianList'));
     }
 
     public function create()
