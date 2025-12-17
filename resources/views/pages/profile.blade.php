@@ -32,7 +32,8 @@
     <!-- Header Profil -->
     <div class="profile-header text-center mb-12">
         <div class="container mx-auto px-4">
-            <img src="assets-admin/img/profile.PNG" class="profile-img rounded-full mx-auto mb-4" alt="Foto Profil">
+            <img src="{{ asset('assets-admin/img/profile.png') }}"
+            class="profile-img rounded-full mx-auto mb-4" alt="Foto Profil">
             <h1 class="text-4xl font-extrabold">FALAHAL NABIL HAQIQI</h1>
             <p class="text-xl font-light">Mahasiswa | Politeknik Caltex Riau (PCR)</p>
             <div class="inline-block bg-[#00bcd4] text-white py-1 px-3 mt-2 rounded-full text-sm font-medium">
