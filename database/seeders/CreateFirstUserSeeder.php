@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\User;
@@ -10,11 +11,11 @@ class CreateFirstUserSeeder extends Seeder
 {
     public function run(): void
     {
-        // 👇 TAMBAHKAN 'id_ID' DI SINI
         $faker = Faker::create('id_ID');
+        $faker->unique(true); // reset unique faker
 
-        // 🔹 1. Buat admin default (Super Admin)
-        User::firstOrCreate(
+        // 🔹 1. Super Admin (aman di-seed berkali-kali)
+        User::updateOrCreate(
             ['email' => 'falahal@gmail.com'],
             [
                 'name'     => 'Falahal Nabil',
@@ -23,15 +24,19 @@ class CreateFirstUserSeeder extends Seeder
             ]
         );
 
-        // 🔹 2. Buat 100 user random
-        for ($i = 0; $i < 100; $i++) {
-            User::create([
-                // Nama akan jadi 'Budi Santoso', 'Siti Aminah', dll.
-                'name'     => $faker->name(),
-                'email'    => $faker->unique()->safeEmail(),
-                'password' => Hash::make('password'),
-                'role'     => 'User',
-            ]);
+        // 🔹 2. User random (anti duplikat)
+        for ($i = 1; $i <= 100; $i++) {
+            User::firstOrCreate(
+                [
+                    // email dijamin unik
+                    'email' => "user{$i}@example.com",
+                ],
+                [
+                    'name'     => $faker->name(),
+                    'password' => Hash::make('password'),
+                    'role'     => 'User',
+                ]
+            );
         }
     }
 }
