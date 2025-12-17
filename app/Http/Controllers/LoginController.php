@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
@@ -10,15 +11,15 @@ class LoginController extends Controller
 {
     // 🔹 Halaman login
     public function index()
-    {
-        return view('pages.Auth.login');
+{
+    if (Auth::check()) {
+        // User sudah login → redirect ke dashboard
+        return redirect()->route('dashboard');
     }
 
-    // 🔹 Halaman register
-    public function registerForm()
-    {
-        return view('pages.Auth.register');
-    }
+    // User belum login → tampilkan halaman login
+    return view('pages.Auth.login');
+}
 
     // 🔹 Proses login
     public function login(Request $request)
@@ -40,17 +41,26 @@ class LoginController extends Controller
                 'user_id'    => $user->id,
                 'user_name'  => $user->name,
                 'user_email' => $user->email,
+                'last_login' => now(), // session last login
             ]);
 
-            // ✅ SweetAlert success (ditambahkan isi pesan)
-            return redirect()->route('dashboard')->with('success', 'Berhasil login!');
+            // Login menggunakan Auth
+            Auth::login($user);
+
+            return redirect()->route('dashboard')->with('');
         }
 
         return back()->withErrors(['password' => 'Email atau password salah'])->withInput();
     }
 
+    // 🔹 Halaman register
+    public function register()
+    {
+        return view('pages.Auth.register');
+    }
+
     // 🔹 Proses register
-    public function register(Request $request)
+    public function registerStore(Request $request)
     {
         $request->validate([
             'name'     => 'required|string|max:100',
@@ -83,7 +93,10 @@ class LoginController extends Controller
     // 🔹 Logout
     public function logout(Request $request)
     {
-        $request->session()->forget(['user_id', 'user_name', 'user_email']);
+        $request->session()->forget(['user_id', 'user_name', 'user_email', 'last_login']);
+        Auth::logout();
+        $request->session()->invalidate();      // Hapus semua session
+        $request->session()->regenerateToken(); // Cegah CSRF
 
         return redirect()->route('login.index')->with('success', '✅ Anda telah logout!');
     }

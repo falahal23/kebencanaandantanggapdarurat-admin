@@ -5,17 +5,22 @@ use App\Models\DistribusiLogistik;
 use App\Models\LogistikBencana;
 use App\Models\Media;
 use App\Models\PoskoBencana;
-use App\Models\Warga;
 use Illuminate\Http\Request;
 
 class DistribusiLogistikController extends Controller
 {
+    public function __construct()
+    {
+
+        $this->middleware('auth'); // HARUS DI SINI
+    }
+
     // =======================
     // INDEX
     // =======================
     public function index(Request $request)
     {
-        $query = DistribusiLogistik::with('logistik', 'posko', 'media', 'warga');
+        $query = DistribusiLogistik::with('logistik', 'posko', 'media',);
 
         // 🔍 SEARCH: logistik nama atau posko nama
         if ($request->filled('search')) {
@@ -50,9 +55,8 @@ class DistribusiLogistikController extends Controller
     {
         $logistik = LogistikBencana::all();
         $posko    = PoskoBencana::all();
-        $warga    = Warga::all();
 
-        return view('pages.admin.distribusi_logistik.create', compact('logistik', 'posko', 'warga'));
+        return view('pages.admin.distribusi_logistik.create', compact('logistik', 'posko'));
     }
 
     // =======================
@@ -97,7 +101,7 @@ class DistribusiLogistikController extends Controller
     // =======================
     public function show($id)
     {
-        $distribusi = DistribusiLogistik::with('logistik', 'posko', 'media', 'warga')->findOrFail($id);
+        $distribusi = DistribusiLogistik::with('logistik', 'posko', 'media',)->findOrFail($id);
         return view('pages.admin.distribusi_logistik.show', compact('distribusi'));
     }
 
@@ -109,9 +113,8 @@ class DistribusiLogistikController extends Controller
         $distribusi = DistribusiLogistik::with('media')->findOrFail($id);
         $logistik   = LogistikBencana::all();
         $posko      = PoskoBencana::all();
-        $warga      = Warga::all();
 
-        return view('pages.admin.distribusi_logistik.edit', compact('distribusi', 'logistik', 'posko', 'warga'));
+        return view('pages.admin.distribusi_logistik.edit', compact('distribusi', 'logistik', 'posko'));
     }
 
     // =======================

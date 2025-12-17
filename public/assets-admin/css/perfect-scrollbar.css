@@ -1,3 +1,42 @@
+/* SIDEBAR UNGGU */
+.sidebar-purple {
+    background: linear-gradient(180deg, #5b2cff, #7c3aed, #2563eb);
+    box-shadow: 0 20px 40px rgba(91, 44, 255, 0.35);
+    transition: all 0.4s ease;
+}
+
+/* LINK MENU */
+.sidebar-purple a {
+    color: rgba(255, 255, 255, 0.85);
+    transition: all 0.3s ease;
+}
+
+/* HOVER MENU */
+.sidebar-purple a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(6px);
+    border-radius: 12px;
+}
+
+/* MENU AKTIF */
+.sidebar-purple a.active {
+    background: rgba(255, 255, 255, 0.22);
+    box-shadow: inset 4px 0 0 #ffffff;
+    font-weight: 600;
+}
+
+/* ICON DI SIDEBAR */
+.sidebar-purple svg {
+    color: white;
+    opacity: 0.9;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-purple a:hover svg {
+    transform: scale(1.1);
+}
+
+
 /*
  * Container style
  */

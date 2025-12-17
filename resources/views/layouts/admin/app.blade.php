@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="{{ asset('assets-admin/css/custom-sidebar.css') }}">
+
+    <!-- Versi 6 Free -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-p1BmPZgIY9x+...==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
         integrity="sha512-Fo3rlrZj/k7ujTnHg4C+6Zw5qPcbK6Ra+qPp7A64kL4B8p6jWc5o6VbG6DRmY7wZkITzB8sH3Vf7+e8Exs3U9Q=="
@@ -36,6 +41,8 @@
     <link href="{{ asset('assets-admin/css/soft-ui-dashboard-tailwind.css?v=1.0.5') }}" rel="stylesheet" />
 
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 
     <style>
@@ -51,6 +58,9 @@
 {{-- start Css --}}
 @include('layouts.admin.css')
 {{-- end css --}}
+
+<script src="{{ asset('js/avatar-dropdown.js') }}"></script>
+
 </head>
 
 <body>
@@ -158,6 +168,9 @@
         </div>
     @endif
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('assets-admin/js/plugins/avatar-dropdown.js') }}"></script>
+
+
 
     {{-- ✅ SUCCESS MESSAGE --}}
     @if (session('success'))
@@ -194,7 +207,10 @@
         </script>
     @endif
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </body>
+<script src="{{ asset('js/avatar-dropdown.js') }}"></script>
+
 
 </html>

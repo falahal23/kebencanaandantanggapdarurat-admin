@@ -137,7 +137,7 @@
                                                 <!-- Tombol Edit -->
                                                 <a href="{{ route('warga.edit', $item->warga_id) }}"
                                                     class="inline-block px-3 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
-                                                    <i class="fa fa-edit mr-1">✏️Edit</i>
+                                                    <i class="">✏️Edit</i>
                                                 </a>
                                                 <!-- Tombol Hapus -->
                                                 <form action="{{ route('warga.destroy', $item->warga_id) }}" method="POST"
@@ -146,7 +146,7 @@
                                                     @method('DELETE')
                                                     <button type="submit"
                                                         class="inline-block px-3 py-2 text-white bg-gradient-to-r from-red-600 to-Rose-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
-                                                        <i class="fa fa-trash mr-1">🗑️Hapus</i>
+                                                        <i class="">🗑️Hapus</i>
                                                     </button>
                                                 </form>
                                             </div>
@@ -164,9 +164,100 @@
                     </div>
 
                     <!-- Pagination -->
-                    <div class="mt-6 flex justify-center">
-                        {{ $warga->links() }}
+                    <div class="mt-6" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+
+                        {{-- Previous --}}
+                        @if ($warga->onFirstPage())
+                            <span
+                                style="
+                padding: 10px 20px;
+                border-radius: 10px;
+                background: #C40BB2;
+                color: white;
+                font-weight: bold;
+                opacity: 0.5;
+                cursor: not-allowed;
+                margin-right: 20px; /* Jarak dari nomor halaman */
+            ">
+                                ‹ Previous
+                            </span>
+                        @else
+                            <a href="{{ $warga->previousPageUrl() }}"
+                                style="
+                padding: 10px 20px;
+                border-radius: 10px;
+                background: #C40BB2;
+                color: white;
+                font-weight: bold;
+                text-decoration: none;
+                margin-right: 20px; /* Jarak dari nomor halaman */
+            ">
+                                ‹ Previous
+                            </a>
+                        @endif
+
+
+                        {{-- NOMOR HALAMAN --}}
+                        @foreach ($warga->getUrlRange(1, $warga->lastPage()) as $page => $url)
+                            @if ($page == $warga->currentPage())
+                                <span
+                                    style="
+                    padding: 10px 15px;
+                    background: #333; /* Warna untuk halaman aktif */
+                    color: white;
+                    border-radius: 10px;
+                    font-weight: bold;
+                ">
+                                    {{ $page }}
+                                </span>
+                            @else
+                                <a href="{{ $url }}"
+                                    style="
+                    padding: 10px 15px;
+                    background: #e0e0e0; /* Warna untuk halaman tidak aktif */
+                    color: #333;
+                    border-radius: 10px;
+                    font-weight: bold;
+                    text-decoration: none;
+                ">
+                                    {{ $page }}
+                                </a>
+                            @endif
+                        @endforeach
+
+
+                        {{-- Next --}}
+                        @if ($warga->hasMorePages())
+                            <a href="{{ $warga->nextPageUrl() }}"
+                                style="
+                padding: 10px 20px;
+                border-radius: 10px;
+                background: #669be6; /* Warna biru Next */
+                color: white;
+                font-weight: bold;
+                text-decoration: none;
+                margin-left: 20px; /* Jarak dari nomor halaman */
+            ">
+                                Next ›
+                            </a>
+                        @else
+                            <span
+                                style="
+                padding: 10px 20px;
+                border-radius: 10px;
+                background: #669be6; /* Warna biru Next */
+                color: white;
+                font-weight: bold;
+                opacity: 0.5;
+                cursor: not-allowed;
+                margin-left: 20px; /* Jarak dari nomor halaman */
+            ">
+                                Next ›
+                            </span>
+                        @endif
+
                     </div>
+
                 </div>
             </div>
         </div>

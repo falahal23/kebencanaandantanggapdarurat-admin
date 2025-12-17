@@ -1,5 +1,8 @@
 <aside
-    class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent">
+    class="sidebar-purple max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full
+           -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl
+           border-0 p-0 antialiased shadow-none transition-transform duration-300
+           xl:left-0 xl:translate-x-0">
     <div class="h-19.5">
         <i class="absolute top-0 right-0 hidden p-4 opacity-50 cursor-pointer fas fa-times text-slate-400 xl:hidden"
             sidenav-close></i>
@@ -9,7 +12,7 @@
                 class="inline transition-all duration-200 ease-nav-brand" style="height: 55px; width: auto;"
                 alt="main_logo">
 
-            <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Tanggap Darurat</span>
+            <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">GuardianNet</span>
         </a>
     </div>
 
@@ -102,7 +105,7 @@
                         </svg>
                     </div>
                     <span
-                        class="ml-2 duration-300 opacity-100 pointer-events-none ease-soft text-slate-700 font-normal">
+                        class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">
                         Donasi Bencana
                     </span>
                 </a>
@@ -113,7 +116,7 @@
                     class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors hover:bg-blue-50 rounded-lg">
 
                     <div
-                        class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white text-center xl:p-2.5">
+                        class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center text-center xl:p-2.5">
                         <!-- Ikon Logistik (Truk Pengiriman) -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                             fill="none" stroke="#334155" stroke-width="2" stroke-linecap="round"
@@ -126,7 +129,7 @@
                     </div>
 
                     <span
-                        class="ml-1 font-normal duration-300 opacity-100 pointer-events-none ease-soft text-slate-700">
+                        class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">
                         Logistik Bencana
                     </span>
                 </a>
@@ -149,7 +152,7 @@
                         </svg>
                     </div>
 
-                    <span class="ml-1 font-normal text-slate-700">
+                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft"></span>
                         Distribusi Logistik
                     </span>
                 </a>
@@ -194,18 +197,18 @@
 
 
 
-            <li class="w-full mt-4">
+            {{-- <li class="w-full mt-4">
                 <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">
                     Account pages
                 </h6>
-            </li>
+            </li> --}}
 
-            <li class="mt-0.5 w-full">
+            {{-- <li class="mt-0.5 w-full">
                 <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors"
                     href="{{ route('logout') }}" method="GET" class="inline"
                     class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Log Out</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </div>
 

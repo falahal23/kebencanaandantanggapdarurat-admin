@@ -9,7 +9,7 @@ class WargaSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Faker::create();
+        $faker = Faker::create('id_ID');
 
         for ($i = 0; $i < 100; $i++) {
             Warga::create([

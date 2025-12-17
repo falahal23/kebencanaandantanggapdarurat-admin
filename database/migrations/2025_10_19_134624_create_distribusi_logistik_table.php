@@ -17,12 +17,18 @@ return new class extends Migration
             $table->unsignedInteger('posko_id');
             $table->date('tanggal');
             $table->integer('jumlah');
-            $table->unsignedInteger('penerima');
+            $table->string('penerima')->nullable(); // ✅ kolom penerima
             $table->timestamps();
 
-            $table->foreign('logistik_id')->references('logistik_id')->on('logistik_bencana')->onDelete('cascade');
-            $table->foreign('posko_id')->references('posko_id')->on('posko_bencana')->onDelete('cascade');
-            $table->foreign('penerima')->references('warga_id')->on('warga')->onDelete('cascade');
+            $table->foreign('logistik_id')
+                ->references('logistik_id')
+                ->on('logistik_bencana')
+                ->onDelete('cascade');
+
+            $table->foreign('posko_id')
+                ->references('posko_id')
+                ->on('posko_bencana')
+                ->onDelete('cascade');
         });
     }
 

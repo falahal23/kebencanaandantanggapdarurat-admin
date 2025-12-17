@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="flex flex-wrap my-6 -mx-3">
+
         <div class="w-full max-w-full px-3 mt-0 lg:w-12/12 lg:flex-none">
             <div class="border-black/12.5 shadow-soft-xl relative flex flex-col rounded-2xl bg-white">
 
@@ -175,9 +176,60 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="mt-6 flex justify-center">
-                        {{ $distribusi->links() }}
+
+                    {{-- pagiantion --}}
+                    <div class="mt-6" style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+
+                        {{-- Previous --}}
+                        @if ($distribusi->onFirstPage())
+                            <span
+                                style="padding: 10px 16px; background: #C40BB2; color: white; border-radius: 8px; opacity: 0.5;">
+                                ‹ Previous
+                            </span>
+                        @else
+                            <a href="{{ $distribusi->previousPageUrl() }}"
+                                style="padding: 10px 16px; background: #C40BB2; color: white; border-radius: 8px; text-decoration: none;">
+                                ‹ Previous
+                            </a>
+                        @endif
+
+
+                        {{-- Page Numbers --}}
+                        <div style="display: flex; gap: 10px;">
+                            @for ($i = 1; $i <= $distribusi->lastPage(); $i++)
+                                @if ($i == $distribusi->currentPage())
+                                    {{-- Active Page --}}
+                                    <span
+                                        style="padding: 10px 16px; background: #4a4a4a; color: white; border-radius: 8px; font-weight: bold;">
+                                        {{ $i }}
+                                    </span>
+                                @else
+                                    {{-- Normal Page --}}
+                                    <a href="{{ $distribusi->url($i) }}"
+                                        style="padding: 10px 16px; background: #e0e0e0; color: #333; border-radius: 8px; text-decoration: none;">
+                                        {{ $i }}
+                                    </a>
+                                @endif
+                            @endfor
+                        </div>
+
+
+                        {{-- Next --}}
+                        @if ($distribusi->hasMorePages())
+                            <a href="{{ $distribusi->nextPageUrl() }}"
+                                style="padding: 10px 16px; background: #007bff; color: white; border-radius: 8px; text-decoration: none;">
+                                Next ›
+                            </a>
+                        @else
+                            <span
+                                style="padding: 10px 16px; background: #007bff; color: white; border-radius: 8px; opacity: 0.5;">
+                                Next ›
+                            </span>
+                        @endif
+
                     </div>
+
+
                 </div>
             </div>
         </div>

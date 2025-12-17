@@ -82,8 +82,9 @@
                 @if ($media)
                     {{-- Jika file adalah gambar --}}
                     @if (in_array($media->mime_type, ['image/jpeg', 'image/png', 'image/jpg']))
-                        <img src="{{ asset('storage/' . $media->file_url) }}" class="media-image shadow-md border"
-                            alt="Bukti Donasi">
+                        <img src="{{ asset('storage/' . $media->file_url) }}" class="media-image shadow-md border mx-auto"
+                            style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;" alt="Bukti Donasi"
+                            onerror="this.src='{{ asset('assets-admin/img/spaceholder.png') }}';">
 
                         <br>
                         <a href="{{ asset('storage/' . $media->file_url) }}" target="_blank"
@@ -104,12 +105,17 @@
 
                         {{-- Format lainnya --}}
                     @else
-                        <p class="text-gray-500">Bukti tersedia, tetapi format tidak bisa ditampilkan.</p>
+                        <p class="text-gray-500">Format tidak dapat ditampilkan.</p>
                         <a href="{{ asset('storage/' . $media->file_url) }}" target="_blank"
                             class="text-blue-600 underline">Download File</a>
                     @endif
                 @else
-                    <p class="text-gray-500">Tidak ada bukti donasi.</p>
+                    {{-- Jika tidak ada media, tampilkan placeholder --}}
+                    <img src="{{ asset('assets-admin/img/spaceholder.png') }}" class="media-image shadow-md border mx-auto"
+                        style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;"
+                        alt="Placeholder Bukti Donasi">
+
+                    <p class="text-gray-500 mt-2">Tidak ada bukti donasi.</p>
                 @endif
             </div>
 

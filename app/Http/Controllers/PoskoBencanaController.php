@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Storage;
 
 class PoskoBencanaController extends Controller
 {
+        public function __construct()
+    {
+
+        $this->middleware('auth'); // HARUS DI SINI
+    }
+    
     // ➤ List semua posko dengan pagination + search + filter
     public function index(Request $request)
     {

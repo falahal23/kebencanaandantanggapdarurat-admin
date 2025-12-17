@@ -91,3 +91,32 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('distribusi_logistik', DistribusiLogistikController::class);
 });
 
+// Dashboard hanya untuk user login
+Route::get('/dashboard', [DashboardController::class, 'index'])
+     ->middleware('checkislogin');
+
+// Group route untuk beberapa halaman sekaligus
+Route::group(['middleware' => ['checkislogin']], function () {
+    Route::resource('user', UserController::class);
+});
+
+Route::middleware(['checkislogin'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+
+Route::middleware(['checkrole:Super Admin'])->group(function () {
+    Route::resource('/user', UserController::class);
+});
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware('checkislogin')
+    ->name('dashboard');
+
+Route::group(['middleware' => ['checkislogin', 'checkrole:Super Admin']], function () {
+    Route::resource('/user', UserController::class);
+});
+
+//profile
+Route::get('/profile', function () {
+    return view('pages.profile');
+})->name('profile');

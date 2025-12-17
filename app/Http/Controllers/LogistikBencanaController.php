@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class LogistikBencanaController extends Controller
 {
+
+    public function __construct()
+    {
+
+        $this->middleware('auth'); // HARUS DI SINI
+    }
+
     // =======================
     // INDEX
     // =======================
@@ -95,6 +102,13 @@ class LogistikBencanaController extends Controller
 
         return redirect()->route('admin.logistik_bencana.index')
             ->with('success', 'Data logistik berhasil diperbarui.');
+    }
+
+    public function show($id)
+    {
+        $logistik = LogistikBencana::with('kejadian')->findOrFail($id);
+
+        return view('pages.admin.logistik_bencana.show', compact('logistik'));
     }
 
     // =======================

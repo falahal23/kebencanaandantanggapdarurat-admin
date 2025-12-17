@@ -1,75 +1,113 @@
 @extends('layouts.admin.app')
-
 @section('content')
-    <div class="container mx-auto px-4 py-6">
-        <div class="bg-white shadow rounded-lg p-6">
+    <div class="flex flex-wrap my-6 -mx-3">
+        <!-- card Kejadian Bencana -->
+        <div class="w-full max-w-full px-3 mt-0 lg:w-12/12 lg:flex-none">
+            <div
+                class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
 
-            <h1 class="text-2xl font-semibold mb-4"> ➕Posko Bencana</h1>
-
-            @if ($errors->any())
-                <div class="mb-4 p-4 bg-red-100 text-red-600 rounded-lg">
-                    <strong>Terjadi kesalahan:</strong>
-                    <ul class="list-disc list-inside mt-2">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            <form action="{{ route('admin.posko.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-
-                <!-- Nama Posko -->
-                <label class="block mb-2 font-medium">Nama Posko</label>
-                <input type="text" name="nama" value="{{ old('nama') }}" class="w-full border rounded p-2 mb-4"
-                    required>
-
-                <!-- Alamat -->
-                <label class="block mb-2 font-medium">Alamat</label>
-                <input type="text" name="alamat" value="{{ old('alamat') }}" class="w-full border rounded p-2 mb-4"
-                    required>
-
-                <!-- Kontak -->
-                <label class="block mb-2 font-medium">Kontak</label>
-                <input type="text" name="kontak" value="{{ old('kontak') }}" class="w-full border rounded p-2 mb-4">
-
-                <!-- Penanggung Jawab -->
-                <label class="block mb-2 font-medium">Penanggung Jawab</label>
-                <input type="text" name="penanggung_jawab" value="{{ old('penanggung_jawab') }}"
-                    class="w-full border rounded p-2 mb-4">
-
-                <!-- Kejadian Bencana -->
-                <label class="block mb-2 font-medium">Kejadian Bencana</label>
-                <select name="kejadian_id" class="w-full border rounded p-2 mb-4" required>
-                    <option value="">-- Pilih Kejadian --</option>
-                    @foreach ($kejadian as $item)
-                        <option value="{{ $item->kejadian_id }}"
-                            {{ old('kejadian_id') == $item->kejadian_id ? 'selected' : '' }}>
-                            {{ $item->jenis_bencana }} | {{ $item->lokasi_text }} |
-                            {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
-                        </option>
-                    @endforeach
-                </select>
-
-                <!-- Upload Foto -->
-                <label class="block mb-2 font-medium">Upload Foto (opsional)</label>
-                <input type="file" name="foto" class="w-full mb-6">
-
-                <!-- Tombol Submit -->
-                <div class="flex justify-end space-x-2">
-                    <button type="submit"
-                        class="px-6 py-3 font-bold text-center text-white uppercase rounded-lg bg-gradient-to-tl from-gray-900 to-slate-800 hover:scale-102 shadow-soft-md transition">
-                        <i class="fa fa-save mr-1"></i>💾Simpan
-                    </button>
-
-                    <a href="{{ route('admin.posko.index') }}"
-                        class="px-6 py-3 font-bold text-white bg-gray-600 rounded-lg hover:bg-gray-700 transition">
-                        ← Kembali
+                <!-- Header Card -->
+                <div
+                    class="border-black/12.5 mb-0 rounded-t-2xl border-b border-solid bg-white p-6 pb-3 flex justify-between items-center">
+                    <h6 class="text-lg font-semibold">➕Tambah Kejadian Bencana</h6>
+                    <a href="{{ route('kejadian.index') }}"
+                        class="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300 transition">
+                        Kembali
                     </a>
                 </div>
-            </form>
 
+                <!-- Body Form -->
+                <div class="flex-auto p-6">
+                    @if ($errors->any())
+                        <div class="mb-4 p-4 bg-red-100 text-red-600 rounded-lg">
+                            <strong>Terjadi kesalahan:</strong>
+                            <ul class="mt-2 list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('kejadian.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                            <!-- Jenis Bencana -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Jenis Bencana</label>
+                                <input type="text" name="jenis_bencana" class="w-full p-2 border rounded-lg"
+                                    placeholder="Contoh: Banjir, Gempa" required>
+                            </div>
+
+                            <!-- Tanggal -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Tanggal Kejadian</label>
+                                <input type="date" name="tanggal" class="w-full p-2 border rounded-lg" required>
+                            </div>
+
+                            <!-- Lokasi -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Lokasi (Deskripsi)</label>
+                                <input type="text" name="lokasi_text" class="w-full p-2 border rounded-lg"
+                                    placeholder="Contoh: Desa Sukamaju">
+                            </div>
+
+                            <!-- RT -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">RT</label>
+                                <input type="number" name="rt" class="w-full p-2 border rounded-lg" placeholder="RT">
+                            </div>
+
+                            <!-- RW -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">RW</label>
+                                <input type="number" name="rw" class="w-full p-2 border rounded-lg" placeholder="RW">
+                            </div>
+
+                            <!-- Dampak -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Dampak</label>
+                                <input type="text" name="dampak" class="w-full p-2 border rounded-lg"
+                                    placeholder="Contoh: Rumah Rusak 20 Unit" required>
+                            </div>
+
+                            <!-- Status Kejadian -->
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Status Kejadian</label>
+                                <select name="status_kejadian" class="w-full p-2 border rounded-lg" required>
+                                    <option value="" disabled selected>Pilih Status</option>
+                                    <option value="Aktif">Aktif</option>
+                                    <option value="Sedang Ditangani">Sedang Ditangani</option>
+                                    <option value="Selesai">Selesai</option>
+                                </select>
+                            </div>
+
+                            <!-- Upload Foto dengan placeholder dan preview -->
+                            <div class="col-span-2">
+                                <label class="block mb-2 font-medium">Upload Foto jika ada (opsional)</label>
+                                <div class="mb-4 media-card w-40 h-40 rounded border overflow-hidden">
+                                    <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                                         alt="Placeholder Foto Posko"
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <input type="file" name="media" class="w-full mt-1" accept="image/*"
+                                       onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
+                            </div>
+
+                        </div>
+
+                        <!-- Tombol Submit -->
+                        <div class="mt-6 flex justify-end">
+                            <button type="submit"
+                                class="inline-block px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all bg-transparent rounded-lg cursor-pointer leading-pro text-xs ease-soft-in shadow-soft-md bg-150 bg-gradient-to-tl from-gray-900 to-slate-800 hover:shadow-soft-xs active:opacity-85 hover:scale-102 tracking-tight-soft bg-x-25">
+                                Simpan Data
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
+ 

@@ -1,40 +1,43 @@
 <?php
+
 namespace Database\Seeders;
 
+use Illuminate\Database\Seeder;
 use App\Models\DistribusiLogistik;
 use App\Models\LogistikBencana;
 use App\Models\PoskoBencana;
-use App\Models\Warga;
-use Faker\Factory as Faker;
-use Illuminate\Database\Seeder;
 
 class DistribusiLogistikSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        $faker = Faker::create();
+        $logistiks = LogistikBencana::pluck('logistik_id')->toArray();
+        $poskos    = PoskoBencana::pluck('posko_id')->toArray();
 
-        // Ambil semua ID dari tabel terkait
-        $logistikIds = LogistikBencana::pluck('logistik_id')->toArray();
-        $poskoIds    = PoskoBencana::pluck('posko_id')->toArray();
-        $wargaIds    = Warga::pluck('warga_id')->toArray();
-
-        if (empty($logistikIds) || empty($poskoIds) || empty($wargaIds)) {
-            $this->command->info("Tabel relasi masih kosong! Isi tabel logistik, posko, dan warga terlebih dahulu.");
+        // Jangan jalankan seeder jika data master kosong
+        if (empty($logistiks) || empty($poskos)) {
             return;
         }
 
-        // Loop buat 100 data
-        for ($i = 0; $i < 100; $i++) {
+        $daftarPenerima = [
+            'Warga Terdampak Bencana',
+            'Korban Banjir',
+            'Korban Tanah Longsor',
+            'Masyarakat Sekitar Posko',
+            'Pengungsi Anak-anak',
+            'Pengungsi Lanjut Usia',
+            'Relawan Tanggap Bencana',
+            'Tim Evakuasi Lapangan',
+        ];
+
+        for ($i = 1; $i <= 15; $i++) {
             DistribusiLogistik::create([
-                'logistik_id' => $faker->randomElement($logistikIds),
-                'posko_id'    => $faker->randomElement($poskoIds),
-                'tanggal'     => $faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
-                'jumlah'      => $faker->numberBetween(1, 100),
-                'penerima'    => $faker->randomElement($wargaIds),
+                'logistik_id' => $logistiks[array_rand($logistiks)],
+                'posko_id'    => $poskos[array_rand($poskos)],
+                'tanggal'     => now()->subDays(rand(0, 10)),
+                'jumlah'      => rand(5, 100),
+                'penerima'    => $daftarPenerima[array_rand($daftarPenerima)],
             ]);
         }
-
-        $this->command->info("Seeder DistribusiLogistik: 100 data berhasil dibuat!");
     }
 }

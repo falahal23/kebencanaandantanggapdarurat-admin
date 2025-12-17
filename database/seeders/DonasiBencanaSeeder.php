@@ -10,7 +10,8 @@ class DonasiBencanaSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Faker::create();
+       // ✅ UBAH DI SINI: Tambahkan 'id_ID'
+        $faker = Faker::create('id_ID');
 
         // Ambil semua kejadian_id dari tabel kejadian_bencana
         $kejadianIds = KejadianBencana::pluck('kejadian_id')->toArray();

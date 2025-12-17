@@ -10,7 +10,7 @@ class KejadianBencanaSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Faker::create();
+        $faker = Faker::create('id_ID');
 
         for ($i = 0; $i < 100; $i++) {
             KejadianBencana::create([
@@ -20,7 +20,7 @@ class KejadianBencanaSeeder extends Seeder
                 'rt'              => $faker->numberBetween(1, 10),
                 'rw'              => $faker->numberBetween(1, 10),
                 'dampak'          => $faker->sentence(8),
-                'status_kejadian' => $faker->randomElement(['Sedang Ditangani', 'Selesai', 'Dalam Pemantauan']),
+                'status_kejadian' => $faker->randomElement(['Aktif', 'Sedang di tangani', 'selesai']),
                 'keterangan'      => $faker->sentence(12),
             ]);
         }

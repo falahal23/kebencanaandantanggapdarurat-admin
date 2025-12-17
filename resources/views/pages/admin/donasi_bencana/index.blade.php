@@ -57,8 +57,10 @@
         @endif
 
         {{-- Tabel Donasi --}}
-        <div class="bg-white shadow rounded-lg p-4 overflow-x-auto">
-            <table class="min-w-full text-sm text-left text-gray-600 border-collapse">
+        <div class="bg-white shadow rounded-lg p-8 overflow-x-auto w-full">
+    <table class="min-w-full min-w-[1100px] text-sm text-left text-gray-600 border-collapse">
+
+
                 <thead class="bg-gray-100">
                     <tr>
                         <th class="px-4 py-2 whitespace-nowrap">ID</th>
@@ -123,10 +125,102 @@
                     @endforelse
                 </tbody>
             </table>
-            <div class="mt-6 flex justify-center">
-                {{ $donasi->links() }}
-            </div>
-        </div>
 
-    </div>
-@endsection
+
+            <div class="mt-6" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+
+                {{-- Previous --}}
+                @if ($donasi->onFirstPage())
+                    <span
+                        style="
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: #C40BB2;
+            color: white;
+            font-weight: bold;
+            opacity: 0.5;
+            cursor: not-allowed;
+            margin-right: 20px; /* Jarak dari nomor halaman */
+        ">
+                        ‹ Previous
+                    </span>
+                @else
+                    <a href="{{ $donasi->previousPageUrl() }}"
+                        style="
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: #C40BB2;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            margin-right: 20px; /* Jarak dari nomor halaman */
+        ">
+                        ‹ Previous
+                    </a>
+                @endif
+
+
+                {{-- NOMOR HALAMAN --}}
+                @foreach ($donasi->getUrlRange(1, $donasi->lastPage()) as $page => $url)
+                    @if ($page == $donasi->currentPage())
+                        <span
+                            style="
+                padding: 10px 15px;
+                background: #333;
+                color: white;
+                border-radius: 10px;
+                font-weight: bold;
+            ">
+                            {{ $page }}
+                        </span>
+                    @else
+                        <a href="{{ $url }}"
+                            style="
+                padding: 10px 15px;
+                background: #e0e0e0;
+                color: #333;
+                border-radius: 10px;
+                font-weight: bold;
+                text-decoration: none;
+            ">
+                            {{ $page }}
+                        </a>
+                    @endif
+                @endforeach
+
+
+                {{-- Next --}}
+                @if ($donasi->hasMorePages())
+                    <a href="{{ $donasi->nextPageUrl() }}"
+                        style="
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: #669be6;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            margin-left: 20px; /* Jarak dari nomor halaman */
+        ">
+                        Next ›
+                    </a>
+                @else
+                    <span
+                        style="
+            padding: 10px 20px;
+            border-radius: 10px;
+            background: #669be6;
+            color: white;
+            font-weight: bold;
+            opacity: 0.5;
+            cursor: not-allowed;
+            margin-left: 20px; /* Jarak dari nomor halaman */
+        ">
+                        Next ›
+                    </span>
+                @endif
+
+            </div>
+
+
+        </div>
+    @endsection

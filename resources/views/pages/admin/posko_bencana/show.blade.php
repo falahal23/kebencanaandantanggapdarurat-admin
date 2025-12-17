@@ -2,48 +2,125 @@
 
 @section('content')
     <div class="p-6 bg-gray-100 min-h-screen">
+
         <h1 class="text-3xl font-bold mb-6 text-gray-800">Detail Posko Bencana</h1>
 
-        <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-200">
-            <div class="md:flex">
-                <!-- FOTO POSKO -->
-                <div class="md:w-1/3 bg-gray-50 flex items-center justify-center p-6">
-                    @php $media = $posko->media->first(); @endphp
-                    @if ($media)
+        <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-200 p-6">
+
+            {{-- ============================= --}}
+            {{-- DETAIL POSKO (TABEL) --}}
+            {{-- ============================= --}}
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Informasi Posko</h2>
+
+            <table class="w-full text-gray-700 mb-8">
+                <tr>
+                    <td class="font-semibold w-48 py-2">ID Posko</td>
+                    <td>: {{ $posko->posko_id }}</td>
+                </tr>
+
+                <tr>
+                    <td class="font-semibold py-2">ID Kejadian</td>
+                    <td>: {{ $posko->kejadian_id }}</td>
+                </tr>
+
+                <tr>
+                    <td class="font-semibold py-2">Nama Posko</td>
+                    <td>: {{ $posko->nama }}</td>
+                </tr>
+
+                <tr>
+                    <td class="font-semibold py-2">Alamat</td>
+                    <td>: {{ $posko->alamat }}</td>
+                </tr>
+
+                <tr>
+                    <td class="font-semibold py-2">Kontak</td>
+                    <td>: {{ $posko->kontak ?? '-' }}</td>
+                </tr>
+
+                <tr>
+                    <td class="font-semibold py-2">Penanggung Jawab</td>
+                    <td>: {{ $posko->penanggung_jawab ?? '-' }}</td>
+                </tr>
+            </table>
+
+            {{-- ============================= --}}
+            {{-- BAGIAN MEDIA --}}
+            {{-- ============================= --}}
+            @php
+                $media = $posko->media->first();
+                $allMedia = $posko->media;
+
+                $isImage = $media && Str::startsWith($media->mime_type, 'image/');
+                $isVideo = $media && Str::startsWith($media->mime_type, 'video/');
+            @endphp
+
+            <h2 class="text-xl font-semibold text-gray-800 mb-3">Media Utama</h2>
+
+            {{-- MEDIA UTAMA --}}
+            @if ($media)
+                <div class="w-full h-72 rounded-xl overflow-hidden shadow-lg bg-black mb-3">
+                    @if ($isImage)
+                        <img src="{{ asset('storage/' . $media->file_url) }}"
+                             class="w-full h-full object-cover"
+                             alt="Media Posko">
+                    @elseif ($isVideo)
+                        <video controls class="w-full h-full object-cover rounded-xl">
+                            <source src="{{ asset('storage/' . $media->file_url) }}" type="{{ $media->mime_type }}">
+                        </video>
                     @else
-                        <div class="w-full h-64 bg-gray-200 flex items-center justify-center rounded-xl">
-                            <span class="text-gray-400 text-sm">Tidak ada foto</span>
+                        <div class="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+                            Media tidak didukung
                         </div>
                     @endif
                 </div>
 
-                <!-- DETAIL POSKO -->
-                <div class="md:w-2/3 p-6 flex flex-col justify-between">
-                    <div class="grid grid-cols-1 gap-4 text-gray-700">
-                        <div><span class="font-semibold">ID Posko:</span> {{ $posko->posko_id }}</div>
-                        <div><span class="font-semibold">ID Kejadian:</span> {{ $posko->kejadian_id }}</div>
-                        <div><span class="font-semibold">Nama Posko:</span> {{ $posko->nama }}</div>
-                        <div><span class="font-semibold">Alamat:</span> {{ $posko->alamat }}</div>
-                        <div><span class="font-semibold">Kontak:</span> {{ $posko->kontak ?? '-' }}</div>
-                        <div><span class="font-semibold">Penanggung Jawab:</span> {{ $posko->penanggung_jawab ?? '-' }}
-                        </div>
-                        @if ($posko->media->first())
-                            <img src="{{ asset('storage/' . $posko->media->first()->file_url) }}" alt="Foto Posko"
-                                class="w-32 h-32 object-cover">
-                        @else
-                            <p>Tidak ada gambar</p>
-                        @endif
-                    </div>
-
-                    <!-- TOMBOL KEMBALI -->
-                    <div class="mt-6">
-                        <a href="{{ route('admin.posko.index') }}"
-                            class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl shadow hover:bg-blue-700 transition duration-300">
-                            ← Kembali ke Daftar Posko
-                        </a>
-                    </div>
+                {{-- CAPTION --}}
+                <p class="text-center text-sm font-semibold text-gray-600 italic mb-6">
+                    {{ $media->caption ?? '' }}
+                </p>
+            @else
+                <div class="w-full h-72 bg-gray-200 rounded-xl flex items-center justify-center shadow-inner mb-6">
+                    <span class="text-gray-400"></span>
                 </div>
+            @endif
+
+            {{-- ============================= --}}
+            {{-- GALERI JIKA MEDIA > 1 --}}
+            {{-- ============================= --}}
+            {{-- {-- spaceholder --}}
+                      <label class="block mb-2 font-medium">Upload Foto (opsional)</label>
+                <div class="mb-4">
+                    <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                        alt="Placeholder Foto Posko"
+                        class="w-48 h-48 rounded border object-cover mb-2">
+                    <input type="file" name="foto" class="w-full" accept="image/*"
+                        onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
+                </div>
+            @if ($allMedia->count() > 1)
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Galeri Posko</h3>
+
+                <div class="flex space-x-3 overflow-x-auto pb-3">
+                    @foreach ($allMedia as $m)
+                        @if (Str::startsWith($m->mime_type, 'image/'))
+                            <img src="{{ asset('storage/' . $m->file_url) }}"
+                                class="w-24 h-24 rounded-lg object-cover shadow cursor-pointer hover:scale-105 transition"
+                                alt="Thumbnail">
+                        @endif
+                    @endforeach
+                </div>
+            @endif
+
+            {{-- ============================= --}}
+            {{-- TOMBOL KEMBALI --}}
+            {{-- ============================= --}}
+            <div class="mt-6">
+                <a href="{{ route('admin.posko.index') }}"
+                    class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl shadow hover:bg-blue-700 transition">
+                    ← Kembali ke Daftar Posko
+                </a>
             </div>
+
         </div>
     </div>
 @endsection

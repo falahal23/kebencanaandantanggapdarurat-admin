@@ -54,13 +54,10 @@
                 {{-- Penerima --}}
                 <div class="md:col-span-2">
                     <label class="block mb-2 font-medium">Penerima Bantuan</label>
-                    <select name="penerima" required class="w-full border rounded p-3">
-                        <option value="">-- Pilih Penerima --</option>
-                        @foreach ($warga as $w)
-                            <option value="{{ $w->warga_id }}">{{ $w->nama }}</option>
-                        @endforeach
-                    </select>
+                    <input type="text" name="penerima" required value="{{ old('penerima') }}"
+                        class="w-full border rounded p-3" placeholder="Masukkan nama penerima bantuan">
                 </div>
+
 
                 {{-- Keterangan --}}
                 <div class="md:col-span-2">
@@ -71,8 +68,16 @@
                 {{-- Bukti --}}
                 <div class="md:col-span-2">
                     <label class="block mb-2 font-medium">Upload Bukti Distribusi (Opsional)</label>
-                    <input type="file" name="bukti" accept="image/*" class="w-full border rounded p-3 bg-gray-50">
+
+                    <div class="flex items-center space-x-4">
+                        <img id="preview" src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                            class="w-16 h-16 object-cover rounded-lg border shadow-sm">
+
+                        <input type="file" name="bukti" accept="image/*" onchange="previewImage(event)"
+                            class="w-full border rounded p-3 bg-gray-50">
+                    </div>
                 </div>
+
 
             </div>
 

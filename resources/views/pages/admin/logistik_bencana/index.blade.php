@@ -22,7 +22,7 @@
                         <div class="flex-none w-5/12 max-w-full px-3 text-right">
                             <a href="{{ route('admin.logistik_bencana.create') }}"
                                 class="inline-block px-4 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
-                                <i class="fa fa-plus mr-1"></i> ✚ Tambah Data Logistik
+                                <i class="fa fa-plus mr-1"></i>Tambah Data Logistik
                             </a>
                         </div>
                     </div>
@@ -129,6 +129,7 @@
 
 
                                         <!-- Aksi -->
+
                                         <td class="p-2 text-center align-middle border-b whitespace-nowrap">
                                             <div class="flex justify-center space-x-2">
 
@@ -136,6 +137,13 @@
                                                     class="inline-block px-4 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-xs font-semibold shadow-md hover:shadow-lg transition">
                                                     ✏️ Edit
                                                 </a>
+                                                {{-- tombol lihat --}}
+
+                                                <a href="{{ route('admin.logistik_bencana.show', $item) }}"
+                                                    class="inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-gray-600 to-gray-500 text-black text-xs font-semibold rounded-lg shadow-md hover:shadow-lg hover:from-purple-700 hover:to-pink-600 transition-all duration-200 ease-in-out">
+                                                    <i class="fa fa-eye mr-1"></i>Lihat
+                                                </a>
+
 
                                                 <form action="{{ route('admin.logistik_bencana.destroy', $item) }}"
                                                     method="POST"
@@ -164,10 +172,100 @@
                     </div>
 
                     <!-- Pagination -->
-                    {{-- Jika ingin pakai pagination, pastikan controller pakai paginate() --}}
-                    <div class="mt-6 flex justify-center">
-                        {{ $logistik->links() }}
+                    <div class="mt-6" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+
+                        {{-- Previous --}}
+                        @if ($logistik->onFirstPage())
+                            <span
+                                style="
+                padding: 10px 20px;
+                border-radius: 10px;
+                background: #C40BB2;
+                color: white;
+                font-weight: bold;
+                opacity: 0.5;
+                cursor: not-allowed;
+                margin-right: 20px; /* Jarak dari nomor halaman */
+            ">
+                                ‹ Previous
+                            </span>
+                        @else
+                            <a href="{{ $logistik->previousPageUrl() }}"
+                                style="
+                padding: 10px 20px;
+                border-radius: 10px;
+                background: #C40BB2;
+                color: white;
+                font-weight: bold;
+                text-decoration: none;
+                margin-right: 20px; /* Jarak dari nomor halaman */
+            ">
+                                ‹ Previous
+                            </a>
+                        @endif
+
+
+                        {{-- NOMOR HALAMAN --}}
+                        @foreach ($logistik->getUrlRange(1, $logistik->lastPage()) as $page => $url)
+                            @if ($page == $logistik->currentPage())
+                                <span
+                                    style="
+                    padding: 10px 15px;
+                    background: #333; /* Warna untuk halaman aktif */
+                    color: white;
+                    border-radius: 10px;
+                    font-weight: bold;
+                ">
+                                    {{ $page }}
+                                </span>
+                            @else
+                                <a href="{{ $url }}"
+                                    style="
+                    padding: 10px 15px;
+                    background: #e0e0e0; /* Warna untuk halaman tidak aktif */
+                    color: #333;
+                    border-radius: 10px;
+                    font-weight: bold;
+                    text-decoration: none;
+                ">
+                                    {{ $page }}
+                                </a>
+                            @endif
+                        @endforeach
+
+
+                        {{-- Next --}}
+                        @if ($logistik->hasMorePages())
+                            <a href="{{ $logistik->nextPageUrl() }}"
+                                style="
+                padding: 10px 20px;
+                border-radius: 10px;
+                background: #669be6; /* Warna biru Next */
+                color: white;
+                font-weight: bold;
+                text-decoration: none;
+                margin-left: 20px; /* Jarak dari nomor halaman */
+            ">
+                                Next ›
+                            </a>
+                        @else
+                            <span
+                                style="
+                padding: 10px 20px;
+                border-radius: 10px;
+                background: #669be6; /* Warna biru Next */
+                color: white;
+                font-weight: bold;
+                opacity: 0.5;
+                cursor: not-allowed;
+                margin-left: 20px; /* Jarak dari nomor halaman */
+            ">
+                                Next ›
+                            </span>
+                        @endif
+
                     </div>
+
 
                 </div>
             </div>

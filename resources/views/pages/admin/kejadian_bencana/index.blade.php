@@ -86,10 +86,10 @@
                         </div>
 
                         <!-- Filter Tanggal Akhir -->
-                        <div>
+                        {{-- <div>
                             <input type="date" name="tanggal_akhir" value="{{ request('tanggal_akhir') }}"
                                 class="p-2 border rounded-lg">
-                        </div>
+                        </div> --}}
 
                         <!-- Tombol Search / Filter -->
                         <div>
@@ -247,10 +247,101 @@
                     </table>
                 </div>
 
-                {{-- ASUMSI: Pagination diletakkan di sini jika ada --}}
-               <div class="mt-6 flex justify-center">
-                        {{ $kejadian->links() }}
-                    </div>
+                {{-- Pagination  --}}
+                <div class="mt-6" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+
+                    {{-- Previous --}}
+                    @if ($kejadian->onFirstPage())
+                        <span
+                            style="
+                padding: 10px 20px;
+                border-radius: 10px;
+                background: #C40BB2;
+                color: white;
+                font-weight: bold;
+                opacity: 0.5;
+                cursor: not-allowed;
+                margin-right: 20px; /* Jarak dari nomor halaman */
+            ">
+                            ‹ Previous
+                        </span>
+                    @else
+                        <a href="{{ $kejadian->previousPageUrl() }}"
+                            style="
+                padding: 10px 20px;
+                border-radius: 10px;
+                background: #C40BB2;
+                color: white;
+                font-weight: bold;
+                text-decoration: none;
+                margin-right: 20px; /* Jarak dari nomor halaman */
+            ">
+                            ‹ Previous
+                        </a>
+                    @endif
+
+
+                    {{-- NOMOR HALAMAN --}}
+                    @foreach ($kejadian->getUrlRange(1, $kejadian->lastPage()) as $page => $url)
+                        @if ($page == $kejadian->currentPage())
+                            <span
+                                style="
+                    padding: 10px 15px;
+                    background: #333;
+                    color: white;
+                    border-radius: 10px;
+                    font-weight: bold;
+                ">
+                                {{ $page }}
+                            </span>
+                        @else
+                            <a href="{{ $url }}"
+                                style="
+                    padding: 10px 15px;
+                    background: #e0e0e0;
+                    color: #333;
+                    border-radius: 10px;
+                    font-weight: bold;
+                    text-decoration: none;
+                ">
+                                {{ $page }}
+                            </a>
+                        @endif
+                    @endforeach
+
+
+                    {{-- Next --}}
+                    @if ($kejadian->hasMorePages())
+                        <a href="{{ $kejadian->nextPageUrl() }}"
+                            style="
+                padding: 10px 20px;
+                border-radius: 10px;
+                background: #669be6;
+                color: white;
+                font-weight: bold;
+                text-decoration: none;
+                margin-left: 20px; /* Jarak dari nomor halaman */
+            ">
+                            Next ›
+                        </a>
+                    @else
+                        <span
+                            style="
+                padding: 10px 20px;
+                border-radius: 10px;
+                background: #669be6;
+                color: white;
+                font-weight: bold;
+                opacity: 0.5;
+                cursor: not-allowed;
+                margin-left: 20px; /* Jarak dari nomor halaman */
+            ">
+                            Next ›
+                        </span>
+                    @endif
+
+                </div>
+
             </div>
         </div>
     </div>

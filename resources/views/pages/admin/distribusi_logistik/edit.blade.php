@@ -75,23 +75,34 @@
                         <div class="md:col-span-2">
                             <label class="block mb-2 font-medium">Upload Bukti (Opsional)</label>
 
-                            @if ($distribusi->media)
-                                <div class="mb-3">
-                                    <span class="text-sm text-slate-600">Bukti Lama:</span><br>
-                                    <img src="{{ $distribusi->media->file_url }}"
-                                        class="w-40 h-auto rounded-lg shadow border">
-                                </div>
-                            @endif
+                            {{-- PREVIEW GAMBAR --}}
+                            <div class="mb-3">
+                                <span class="text-sm text-slate-600">Bukti Saat Ini:</span><br>
 
+                                @php
+                                    $mediaUrl = $distribusi->media->file_url ?? null;
+                                    $finalImage = $mediaUrl
+                                        ? asset($mediaUrl)
+                                        : asset('assets-admin/img/spaceholder.png');
+                                @endphp
+
+                                <img src="{{ $finalImage }}"
+                                    onerror="this.onerror=null; this.src='{{ asset('assets-admin/img/spaceholder.png') }}';"
+                                    class="w-35 h-35 object-cover rounded-lg shadow border mx-auto mt-2"
+                                    alt="Bukti Distribusi">
+                            </div>
+
+                            {{-- INPUT FILE --}}
                             <input type="file" name="bukti" accept="image/*"
                                 class="w-full border rounded p-3 bg-gray-50">
                         </div>
+
 
                     </div>
 
                     <div class="flex justify-end mt-8 space-x-3">
                         <a href="{{ route('admin.distribusi_logistik.index') }}"
-                                class="inline-block px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all bg-transparent rounded-lg cursor-pointer leading-pro text-xs ease-soft-in shadow-soft-md bg-150 bg-gradient-to-tl from-gray-900 to-slate-800 hover:shadow-soft-xs active:opacity-85 hover:scale-102 tracking-tight-soft bg-x-25">
+                            class="inline-block px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all bg-transparent rounded-lg cursor-pointer leading-pro text-xs ease-soft-in shadow-soft-md bg-150 bg-gradient-to-tl from-gray-900 to-slate-800 hover:shadow-soft-xs active:opacity-85 hover:scale-102 tracking-tight-soft bg-x-25">
                             Batal
                         </a>
 

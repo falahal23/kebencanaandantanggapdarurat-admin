@@ -8,9 +8,12 @@ use App\Http\Controllers\WargaController;
 
 class WargaController extends Controller
 {
-    /**
-     * Tampilkan semua data warga
-     */
+        public function __construct()
+    {
+
+        $this->middleware('auth'); // HARUS DI SINI
+    }
+    
    public function index(Request $request)
 {
     $query = Warga::query();

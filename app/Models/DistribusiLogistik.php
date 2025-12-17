@@ -17,7 +17,7 @@ class DistribusiLogistik extends Model
         'posko_id',
         'tanggal',
         'jumlah',
-        'penerima', // ini adalah warga_id dari tabel warga
+        'penerima',
     ];
 
     // Relasi ke tabel logistik_bencana
@@ -30,12 +30,6 @@ class DistribusiLogistik extends Model
     public function posko()
     {
         return $this->belongsTo(PoskoBencana::class, 'posko_id', 'posko_id');
-    }
-
-    // Relasi ke tabel warga (penerima adalah foreign key)
-    public function warga()
-    {
-        return $this->belongsTo(Warga::class, 'penerima', 'warga_id');
     }
 
     public function media()

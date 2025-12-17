@@ -11,7 +11,7 @@ class PoskoBencanaSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Faker::create();
+        $faker = Faker::create('id_ID');
 
         // Ambil semua kejadian_id dari tabel kejadian_bencana
         $kejadianIds = KejadianBencana::pluck('kejadian_id')->toArray();

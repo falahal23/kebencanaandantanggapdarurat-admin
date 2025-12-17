@@ -2,82 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\DashboardController;
 use App\Models\DistribusiLogistik;
 use App\Models\DonasiBencana;
 use App\Models\KejadianBencana;
 use App\Models\LogistikBencana;
-use App\Models\Media;
 use App\Models\PoskoBencana;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $data = [
-            'totalKejadian'     => KejadianBencana::count(),
-            'kejadianAktif'     => KejadianBencana::where('status_kejadian', 'Aktif')->count(),
-            'totalPosko'        => PoskoBencana::count(),
-            'totalDonasi'       => DonasiBencana::sum('nilai'),
-            'totalLogistik'     => LogistikBencana::count(),
-            'totalStokLogistik' => LogistikBencana::sum('stok'),
-            'totalDistribusi'   => DistribusiLogistik::count(),
-            'totalPenerima'     => DistribusiLogistik::distinct('penerima')->count('penerima'),
-            'kejadian'          => KejadianBencana::all(), // ✅ Tambahkan di array
-        ];
+        // Cek login
+        if (!Auth::check()) {
+            return redirect()->route('login.index')
+                ->with('error', 'Silakan login terlebih dahulu.');
+        }
 
-        return view('pages.admin.dashboard', $data);
-    }
+        // ===============================
+        // STATISTIK DASHBOARD
+        // ===============================
+        $totalKejadian     = KejadianBencana::count();
+        $kejadianAktif     = KejadianBencana::where('status_kejadian', 'Aktif')->count();
+        $totalPosko        = PoskoBencana::count();
+        $totalDonasi       = DonasiBencana::sum('nilai');
+        $totalLogistik     = LogistikBencana::count();
+        $totalStokLogistik = LogistikBencana::sum('stok');
+        $totalDistribusi   = DistribusiLogistik::count();
+        $totalPenerima     = DistribusiLogistik::distinct('penerima')->count('penerima');
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+        // Tabel kejadian (batasi 5)
+        $kejadian = KejadianBencana::latest()->take(5)->get();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        // ===============================
+        // DATA GRAFIK KEJADIAN PER TAHUN
+        // ===============================
+        $grafikKejadian = KejadianBencana::select(
+                DB::raw('YEAR(tanggal) as tahun'),
+                DB::raw('COUNT(*) as total')
+            )
+            ->groupBy('tahun')
+            ->orderBy('tahun', 'ASC')
+            ->get();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return view('pages.admin.dashboard', compact(
+            'totalKejadian',
+            'kejadianAktif',
+            'totalPosko',
+            'totalDonasi',
+            'totalLogistik',
+            'totalStokLogistik',
+            'totalDistribusi',
+            'totalPenerima',
+            'kejadian',
+            'grafikKejadian'
+        ));
     }
 }

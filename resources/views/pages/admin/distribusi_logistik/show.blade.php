@@ -68,28 +68,41 @@
             <div class="md:col-span-2 mt-2">
                 <strong>Media Bukti Distribusi:</strong>
                 <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    @php
+                        $placeholderImage = asset('assets-admin/img/spaceholder.png');
+                        $placeholderVideo = asset('assets-admin/img/spaceholder-video.png');
+                    @endphp
+
                     @if ($distribusi->media)
                         @php
                             $url = asset($distribusi->media->file_url);
                             $ext = strtolower(pathinfo($distribusi->media->file_url, PATHINFO_EXTENSION));
                         @endphp
 
+                        {{-- Jika media adalah gambar --}}
                         @if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif']))
-                            <img src="{{ $url }}" alt="Bukti Distribusi"
-                                class="w-full h-48 object-cover rounded-lg shadow">
+                            <img src="{{ $url }}" onerror="this.onerror=null; this.src='{{ $placeholderImage }}';"
+                                alt="Bukti Distribusi" class="w-full h-48 object-cover rounded-lg shadow">
+
+                            {{-- Jika media adalah video --}}
                         @elseif (in_array($ext, ['mp4', 'mov', 'webm']))
                             <video controls class="w-full h-48 rounded-lg">
                                 <source src="{{ $url }}">
-                            </video>
-                        @else
-                            <p>Media {{ $distribusi->media->file_url }} tidak dapat ditampilkan.</p>
+                                {{-- Jika gagal memuat video, tampilkan placeholder sebagai gambar --}}
+                                <video controls class="w-52 h-40 rounded-lg mx-auto shadow border">
+                                @else
+                                    <p>Media {{ $distribusi->media->file_url }} tidak dapat ditampilkan.</p>
                         @endif
                     @else
-                        <p>Tidak ada media bukti diunggah.</p>
+                        {{-- TIDAK ADA MEDIA --}}
+                        <img src="{{ $placeholderImage }}" class="w-40 h-40 object-cover rounded-lg shadow border mx-auto"
+                            alt="Tidak ada media">
+
                     @endif
+
                 </div>
             </div>
-            >
 
         </div>
 

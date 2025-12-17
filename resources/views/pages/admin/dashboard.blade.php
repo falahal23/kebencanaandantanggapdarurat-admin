@@ -1,17 +1,16 @@
 @extends('layouts.admin.app')
 @section('content')
 
-    <body class="m-0 font-sans text-base antialiased font-normal leading-default bg-gray-50 text-slate-500">
+    <body class="m-0 font-sans text-base antialiasing font-normal leading-default bg-gray-50 text-slate-500">
         <main class="ease-soft-in-out xl:ml-100 relative h-full max-h-screen rounded-xl transition-all duration-200">
             <div class="w-full px-6 py-6 mx-auto">
 
-                <!-- Kotak Sambutan -->
-                <div id="welcome-box" class="max-w-2xl mx-auto mt-8 mb-6 p-6 rounded-2xl shadow-md animate-fade-in"
+                {{-- <div id="welcome-box" class="max-w-2xl mx-auto mt-8 mb-6 p-6 rounded-2xl shadow-md animate-fade-in"
                     style="background-color: #e0f0ff; border-left: 6px solid #001f3f;">
                     <h2 id="welcome-message" class="text-lg font-semibold" style="color: #555;"></h2>
-                </div>
+                </div> --}}
 
-                <script>
+                {{-- <script>
                     document.addEventListener("DOMContentLoaded", function() {
                         const userName = "{{ Auth::user()->name ?? 'Pengguna' }}";
                         const greetings = [
@@ -44,9 +43,9 @@
                         }
                         typeEffect();
                     });
-                </script>
+                </script> --}}
 
-                <style>
+                {{-- <style>
                     @keyframes fadeIn {
                         from {
                             opacity: 0;
@@ -78,11 +77,9 @@
                     .fade-out {
                         animation: fadeOut 1s ease-in-out forwards;
                     }
-                </style>
+                </style> --}}
 
-                <!-- row 1 -->
                 <div class="flex flex-wrap -mx-3">
-                    <!-- card1 -->
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
                         <div
                             class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
@@ -114,7 +111,6 @@
                     </div>
 
 
-                    <!-- card2 -->
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
                         <div
                             class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
@@ -141,7 +137,6 @@
                     </div>
 
 
-                    <!-- card3 -->
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
                         <div
                             class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
@@ -166,14 +161,12 @@
                         </div>
                     </div>
 
-                    <!-- card4 -->
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
                         <div
                             class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border hover:shadow-lg transition-shadow duration-300">
                             <div class="flex-auto p-4">
                                 <div class="flex flex-row -mx-3 items-center">
 
-                                    <!-- Teks -->
                                     <div class="flex-none w-2/3 max-w-full px-3">
                                         <div>
                                             <p class="mb-1 font-sans text-sm font-semibold text-slate-600 leading-normal">
@@ -184,14 +177,12 @@
                                         </div>
                                     </div>
 
-                                    <!-- Icon -->
                                     <div class="px-3 text-right basis-1/3">
                                         <div class="px-3 text-right basis-1/3">
                                             <div
                                                 class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-yellow-400 to-amber-500 shadow-md">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 m-auto mt-2.5"
-                                                    viewBox="0 0 24 24" fill="#16a34a"> <!-- hijau uang -->
-                                                    <path
+                                                    viewBox="0 0 24 24" fill="#16a34a"> <path
                                                         d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5v.5a1 1 0 1 1-2 0v-.5a3 3 0 0 1-2-2.83V13a1 1 0 1 1 2 0v.17c0 .46.34.83.76.83h.48c.42 0 .76-.37.76-.83v-.09c0-.4-.26-.74-.63-.86L10.5 12c-1.09-.36-1.75-1.34-1.75-2.58 0-1.49 1.13-2.66 2.75-2.92V6a1 1 0 1 1 2 0v.5a3.001 3.001 0 0 1 2.5 2.96 1 1 0 1 1-2 0c0-.55-.45-1-1-1h-.5c-.55 0-1 .45-1 1v.09c0 .4.26.74.63.86l1.63.55c1.09.36 1.75 1.34 1.75 2.58 0 1.49-1.13 2.66-2.75 2.92z" />
                                                 </svg>
                                             </div>
@@ -313,12 +304,149 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <!-- cards row 4 -->
 
                 <div class="flex flex-wrap my-6 -mx-3">
-                    <!-- card Kejadian Bencana -->
+
+                    <div class="w-full max-w-full px-3 mb-6 xl:mb-0 xl:w-1/2">
+                        <div class="relative overflow-hidden rounded-2xl shadow-xl" style="height: 337px;">
+                            {{-- Ubah width: 600px menjadi w-full, dan atur tinggi agar proporsional --}}
+                            <div class="flex transition-transform duration-700 ease-in-out h-full" id="slideshow">
+                                <img src="{{ asset('assets-admin/img/slideshow/bantuan1.jpg') }}"
+                                    class="w-full h-full object-cover flex-shrink-0" style="min-width:100%">
+
+                                <img src="{{ asset('assets-admin/img/slideshow/bantuan2.jpg') }}"
+                                    class="w-full h-full object-cover flex-shrink-0" style="min-width:100%">
+
+                                <img src="{{ asset('assets-admin/img/slideshow/distribusi1.jpg') }}"
+                                    class="w-full h-full object-cover flex-shrink-0" style="min-width:100%">
+
+                                <img src="{{ asset('assets-admin/img/slideshow/distribusi2.jpg') }}"
+                                    class="w-full h-full object-cover flex-shrink-0" style="min-width:100%">
+
+                                <img src="{{ asset('assets-admin/img/slideshow/relawan1.jpg') }}"
+                                    class="w-full h-full object-cover flex-shrink-0" style="min-width:100%">
+
+                                <img src="{{ asset('assets-admin/img/slideshow/relawan2.jpg') }}"
+                                    class="w-full h-full object-cover flex-shrink-0" style="min-width:100%">
+                            </div>
+
+                            <div class="absolute bottom-6 left-0 right-0 flex justify-center space-x-3">
+                                <span
+                                    class="slide-indicator w-3 h-3 bg-white rounded-full opacity-50 cursor-pointer transition-all duration-300"></span>
+                                <span
+                                    class="slide-indicator w-3 h-3 bg-white rounded-full opacity-50 cursor-pointer transition-all duration-300"></span>
+                                <span
+                                    class="slide-indicator w-3 h-3 bg-white rounded-full opacity-50 cursor-pointer transition-all duration-300"></span>
+                                <span
+                                    class="slide-indicator w-3 h-3 bg-white rounded-full opacity-50 cursor-pointer transition-all duration-300"></span>
+                                <span
+                                    class="slide-indicator w-3 h-3 bg-white rounded-full opacity-50 cursor-pointer transition-all duration-300"></span>
+                                <span
+                                    class="slide-indicator w-3 h-3 bg-white rounded-full opacity-50 cursor-pointer transition-all duration-300"></span>
+                            </div>
+
+                            <button id="prevSlide"
+                                class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <button id="nextSlide"
+                                class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 backdrop-blur-sm text-white p-3 rounded-full transition-all duration-300">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                const slideshow = document.getElementById("slideshow");
+                                const indicators = document.querySelectorAll(".slide-indicator");
+                                const prevBtn = document.getElementById("prevSlide");
+                                const nextBtn = document.getElementById("nextSlide");
+                                const totalSlides = slideshow.children.length;
+                                let index = 0;
+                                let autoSlide;
+
+                                function updateSlide(newIndex) {
+                                    index = (newIndex + totalSlides) % totalSlides;
+                                    slideshow.style.transform = `translateX(-${index * 100}%)`;
+
+                                    indicators.forEach((dot, i) => {
+                                        if (i === index) {
+                                            dot.style.opacity = "1";
+                                            dot.style.transform = "scale(1.2)";
+                                        } else {
+                                            dot.style.opacity = "0.5";
+                                            dot.style.transform = "scale(1)";
+                                        }
+                                    });
+                                }
+
+                                function startAutoSlide() {
+                                    autoSlide = setInterval(() => {
+                                        updateSlide(index + 1);
+                                    }, 4000);
+                                }
+
+                                function resetAutoSlide() {
+                                    clearInterval(autoSlide);
+                                    startAutoSlide();
+                                }
+
+                                // Auto slide
+                                startAutoSlide();
+
+                                // Manual navigation
+                                prevBtn.addEventListener("click", () => {
+                                    updateSlide(index - 1);
+                                    resetAutoSlide();
+                                });
+
+                                nextBtn.addEventListener("click", () => {
+                                    updateSlide(index + 1);
+                                    resetAutoSlide();
+                                });
+
+                                // Click indicator
+                                indicators.forEach((dot, i) => {
+                                    dot.addEventListener("click", () => {
+                                        updateSlide(i);
+                                        resetAutoSlide();
+                                    });
+                                });
+
+                                // Initialize first slide
+                                updateSlide(0);
+                            });
+                        </script>
+                    </div>
+
+                    <div class="w-full max-w-full px-3 xl:w-1/2">
+                        <div
+                            class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border h-full">
+                            <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
+                                <h6 class="text-lg font-semibold">Statistik Logistik & Donasi</h6>
+                                <p class="text-sm leading-normal text-slate-500">
+                                    <i class="fa fa-arrow-up text-green-500"></i>
+                                    Perbandingan Data
+                                </p>
+                            </div>
+                            <div class="flex-auto p-4 pt-0">
+                                <div class="h-full">
+                                    {{-- Canvas Chart.js --}}
+                                    <canvas id="logisticChart" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="flex flex-wrap my-8 -mx-3">
                     <div class="w-full max-w-full px-3 mt-0 lg:w-12/12 lg:flex-none">
                         <div
                             class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
@@ -332,8 +460,6 @@
                                             <span class="ml-1 font-semibold">TERBARU!</span>
                                         </p>
                                     </div>
-
-                                    <!-- Tombol Tambah -->
 
                                 </div>
                             </div>
@@ -363,162 +489,122 @@
                                         </thead>
                                         <tbody>
 
-                                            @foreach ($kejadian as $item)
-                                                <tr>
+                                            @foreach ($kejadian->take(5) as $item)
                                                 <tr>
                                                     <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
                                                         <h6 class="mb-0 text-sm">{{ $item->jenis_bencana }}</h6>
                                                     </td>
+
                                                     <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
-                                                        <span
-                                                            class="text-xs font-semibold">{{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</span>
+                                                        <span class="text-xs font-semibold">
+                                                            {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
+                                                        </span>
                                                     </td>
+
                                                     <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
                                                         <span class="text-xs font-semibold">
                                                             {{ $item->lokasi_text }} (RT {{ $item->rt }}/RW
                                                             {{ $item->rw }})
                                                         </span>
                                                     </td>
+
                                                     <td
                                                         class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap">
                                                         <span class="text-xs font-semibold">{{ $item->dampak }}</span>
                                                     </td>
+
                                                     <td
                                                         class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap">
                                                         <span
                                                             class="text-xs font-bold
-                                            @if ($item->status_kejadian == 'Selesai') text-green-600
-                                            @elseif($item->status_kejadian == 'Sedang Ditangani') text-yellow-600
-                                            @else text-red-600 @endif">
+                                                            @if ($item->status_kejadian == 'Selesai') text-green-600
+                                                            @elseif($item->status_kejadian == 'Sedang Ditangani') text-yellow-600
+                                                            @else text-red-600 @endif">
                                                             {{ $item->status_kejadian }}
                                                         </span>
                                                     </td>
+                                                </tr>
+                                            @endforeach
 
-                                                    </form>
+                                        </tbody>
+                                    </table>
+
                                 </div>
-                                </td>
-
-                                </tr>
-                                @endforeach
-                                </tbody>
-                                </table>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-            </div>
         </main>
-        <div fixed-plugin>
-            <a fixed-plugin-button
-                class="bottom-7.5 right-7.5 text-xl z-990 shadow-soft-lg rounded-circle fixed cursor-pointer bg-white px-4 py-2 text-slate-700">
-                <i class="py-2 pointer-events-none fa fa-cog"> </i>
-            </a>
-            <!-- -right-90 in loc de 0-->
-            <div fixed-plugin-card
-                class="z-sticky shadow-soft-3xl w-90 ease-soft -right-90 fixed top-0 left-auto flex h-full min-w-0 flex-col break-words rounded-none border-0 bg-white bg-clip-border px-2.5 duration-200">
-                <div class="px-6 pt-4 pb-0 mb-0 bg-white border-b-0 rounded-t-2xl">
-                    <div class="float-left">
-                        <h5 class="mt-4 mb-0">Soft UI Configurator</h5>
-                        <p>See our dashboard options.</p>
-                    </div>
-                    <div class="float-right mt-6">
-                        <button fixed-plugin-close-button
-                            class="inline-block p-0 mb-4 text-xs font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer hover:scale-102 leading-pro ease-soft-in tracking-tight-soft bg-150 bg-x-25 active:opacity-85 text-slate-700">
-                            <i class="fa fa-close"></i>
-                        </button>
-                    </div>
-                    <!-- End Toggle Button -->
-                </div>
-                <hr class="h-px mx-0 my-1 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent" />
-                <div class="flex-auto p-6 pt-0 sm:pt-4">
-                    <!-- Sidebar Backgrounds -->
-                    <div>
-                        <h6 class="mb-0">Sidebar Colors</h6>
-                    </div>
-                    <a href="javascript:void(0)">
-                        <div class="my-2 text-left" sidenav-colors>
-                            <span
-                                class="text-xs rounded-circle h-5.75 mr-1.25 w-5.75 ease-soft-in-out bg-gradient-to-tl from-purple-700 to-pink-500 relative inline-block cursor-pointer whitespace-nowrap border border-solid border-slate-700 text-center align-baseline font-bold uppercase leading-none text-white transition-all duration-200 hover:border-slate-700"
-                                active-color data-color-from="purple-700" data-color-to="pink-500"
-                                onclick="sidebarColor(this)"></span>
-                            <span
-                                class="text-xs rounded-circle h-5.75 mr-1.25 w-5.75 ease-soft-in-out bg-gradient-to-tl from-gray-900 to-slate-800 relative inline-block cursor-pointer whitespace-nowrap border border-solid border-white text-center align-baseline font-bold uppercase leading-none text-white transition-all duration-200 hover:border-slate-700"
-                                data-color-from="gray-900" data-color-to="slate-800" onclick="sidebarColor(this)"></span>
-                            <span
-                                class="text-xs rounded-circle h-5.75 mr-1.25 w-5.75 ease-soft-in-out bg-gradient-to-tl from-blue-600 to-cyan-400 relative inline-block cursor-pointer whitespace-nowrap border border-solid border-white text-center align-baseline font-bold uppercase leading-none text-white transition-all duration-200 hover:border-slate-700"
-                                data-color-from="blue-600" data-color-to="cyan-400" onclick="sidebarColor(this)"></span>
-                            <span
-                                class="text-xs rounded-circle h-5.75 mr-1.25 w-5.75 ease-soft-in-out bg-gradient-to-tl from-green-600 to-lime-400 relative inline-block cursor-pointer whitespace-nowrap border border-solid border-white text-center align-baseline font-bold uppercase leading-none text-white transition-all duration-200 hover:border-slate-700"
-                                data-color-from="green-600" data-color-to="lime-400" onclick="sidebarColor(this)"></span>
-                            <span
-                                class="text-xs rounded-circle h-5.75 mr-1.25 w-5.75 ease-soft-in-out bg-gradient-to-tl from-red-500 to-yellow-400 relative inline-block cursor-pointer whitespace-nowrap border border-solid border-white text-center align-baseline font-bold uppercase leading-none text-white transition-all duration-200 hover:border-slate-700"
-                                data-color-from="red-500" data-color-to="yellow-400" onclick="sidebarColor(this)"></span>
-                            <span
-                                class="text-xs rounded-circle h-5.75 mr-1.25 w-5.75 ease-soft-in-out bg-gradient-to-tl from-red-600 to-rose-400 relative inline-block cursor-pointer whitespace-nowrap border border-solid border-white text-center align-baseline font-bold uppercase leading-none text-white transition-all duration-200 hover:border-slate-700"
-                                data-color-from="red-600" data-color-to="rose-400" onclick="sidebarColor(this)"></span>
-                        </div>
-                    </a>
-                    <!-- Sidenav Type -->
-                    <div class="mt-4">
-                        <h6 class="mb-0">Sidenav Type</h6>
-                        <p class="text-sm leading-normal">
-                            Choose between 2 different sidenav types.
-                        </p>
-                    </div>
-                    <div class="flex">
-                        <button transparent-style-btn
-                            class="inline-block w-full px-4 py-3 mb-2 text-xs font-bold text-center text-white uppercase align-middle transition-all border border-transparent border-solid rounded-lg cursor-pointer xl-max:cursor-not-allowed xl-max:opacity-65 xl-max:pointer-events-none xl-max:bg-gradient-to-tl xl-max:from-purple-700 xl-max:to-pink-500 xl-max:text-white xl-max:border-0 hover:scale-102 hover:shadow-soft-xs active:opacity-85 leading-pro ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-to-tl from-purple-700 to-pink-500 bg-fuchsia-500 hover:border-fuchsia-500"
-                            data-class="bg-transparent" active-style>
-                            Transparent
-                        </button>
-                        <button white-style-btn
-                            class="inline-block w-full px-4 py-3 mb-2 ml-2 text-xs font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg cursor-pointer xl-max:cursor-not-allowed xl-max:opacity-65 xl-max:pointer-events-none xl-max:bg-gradient-to-tl xl-max:from-purple-700 xl-max:to-pink-500 xl-max:text-white xl-max:border-0 hover:scale-102 hover:shadow-soft-xs active:opacity-85 leading-pro ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 border-fuchsia-500 bg-none text-fuchsia-500 hover:border-fuchsia-500"
-                            data-class="bg-white">
-                            White
-                        </button>
-                    </div>
-                    <p class="block mt-2 text-sm leading-normal xl:hidden">
-                        You can change the sidenav type just on desktop view.
-                    </p>
-                    <!-- Navbar Fixed -->
-                    <div class="mt-4">
-                        <h6 class="mb-0">Navbar Fixed</h6>
-                    </div>
-                    <div class="min-h-6 mb-0.5 block pl-0">
-                        <input navbarFixed
-                            class="rounded-10 duration-250 ease-soft-in-out after:rounded-circle after:shadow-soft-2xl after:duration-250 checked:after:translate-x-5.25 h-5 relative float-left mt-1 ml-auto w-10 cursor-pointer appearance-none border border-solid border-gray-200 bg-slate-800/10 bg-none bg-contain bg-left bg-no-repeat align-top transition-all after:absolute after:top-px after:h-4 after:w-4 after:translate-x-px after:bg-white after:content-[''] checked:border-slate-800/95 checked:bg-slate-800/95 checked:bg-none checked:bg-right"
-                            type="checkbox" />
-                    </div>
-                    <hr
-                        class="h-px bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent sm:my-6" />
-
-                    <a class="inline-block w-full px-6 py-3 mb-4 text-xs font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer active:shadow-soft-xs hover:scale-102 active:opacity-85 leading-pro ease-soft-in tracking-tight-soft bg-150 bg-x-25 border-slate-700 text-slate-700 hover:bg-transparent hover:text-slate-700 hover:shadow-none active:bg-slate-700 active:text-white active:hover:bg-transparent active:hover:text-slate-700 active:hover:shadow-none"
-                        href="https://www.creative-tim.com/learning-lab/tailwind/html/quick-start/soft-ui-dashboard/"
-                        target="_blank">View documentation</a>
-                    <div class="w-full text-center">
-                        <a class="github-button" href="https://github.com/creativetimofficial/soft-ui-dashboard-tailwind"
-                            data-icon="octicon-star" data-size="large" data-show-count="true"
-                            aria-label="Star creativetimofficial/soft-ui-dashboard on GitHub">Star</a>
-                        <h6 class="mt-4">Thank you for sharing!</h6>
-                        <a href="https://twitter.com/intent/tweet?text=Check%20Soft%20UI%20Dashboard%20Tailwind%20made%20by%20%40CreativeTim&hashtags=webdesign,dashboard,tailwindcss&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fsoft-ui-dashboard-tailwind"
-                            class="inline-block px-6 py-3 mb-0 mr-2 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer hover:shadow-soft-xs hover:scale-102 active:opacity-85 leading-pro ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 me-2 border-slate-700 bg-slate-700"
-                            target="_blank">
-                            <i class="mr-1 fab fa-twitter"></i> Tweet
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/soft-ui-dashboard-tailwind"
-                            class="inline-block px-6 py-3 mb-0 mr-2 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer hover:shadow-soft-xs hover:scale-102 active:opacity-85 leading-pro ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 me-2 border-slate-700 bg-slate-700"
-                            target="_blank">
-                            <i class="mr-1 fab fa-facebook-square"></i> Share
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
     </body>
+
+    {{-- Tambahkan CDN Chart.js dan Script untuk Grafik --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const ctx = document.getElementById('logisticChart').getContext('2d');
+
+            // Data Dummy, menggunakan data dari PHP untuk nilai total
+            const totalDonasi = {{ $totalDonasi }}; // Nilai Rupiah, akan disederhanakan untuk grafik
+            const totalStokLogistik = {{ $totalStokLogistik }}; // Nilai total stok (satuan)
+            const totalDistribusi = {{ $totalDistribusi }}; // Nilai total distribusi (satuan)
+
+            // Sederhanakan data donasi (misalnya bagi 1 juta untuk skala)
+            const donasiSkalaJuta = totalDonasi / 1000000;
+
+            const data = {
+                labels: ['Total Donasi (Juta Rp)', 'Total Stok (Unit)', 'Total Distribusi (Paket)'],
+                datasets: [{
+                    label: 'Perbandingan Data Kunci',
+                    data: [donasiSkalaJuta, totalStokLogistik, totalDistribusi],
+                    backgroundColor: [
+                        'rgba(255, 193, 7, 0.8)', // Amber/Yellow untuk Donasi
+                        'rgba(3, 169, 244, 0.8)', // Blue/Cyan untuk Stok
+                        'rgba(156, 39, 176, 0.8)' // Purple/Pink untuk Distribusi
+                    ],
+                    borderColor: [
+                        'rgba(255, 193, 7, 1)',
+                        'rgba(3, 169, 244, 1)',
+                        'rgba(156, 39, 176, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // Penting agar tinggi 300px bekerja
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        title: {
+                            display: true,
+                            text: 'Perbandingan Donasi, Stok & Distribusi',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Nilai (Juta Rp/Unit/Paket)'
+                            }
+                        }
+                    }
+                },
+            };
+
+            new Chart(ctx, config);
+        });
+    </script>
 
     </html>
 @endsection

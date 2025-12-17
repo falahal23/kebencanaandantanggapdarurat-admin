@@ -20,9 +20,5 @@ class Warga extends Model
         'email'
     ];
 
-    // Relasi ke distribusi logistik
-    public function distribusiLogistik()
-    {
-        return $this->hasOne(DistribusiLogistik::class, 'penerima', 'warga_id');
-    }
+
 }
