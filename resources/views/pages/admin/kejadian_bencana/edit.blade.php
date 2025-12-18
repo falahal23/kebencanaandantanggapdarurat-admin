@@ -103,17 +103,39 @@
                         </div>
 
                         <!-- Upload Media -->
-                        <div>
-                            <label class="block text-sm font-semibold mb-1">Upload Media (Opsional)</label>
-                            <input type="file" name="media" class="w-full px-3 py-2 border rounded-lg">
-                        </div>
+                    {{-- UPLOAD MEDIA --}}
+<div class="md:col-span-2">
+    <label class="block text-sm font-semibold mb-2">
+        Upload Media (Foto / Video / File) – Bisa lebih dari satu
+    </label>
 
-                        <!-- Preview -->
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold mb-2">Preview Gambar</label>
-                            <img src="{{ asset('assets-admin/img/spaceholder.png') }}"
-                                class="object-cover border rounded-lg" style="width:150px; height:120px;">
-                        </div>
+    <input
+        type="file"
+        name="media_files[]"
+        multiple
+        accept="image/*,video/*,.pdf"
+        class="w-full px-3 py-2 border rounded-lg"
+        onchange="previewMedia(this)"
+    >
+</div>
+
+{{-- PREVIEW --}}
+<div class="md:col-span-2">
+    <label class="block text-sm font-semibold mb-2">Preview Media</label>
+
+    <div
+        id="media-preview"
+        class="flex gap-3 flex-wrap items-start"
+    >
+        {{-- placeholder awal --}}
+        <div
+            class="w-[80px] h-[100px] border rounded-lg overflow-hidden flex items-center justify-center bg-gray-100 text-xs text-gray-500"
+        >
+            Preview
+        </div>
+    </div>
+</div>
+
 
 
                         <!-- Keterangan -->

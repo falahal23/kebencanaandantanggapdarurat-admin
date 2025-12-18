@@ -1,10 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Media;
-
+use Illuminate\Http\Request;
 
 class MediaController extends Controller
 {
@@ -19,12 +17,12 @@ class MediaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'ref_table' => 'required|string|max:100',
-            'ref_id' => 'required|integer',
-            'file_url' => 'required|string',
-            'caption' => 'nullable|string',
-            'mime_type' => 'required|string',
-            'sort_order' => 'nullable|integer'
+            'ref_table'  => 'required|string|max:100',
+            'ref_id'     => 'required|integer',
+            'file_url'   => 'required|string',
+            'caption'    => 'nullable|string',
+            'mime_type'  => 'required|string',
+            'sort_order' => 'nullable|integer',
         ]);
 
         $media = Media::create($request->all());
@@ -44,12 +42,12 @@ class MediaController extends Controller
         $media = Media::findOrFail($id);
 
         $request->validate([
-            'ref_table' => 'required|string|max:100',
-            'ref_id' => 'required|integer',
-            'file_url' => 'required|string',
-            'caption' => 'nullable|string',
-            'mime_type' => 'required|string',
-            'sort_order' => 'nullable|integer'
+            'ref_table'  => 'required|string|max:100',
+            'ref_id'     => 'required|integer',
+            'file_url'   => 'required|string',
+            'caption'    => 'nullable|string',
+            'mime_type'  => 'required|string',
+            'sort_order' => 'nullable|integer',
         ]);
 
         $media->update($request->all());
@@ -60,8 +58,13 @@ class MediaController extends Controller
     public function destroy($id)
     {
         $media = Media::findOrFail($id);
+
+        if (Storage::disk('public')->exists($media->file_url)) {
+            Storage::disk('public')->delete($media->file_url);
+        }
+
         $media->delete();
 
-        return response()->json(['message' => 'Media berhasil dihapus']);
+        return back()->with('success', 'Media berhasil dihapus');
     }
 }

@@ -104,65 +104,81 @@
                     </div>
                 </div>
 
-                {{-- BUTTON ACTION --}}
-                <div class="flex justify-end gap-3 mt-4">
-                    <a href="{{ route('kejadian.edit', $kejadian->kejadian_id) }}"
-                        class="px-5 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700">
-                        ✏️ Edit
-                    </a>
-
-                    <form action="{{ route('kejadian.destroy', $kejadian->kejadian_id) }}" method="POST">
-                        @csrf @method('DELETE')
-                        <button onclick="return confirm('Yakin hapus kejadian ini?')"
-                            class="px-5 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700">
-                            🗑 Hapus
-                        </button>
-                    </form>
-                </div>
-
             </div>
-
             {{-- RIGHT SIDE: MEDIA --}}
-            <div class="space-y-4">
+            <div class="bg-white rounded-xl shadow-xl border border-gray-200 p-6">
+                <h2 class="text-lg font-semibold text-gray-800 pb-3 border-b">
+                    Dokumentasi Media
+                </h2>
 
-                <div class="bg-white rounded-xl shadow-xl border border-gray-200 p-6">
-                    <h2 class="text-lg font-semibold text-gray-800 pb-3 border-b">Dokumentasi Media</h2>
+                @if ($kejadian->media && $kejadian->media->count())
+                    <div class="w-28 h-40 object-cover rounded-lg">
+                        
 
-                    @php $media = $kejadian->media->first(); @endphp
-            {{-- spacwholder --}}
-                    <div class="media-card">
-                        @if ($media)
+                        @foreach ($kejadian->media as $media)
                             @php
                                 $url = str_contains($media->file_url, 'http')
                                     ? $media->file_url
                                     : asset('storage/' . $media->file_url);
                             @endphp
 
-                            @if (Str::startsWith($media->mime_type, 'image/'))
-                                <img src="{{ $url }}" alt="Media Kejadian"
-                                    onerror="this.onerror=null; this.src='{{ asset('assets-admin/img/spaceholder.png') }}';">
-                            @elseif (Str::startsWith($media->mime_type, 'video/'))
-                                <video controls>
-                                    <source src="{{ $url }}" type="{{ $media->mime_type }}">
-                                </video>
-                            @else
-                                <img src="{{ asset('assets-admin/img/spaceholder.png') }}" alt="Placeholder Media">
-                            @endif
-                        @else
-                            <img src="{{ asset('assets-admin/img/spaceholder.png') }}" alt="Placeholder Media">
-                        @endif
+                            <div class="w-28 h-40 object-cover rounded-lg">
+
+
+                                {{-- IMAGE --}}
+                                @if (Str::startsWith($media->mime_type, 'image/'))
+                                    <img src="{{ $url }}" class="w-28 h-40 object-cover rounded-lg">
+
+                                    onerror="this.onerror=null;this.src='{{ asset('assets-admin/img/spaceholder.png') }}';"
+                                    alt="Media image">
+
+                                    {{-- VIDEO --}}
+                                @elseif (Str::startsWith($media->mime_type, 'video/'))
+                                    <video class="w-28 h-28 object-cover">
+                                        <source src="{{ $url }}" type="{{ $media->mime_type }}">
+                                    </video>
+
+                                    {{-- FILE --}}
+                                @else
+                                    <a href="{{ $url }}" target="_blank"
+                                        class="w-28 h-40 object-cover rounded-lg">
+                                        bg-gray-100 text-blue-600 text-sm font-semibold text-center p-2">
+                                        📄 File
+                                    </a>
+                                @endif
+
+                                {{-- CAPTION --}}
+                                <div
+                                    class="flex-1 w-full px-2 text-xs text-gray-600
+                                text-center italic line-clamp-2 flex items-center justify-center">
+                                    {{ $media->caption ?? 'Tanpa keterangan' }}
+                                </div>
+
+                            </div>
+                        @endforeach
+
                     </div>
-
-
-                    <p class="text-center text-sm text-gray-500 italic">
-                        {{ $media->caption ?? 'Tanpa keterangan.' }}
-                    </p>
-
-                </div>
-
+                @else
+                    {{-- PLACEHOLDER --}}
+                    <div class="mt-4 flex flex-col items-center">
+                        <img src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                            class="w-28 h-40 object-cover rounded-lg">
+                        <p class="text-center text-sm text-gray-500 italic mt-2">
+                            Belum ada media
+                        </p>
+                    </div>
+                @endif
             </div>
-
         </div>
+        <p class="text-center text-sm text-gray-500 italic">
+            {{ $media->caption ?? 'Tanpa keterangan.' }}
+        </p>
+
+    </div>
+
+    </div>
+
+    </div>
 
     </div>
 

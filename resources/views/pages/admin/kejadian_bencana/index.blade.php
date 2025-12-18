@@ -104,13 +104,13 @@
             <div class="w-full flex justify-center items-center gap-2 py-8 flex-wrap">
 
                 {{-- Previous --}}
-                @if ($posko->onFirstPage())
+                @if ($kejadian->onFirstPage())
                     <span class="px-4 py-2 rounded-lg font-bold text-white opacity-50 cursor-not-allowed"
                         style="background:#C40BB2">
                         ‹ Prev
                     </span>
                 @else
-                    <a href="{{ $posko->previousPageUrl() }}" class="px-4 py-2 rounded-lg font-bold text-white"
+                    <a href="{{ $kejadian->previousPageUrl() }}" class="px-4 py-2 rounded-lg font-bold text-white"
                         style="background:#C40BB2">
                         ‹ Prev
                     </a>
@@ -118,19 +118,19 @@
 
                 {{-- Pagination Logic --}}
                 @php
-                    $start = max($posko->currentPage() - 2, 1);
-                    $end = min($posko->currentPage() + 2, $posko->lastPage());
+                    $start = max($kejadian->currentPage() - 2, 1);
+                    $end = min($kejadian->currentPage() + 2, $kejadian->lastPage());
                 @endphp
 
                 {{-- First Page --}}
                 @if ($start > 1)
-                    <a href="{{ $posko->url(1) }}" class="px-4 py-2 rounded-lg font-bold" style="background:#e0e0e0">1</a>
+                    <a href="{{ $kejadian->url(1) }}" class="px-4 py-2 rounded-lg font-bold" style="background:#e0e0e0">1</a>
                     <span class="px-2">...</span>
                 @endif
 
                 {{-- Page Numbers --}}
-                @foreach ($posko->getUrlRange($start, $end) as $page => $url)
-                    @if ($page == $posko->currentPage())
+                @foreach ($kejadian->getUrlRange($start, $end) as $page => $url)
+                    @if ($page == $kejadian->currentPage())
                         <span class="px-4 py-2 rounded-lg font-bold text-white" style="background:#333">
                             {{ $page }}
                         </span>
@@ -142,17 +142,17 @@
                 @endforeach
 
                 {{-- Last Page --}}
-                @if ($end < $posko->lastPage())
+                @if ($end < $kejadian->lastPage())
                     <span class="px-2">...</span>
-                    <a href="{{ $posko->url($posko->lastPage()) }}" class="px-4 py-2 rounded-lg font-bold"
+                    <a href="{{ $kejadian->url($kejadian->lastPage()) }}" class="px-4 py-2 rounded-lg font-bold"
                         style="background:#e0e0e0">
-                        {{ $posko->lastPage() }}
+                        {{ $kejadian->lastPage() }}
                     </a>
                 @endif
 
                 {{-- Next --}}
-                @if ($posko->hasMorePages())
-                    <a href="{{ $posko->nextPageUrl() }}" class="px-4 py-2 rounded-lg font-bold text-white"
+                @if ($kejadian->hasMorePages())
+                    <a href="{{ $kejadian->nextPageUrl() }}" class="px-4 py-2 rounded-lg font-bold text-white"
                         style="background:#669be6">
                         Next ›
                     </a>

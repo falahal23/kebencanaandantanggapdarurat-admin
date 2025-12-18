@@ -130,7 +130,7 @@ class KejadianBencanaController extends Controller
             ]);
         }
 
-        return redirect()->route('kejadian.index')->with('success', 'Data kejadian dan media berhasil disimpan!');
+        return redirect()->route('kejadian.index')->with('success', '');
     }
 
     /**
@@ -239,7 +239,7 @@ class KejadianBencanaController extends Controller
         }
 
         // ✅ Perbaikan: Mengganti success message yang kosong
-        return redirect()->route('kejadian.index')->with('success', 'Data kejadian bencana berhasil diperbarui!');
+        return redirect()->route('kejadian.index')->with('success', '');
     }
 
     /**
@@ -266,7 +266,7 @@ class KejadianBencanaController extends Controller
         $kejadian->delete();
 
         // ✅ Perbaikan: Mengganti success message yang kosong
-        return back()->with('success', 'Data kejadian bencana berhasil dihapus!');
+        return back()->with('success', '');
     }
 
 }

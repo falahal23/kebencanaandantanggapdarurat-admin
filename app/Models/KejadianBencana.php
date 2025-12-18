@@ -19,7 +19,6 @@ class KejadianBencana extends Model
         'dampak',
         'status_kejadian',
         'keterangan',
-        'media', // optional jika ada 1 media utama
     ];
 
     // Relasi ke Posko

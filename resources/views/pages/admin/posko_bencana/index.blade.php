@@ -81,12 +81,12 @@
                                 <div class="flex justify-center gap-2">
 
                                     <a href="{{ route('admin.posko.show', $item) }}"
-                                       class="px-3 py-1 text-xs font-semibold bg-gray-600 text-white rounded-lg">
+                                       class="px-3 py-1 text-xs font-semibold bg-gray-600 text-black rounded-lg">
                                         👁️ Lihat
                                     </a>
 
                                     <a href="{{ route('admin.posko.edit', $item) }}"
-                                       class="px-3 py-1 text-xs font-semibold bg-blue-500 text-white rounded-lg">
+                                       class="px-3 py-1 text-xs font-semibold bg-blue-500 text-black rounded-lg">
                                         ✏️ Edit
                                     </a>
 
@@ -96,7 +96,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                                class="px-3 py-1 text-xs font-semibold bg-red-500 text-white rounded-lg">
+                                                class="px-3 py-1 text-xs font-semibold bg-red-500 text-black rounded-lg">
                                             🗑️ Hapus
                                         </button>
                                     </form>

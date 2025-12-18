@@ -90,8 +90,45 @@
                                     <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
                                         alt="Placeholder Foto Posko" class="w-full h-full object-cover">
                                 </div>
-                                <input type="file" name="media" class="w-full mt-1" accept="image/*"
-                                    onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
+                                <!-- Upload Media (Multiple) -->
+                                <div class="col-span-2" style ="margin-top: 70px; width: 500px; height: auto;">
+                                    <label class="block mb-2 font-medium">Upload Media (Foto / Video / PDF)</label>
+
+                                    <!-- Preview -->
+                                    <div id="media-preview" class="flex gap-3 flex-wrap mb-3"></div>
+
+                                    <input type="file" name="media[]" multiple accept="image/*,video/*,.pdf"
+                                        class="w-full mt-1 border rounded-lg p-2" onchange="previewMedia(this)">
+                                </div>
+
+                                <script>
+                                    function previewMedia(input) {
+                                        const preview = document.getElementById('media-preview');
+                                        preview.innerHTML = '';
+
+                                        if (!input.files) return;
+
+                                        Array.from(input.files).forEach(file => {
+                                            const div = document.createElement('div');
+                                            div.className = 'w-24 h-24 border rounded overflow-hidden flex items-center justify-center';
+
+                                            if (file.type.startsWith('image/')) {
+                                                const img = document.createElement('img');
+                                                img.src = URL.createObjectURL(file);
+                                                img.className = 'w-full h-full object-cover';
+                                                div.appendChild(img);
+                                            } else {
+                                                const span = document.createElement('span');
+                                                span.className = 'text-xs text-center px-1';
+                                                span.innerText = file.name;
+                                                div.appendChild(span);
+                                            }
+
+                                            preview.appendChild(div);
+                                        });
+                                    }
+                                </script>
+
                             </div>
 
                         </div>
