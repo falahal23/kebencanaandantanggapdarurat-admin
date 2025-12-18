@@ -83,28 +83,30 @@
                         {{-- Jika media adalah gambar --}}
                         @if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif']))
                             <img src="{{ $url }}" onerror="this.onerror=null; this.src='{{ $placeholderImage }}';"
-                                alt="Bukti Distribusi" class="w-full h-48 object-cover rounded-lg shadow">
+                                alt="Bukti Distribusi" class="rounded-lg shadow"
+                                style="width:120px; height:150px; object-fit:cover;">
 
                             {{-- Jika media adalah video --}}
                         @elseif (in_array($ext, ['mp4', 'mov', 'webm']))
-                            <video controls class="w-full h-48 rounded-lg">
+                            <video controls class="rounded-lg shadow" style="width:120px; height:150px; object-fit:cover;">
                                 <source src="{{ $url }}">
-                                {{-- Jika gagal memuat video, tampilkan placeholder sebagai gambar --}}
-                                <video controls class="w-52 h-40 rounded-lg mx-auto shadow border">
-                                @else
-                                    <p>Media {{ $distribusi->media->file_url }} tidak dapat ditampilkan.</p>
+                                Video tidak dapat diputar.
+                            </video>
+                        @else
+                            <p>Media {{ $distribusi->media->file_url }} tidak dapat ditampilkan.</p>
                         @endif
                     @else
                         {{-- TIDAK ADA MEDIA --}}
-                        <img src="{{ $placeholderImage }}" class="w-40 h-40 object-cover rounded-lg shadow border mx-auto"
-                            alt="Tidak ada media">
-
+                        <img src="{{ $placeholderImage }}" class="rounded-lg shadow border mx-auto" alt="Tidak ada media"
+                            style="width:120px; height:150px; object-fit:cover;">
                     @endif
 
                 </div>
             </div>
 
         </div>
+
+    </div>
 
     </div>
 @endsection

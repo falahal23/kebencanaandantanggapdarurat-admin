@@ -1,0 +1,48 @@
+.media-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.media-image {
+    width: 60px !important;
+    height: 60px !important;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}
+
+.media-thumb {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    flex-shrink: 0;   /* supaya tidak gepeng saat scroll horizontal */
+}
+/* Card media (wrapper) */
+.media-card {
+    width: 80px !important;
+    height: 80px !important;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Image & video di dalam media-card */
+.media-card img,
+.media-card video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    display: block;
+}
+.media-image {
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+}

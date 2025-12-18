@@ -1,3 +1,10 @@
+.preview-foto {
+    width: 80px;      /* ukuran gambar */
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
 /* SIDEBAR UNGGU */
 .sidebar-purple {
     background: linear-gradient(180deg, #5b2cff, #7c3aed, #2563eb);

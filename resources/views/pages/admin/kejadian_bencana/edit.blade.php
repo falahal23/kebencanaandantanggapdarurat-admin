@@ -1,158 +1,145 @@
 @extends('layouts.admin.app')
 
 @section('content')
-    <div class="flex flex-wrap my-6 -mx-3">
+    <div class="w-full px-4 sm:px-6 lg:px-8 py-8">
 
-        <!-- Card Kejadian Bencana -->
-        <div class="w-full max-w-full px-3 mt-0 lg:w-12/12 lg:flex-none">
-            <div
-                class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words
-                    rounded-2xl border-0 border-solid bg-white bg-clip-border">
+        <!-- Card Utama -->
+        <div class="bg-white shadow-xl rounded-2xl ring-1 ring-gray-100">
 
-                <!-- Header Card -->
-                <div
-                    class="border-black/12.5 mb-0 rounded-t-2xl border-b border-solid bg-white p-6 pb-3
-                        flex justify-between items-center">
-                    <h6 class="text-lg font-semibold">🖊️ Edit Kejadian Bencana</h6>
-                    <a href="{{ route('kejadian.index') }}"
-                        class="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300 transition">
-                        Kembali
-                    </a>
+            <!-- Header -->
+            <div class="p-6 border-b flex justify-between items-center">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800">🖊️ Edit Kejadian Bencana</h2>
+                    <p class="text-sm text-gray-500">Perbarui data kejadian bencana</p>
                 </div>
 
-                <!-- Body Form -->
-                <div class="flex-auto p-6">
+                <a href="{{ route('kejadian.index') }}"
+                    class="px-4 py-2 text-sm font-semibold rounded-lg bg-gray-200 hover:bg-gray-300 transition">
+                    ← Kembali
+                </a>
+            </div>
 
-                    @if ($errors->any())
-                        <div class="mb-4 p-4 bg-red-100 text-red-600 rounded-lg">
-                            <strong>Terjadi kesalahan:</strong>
-                            <ul class="mt-2 list-disc list-inside">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+            <!-- Body -->
+            <div class="p-6">
 
-                    <!-- FORM MULAI -->
-                    <form action="{{ route('kejadian.update', $kejadian->kejadian_id) }}" method="POST"
-                        enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
+                {{-- Error --}}
+                @if ($errors->any())
+                    <div class="mb-6 p-4 bg-red-100 text-red-700 rounded-lg">
+                        <strong>Terjadi kesalahan:</strong>
+                        <ul class="mt-2 list-disc list-inside text-sm">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- FORM -->
+                <form action="{{ route('kejadian.update', $kejadian->kejadian_id) }}" method="POST"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
 
-                            <!-- Jenis Bencana -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1">Jenis Bencana</label>
-                                <input type="text" name="jenis_bencana" class="w-full p-2 border rounded-lg"
-                                    placeholder="Contoh: Banjir, Gempa"
-                                    value="{{ old('jenis_bencana', $kejadian->jenis_bencana) }}" required>
-                            </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                            <!-- Tanggal -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1">Tanggal Kejadian</label>
-                                <input type="date" name="tanggal" class="w-full p-2 border rounded-lg"
-                                    value="{{ old('tanggal', $kejadian->tanggal) }}" required>
-                            </div>
-
-                            <!-- Lokasi -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1">Lokasi (Deskripsi)</label>
-                                <input type="text" name="lokasi_text" class="w-full p-2 border rounded-lg"
-                                    placeholder="Contoh: Desa Sukamaju"
-                                    value="{{ old('lokasi_text', $kejadian->lokasi_text) }}">
-                            </div>
-
-                            <!-- RT -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1">RT</label>
-                                <input type="number" name="rt" class="w-full p-2 border rounded-lg" placeholder="RT"
-                                    value="{{ old('rt', $kejadian->rt) }}">
-                            </div>
-
-                            <!-- RW -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1">RW</label>
-                                <input type="number" name="rw" class="w-full p-2 border rounded-lg" placeholder="RW"
-                                    value="{{ old('rw', $kejadian->rw) }}">
-                            </div>
-
-                            <!-- Dampak -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1">Dampak</label>
-                                <input type="text" name="dampak" class="w-full p-2 border rounded-lg"
-                                    placeholder="Contoh: Rumah Rusak 20 Unit" value="{{ old('dampak', $kejadian->dampak) }}"
-                                    required>
-                            </div>
-
-                            <!-- Status Kejadian -->
-                            <div>
-                                <label class="block text-sm font-medium mb-1">Status Kejadian</label>
-                                <select name="status_kejadian" class="w-full p-2 border rounded-lg" required>
-                                    <option value="" disabled>Pilih Status</option>
-                                    <option value="Aktif"
-                                        {{ old('status_kejadian', $kejadian->status_kejadian) == 'Aktif' ? 'selected' : '' }}>
-                                        Aktif
-                                    </option>
-                                    <option value="Sedang Ditangani"
-                                        {{ old('status_kejadian', $kejadian->status_kejadian) == 'Sedang Ditangani' ? 'selected' : '' }}>
-                                        Sedang Ditangani
-                                    </option>
-                                    <option value="Selesai"
-                                        {{ old('status_kejadian', $kejadian->status_kejadian) == 'Selesai' ? 'selected' : '' }}>
-                                        Selesai
-                                    </option>
-                                </select>
-                            </div>
-
-                            <!-- Keterangan -->
-                            {{-- {-- spaceholder --}}
-                            <label class="block mb-2 font-medium">Upload Foto (opsional)</label>
-                            <div class="mb-4">
-                                <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
-                                    alt="Placeholder Foto Posko" class="w-48 h-48 rounded border object-cover mb-2">
-                                {{-- <input type="file" name="foto" class="w-full" accept="image/*"
-                        onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])"> --}}
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-medium mb-1">Keterangan</label>
-                                <textarea name="keterangan" rows="3" class="w-full p-2 border rounded-lg"
-                                    placeholder="Tambahkan keterangan tambahan jika ada">{{ old('keterangan', $kejadian->keterangan) }}</textarea>
-                            </div>
-
-                            <!-- Upload Media -->
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700">
-                                    Upload Media Baru (Opsional)
-                                </label>
-                                <input type="file" name="media" class="mt-1 block w-full border rounded-lg">
-                            </div>
-
+                        <!-- Jenis -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Jenis Bencana</label>
+                            <input type="text" name="jenis_bencana"
+                                class="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-200"
+                                value="{{ old('jenis_bencana', $kejadian->jenis_bencana) }}" required>
                         </div>
 
-                        <!-- Tombol Submit -->
-                        <div class="mt-6 flex justify-end">
-                            <button type="submit"
-                                class="px-6 py-3 font-bold text-white rounded-lg
-                                       bg-gradient-to-tl from-gray-900 to-slate-800
-                                       hover:shadow-lg hover:scale-105 transition">
-                                💾 Update Data
-                            </button>
+                        <!-- Tanggal -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Tanggal Kejadian</label>
+                            <input type="date" name="tanggal"
+                                class="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-blue-200"
+                                value="{{ old('tanggal', $kejadian->tanggal) }}" required>
                         </div>
 
-                    </form>
-                    <!-- FORM SELESAI -->
+                        <!-- Lokasi -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Lokasi</label>
+                            <input type="text" name="lokasi_text" class="w-full px-3 py-2 border rounded-lg"
+                                value="{{ old('lokasi_text', $kejadian->lokasi_text) }}">
+                        </div>
 
-                </div>
+                        <!-- Dampak -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Dampak</label>
+                            <input type="text" name="dampak" class="w-full px-3 py-2 border rounded-lg"
+                                value="{{ old('dampak', $kejadian->dampak) }}" required>
+                        </div>
+
+                        <!-- RT -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">RT</label>
+                            <input type="number" name="rt" class="w-full px-3 py-2 border rounded-lg"
+                                value="{{ old('rt', $kejadian->rt) }}">
+                        </div>
+
+                        <!-- RW -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">RW</label>
+                            <input type="number" name="rw" class="w-full px-3 py-2 border rounded-lg"
+                                value="{{ old('rw', $kejadian->rw) }}">
+                        </div>
+
+                        <!-- Status -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Status Kejadian</label>
+                            <select name="status_kejadian" class="w-full px-3 py-2 border rounded-lg" required>
+                                <option value="Aktif" {{ $kejadian->status_kejadian == 'Aktif' ? 'selected' : '' }}>Aktif
+                                </option>
+                                <option value="Sedang Ditangani"
+                                    {{ $kejadian->status_kejadian == 'Sedang Ditangani' ? 'selected' : '' }}>
+                                    Sedang Ditangani
+                                </option>
+                                <option value="Selesai" {{ $kejadian->status_kejadian == 'Selesai' ? 'selected' : '' }}>
+                                    Selesai
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Upload Media -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Upload Media (Opsional)</label>
+                            <input type="file" name="media" class="w-full px-3 py-2 border rounded-lg">
+                        </div>
+
+                        <!-- Preview -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold mb-2">Preview Gambar</label>
+                            <img src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                                class="object-cover border rounded-lg" style="width:150px; height:120px;">
+                        </div>
+
+
+                        <!-- Keterangan -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold mb-1">Keterangan</label>
+                            <textarea name="keterangan" rows="3" class="w-full px-3 py-2 border rounded-lg">{{ old('keterangan', $kejadian->keterangan) }}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Aksi (KE SAMPING) -->
+                    <div class="mt-8 flex justify-end gap-3">
+                        <a href="{{ route('kejadian.index') }}"
+                            class="px-6 py-3 rounded-lg bg-gray-300 hover:bg-gray-400 font-semibold">
+                            Batal
+                        </a>
+
+                        <button type="submit"
+                            class="px-6 py-3 font-bold text-white rounded-lg
+                               bg-gradient-to-r from-blue-600 to-cyan-400
+                               hover:shadow-lg hover:scale-105 transition">
+                            💾 Update Data
+                        </button>
+                    </div>
+
+                </form>
             </div>
         </div>
-
     </div>
-
-    </main>
-
-    </html>
-
 @endsection

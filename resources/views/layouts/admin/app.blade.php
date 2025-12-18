@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="stylesheet" href="{{ asset('assets-admin/css/custom-sidebar.css') }}">
 
     <!-- Versi 6 Free -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-p1BmPZgIY9x+...==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-p1BmPZgIY9x+...==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -42,6 +44,7 @@
 
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ asset('assets-admin/css/custom.css') }}">
 
 
 
@@ -58,6 +61,8 @@
 {{-- start Css --}}
 @include('layouts.admin.css')
 {{-- end css --}}
+<link rel="stylesheet" href="{{ asset('assets-admin/css/custom.css') }}">
+
 
 <script src="{{ asset('js/avatar-dropdown.js') }}"></script>
 
@@ -83,6 +88,7 @@
             </svg>
         </button>
     </div>
+<link rel="stylesheet" href="{{ asset('assets-admin/css/custom.css') }}">
 
     <!-- Modal -->
     <div id="wa-modal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -207,7 +213,9 @@
         </script>
     @endif
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ asset('assets-admin/css/custom.css') }}">
+
 
 </body>
 <script src="{{ asset('js/avatar-dropdown.js') }}"></script>

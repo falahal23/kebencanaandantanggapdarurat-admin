@@ -163,100 +163,75 @@
                         </table>
                     </div>
 
-                    <!-- Pagination -->
-                    <div class="mt-6" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                    {{-- Pagination Warga --}}
+                    <div class="w-full flex justify-center items-center gap-3 py-8 flex-wrap">
 
                         {{-- Previous --}}
                         @if ($warga->onFirstPage())
-                            <span
-                                style="
-                padding: 10px 20px;
-                border-radius: 10px;
-                background: #C40BB2;
-                color: white;
-                font-weight: bold;
-                opacity: 0.5;
-                cursor: not-allowed;
-                margin-right: 20px; /* Jarak dari nomor halaman */
-            ">
-                                ‹ Previous
+                            <span class="px-4 py-2 rounded-lg font-bold text-white opacity-50 cursor-not-allowed"
+                                style="background:#C40BB2">
+                                ‹ Prev
                             </span>
                         @else
-                            <a href="{{ $warga->previousPageUrl() }}"
-                                style="
-                padding: 10px 20px;
-                border-radius: 10px;
-                background: #C40BB2;
-                color: white;
-                font-weight: bold;
-                text-decoration: none;
-                margin-right: 20px; /* Jarak dari nomor halaman */
-            ">
-                                ‹ Previous
+                            <a href="{{ $warga->previousPageUrl() }}" class="px-4 py-2 rounded-lg font-bold text-white"
+                                style="background:#C40BB2; text-decoration:none;">
+                                ‹ Prev
                             </a>
                         @endif
 
+                        {{-- Pagination Logic --}}
+                        @php
+                            $start = max($warga->currentPage() - 2, 1);
+                            $end = min($warga->currentPage() + 2, $warga->lastPage());
+                        @endphp
 
-                        {{-- NOMOR HALAMAN --}}
-                        @foreach ($warga->getUrlRange(1, $warga->lastPage()) as $page => $url)
+                        {{-- First Page --}}
+                        @if ($start > 1)
+                            <a href="{{ $warga->url(1) }}" class="px-4 py-2 rounded-lg font-bold"
+                                style="background:#e0e0e0; text-decoration:none;">
+                                1
+                            </a>
+                            <span class="px-2 font-bold">...</span>
+                        @endif
+
+                        {{-- Page Numbers --}}
+                        @foreach ($warga->getUrlRange($start, $end) as $page => $url)
                             @if ($page == $warga->currentPage())
-                                <span
-                                    style="
-                    padding: 10px 15px;
-                    background: #333; /* Warna untuk halaman aktif */
-                    color: white;
-                    border-radius: 10px;
-                    font-weight: bold;
-                ">
+                                <span class="px-4 py-2 rounded-lg font-bold text-white" style="background:#4a4a4a">
                                     {{ $page }}
                                 </span>
                             @else
-                                <a href="{{ $url }}"
-                                    style="
-                    padding: 10px 15px;
-                    background: #e0e0e0; /* Warna untuk halaman tidak aktif */
-                    color: #333;
-                    border-radius: 10px;
-                    font-weight: bold;
-                    text-decoration: none;
-                ">
+                                <a href="{{ $url }}" class="px-4 py-2 rounded-lg font-bold"
+                                    style="background:#e0e0e0; text-decoration:none;">
                                     {{ $page }}
                                 </a>
                             @endif
                         @endforeach
 
+                        {{-- Last Page --}}
+                        @if ($end < $warga->lastPage())
+                            <span class="px-2 font-bold">...</span>
+                            <a href="{{ $warga->url($warga->lastPage()) }}" class="px-4 py-2 rounded-lg font-bold"
+                                style="background:#e0e0e0; text-decoration:none;">
+                                {{ $warga->lastPage() }}
+                            </a>
+                        @endif
 
                         {{-- Next --}}
                         @if ($warga->hasMorePages())
-                            <a href="{{ $warga->nextPageUrl() }}"
-                                style="
-                padding: 10px 20px;
-                border-radius: 10px;
-                background: #669be6; /* Warna biru Next */
-                color: white;
-                font-weight: bold;
-                text-decoration: none;
-                margin-left: 20px; /* Jarak dari nomor halaman */
-            ">
+                            <a href="{{ $warga->nextPageUrl() }}" class="px-4 py-2 rounded-lg font-bold text-white"
+                                style="background:#007bff; text-decoration:none;">
                                 Next ›
                             </a>
                         @else
-                            <span
-                                style="
-                padding: 10px 20px;
-                border-radius: 10px;
-                background: #669be6; /* Warna biru Next */
-                color: white;
-                font-weight: bold;
-                opacity: 0.5;
-                cursor: not-allowed;
-                margin-left: 20px; /* Jarak dari nomor halaman */
-            ">
+                            <span class="px-4 py-2 rounded-lg font-bold text-white opacity-50 cursor-not-allowed"
+                                style="background:#007bff">
                                 Next ›
                             </span>
                         @endif
 
                     </div>
+
 
                 </div>
             </div>

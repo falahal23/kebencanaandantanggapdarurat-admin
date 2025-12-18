@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 
 @section('content')
-    <div class="p-6 bg-gray-100 min-h-screen">
+    <div class="p-6 bg-gray-80 min-h-screen">
 
         <h1 class="text-3xl font-bold mb-6 text-gray-800">Detail Posko Bencana</h1>
 
@@ -17,27 +17,22 @@
                     <td class="font-semibold w-48 py-2">ID Posko</td>
                     <td>: {{ $posko->posko_id }}</td>
                 </tr>
-
                 <tr>
                     <td class="font-semibold py-2">ID Kejadian</td>
                     <td>: {{ $posko->kejadian_id }}</td>
                 </tr>
-
                 <tr>
                     <td class="font-semibold py-2">Nama Posko</td>
                     <td>: {{ $posko->nama }}</td>
                 </tr>
-
                 <tr>
                     <td class="font-semibold py-2">Alamat</td>
                     <td>: {{ $posko->alamat }}</td>
                 </tr>
-
                 <tr>
                     <td class="font-semibold py-2">Kontak</td>
                     <td>: {{ $posko->kontak ?? '-' }}</td>
                 </tr>
-
                 <tr>
                     <td class="font-semibold py-2">Penanggung Jawab</td>
                     <td>: {{ $posko->penanggung_jawab ?? '-' }}</td>
@@ -59,44 +54,45 @@
 
             {{-- MEDIA UTAMA --}}
             @if ($media)
-                <div class="w-full h-72 rounded-xl overflow-hidden shadow-lg bg-black mb-3">
+                <div class="w-60 h-40 rounded-xl overflow-hidden shadow-lg bg-black mb-3">
                     @if ($isImage)
-                        <img src="{{ asset('storage/' . $media->file_url) }}"
-                             class="w-full h-full object-cover"
-                             alt="Media Posko">
+                        <img src="{{ asset('storage/' . $media->file_url) }}" class="w-60 h-60 object-cover"
+                            alt="Media Posko">
                     @elseif ($isVideo)
-                        <video controls class="w-full h-full object-cover rounded-xl">
+                        <video controls class="w-60 h-60 object-cover rounded-xl">
                             <source src="{{ asset('storage/' . $media->file_url) }}" type="{{ $media->mime_type }}">
                         </video>
                     @else
-                        <div class="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+                        <div class="block mb-2 font-medium">
                             Media tidak didukung
                         </div>
                     @endif
                 </div>
 
-                {{-- CAPTION --}}
                 <p class="text-center text-sm font-semibold text-gray-600 italic mb-6">
                     {{ $media->caption ?? '' }}
                 </p>
             @else
-                <div class="w-full h-72 bg-gray-200 rounded-xl flex items-center justify-center shadow-inner mb-6">
+                <div class="w-full h-40 bg-gray-200 rounded-xl flex items-center justify-center shadow-inner mb-6">
                     <span class="text-gray-400"></span>
                 </div>
             @endif
 
             {{-- ============================= --}}
-            {{-- GALERI JIKA MEDIA > 1 --}}
+            {{-- UPLOAD FOTO (PLACEHOLDER KECIL) --}}
             {{-- ============================= --}}
-            {{-- {-- spaceholder --}}
-                      <label class="block mb-2 font-medium">Upload Foto (opsional)</label>
-                <div class="mb-4">
-                    <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
-                        alt="Placeholder Foto Posko"
-                        class="w-48 h-48 rounded border object-cover mb-2">
-                    <input type="file" name="foto" class="w-full" accept="image/*"
-                        onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
-                </div>
+            <label class="block mb-2 font-medium">Upload Foto (opsional)</label>
+            <div class="mb-4">
+                <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}" alt="Placeholder Foto Posko"
+                    class="media-image rounded border mb-2 w-32 h-32 object-cover">
+
+                <input type="file" name="foto" class="w-full" accept="image/*"
+                    onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
+            </div>
+
+            {{-- ============================= --}}
+            {{-- GALERI --}}
+            {{-- ============================= --}}
             @if ($allMedia->count() > 1)
                 <h3 class="text-lg font-semibold text-gray-800 mb-2">Galeri Posko</h3>
 
@@ -104,12 +100,13 @@
                     @foreach ($allMedia as $m)
                         @if (Str::startsWith($m->mime_type, 'image/'))
                             <img src="{{ asset('storage/' . $m->file_url) }}"
-                                class="w-24 h-24 rounded-lg object-cover shadow cursor-pointer hover:scale-105 transition"
-                                alt="Thumbnail">
+                                class="media-thumb rounded-lg object-cover shadow cursor-pointer hover:scale-105 transition w-20 h-20 flex-shrink-0">
                         @endif
                     @endforeach
                 </div>
             @endif
+
+
 
             {{-- ============================= --}}
             {{-- TOMBOL KEMBALI --}}

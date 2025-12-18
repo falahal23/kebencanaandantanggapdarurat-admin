@@ -83,7 +83,7 @@
                     {{-- Jika file adalah gambar --}}
                     @if (in_array($media->mime_type, ['image/jpeg', 'image/png', 'image/jpg']))
                         <img src="{{ asset('storage/' . $media->file_url) }}" class="media-image shadow-md border mx-auto"
-                            style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;" alt="Bukti Donasi"
+                            style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;" alt="Bukti Donasi"
                             onerror="this.src='{{ asset('assets-admin/img/spaceholder.png') }}';">
 
                         <br>

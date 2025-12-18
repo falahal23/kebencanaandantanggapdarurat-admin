@@ -88,8 +88,8 @@
 
                                 <img src="{{ $finalImage }}"
                                     onerror="this.onerror=null; this.src='{{ asset('assets-admin/img/spaceholder.png') }}';"
-                                    class="w-35 h-35 object-cover rounded-lg shadow border mx-auto mt-2"
-                                    alt="Bukti Distribusi">
+                                    class="rounded-lg shadow border mx-auto mt-2"
+                                    style="width:120px; height:150px; object-fit:cover;" alt="Bukti Distribusi">
                             </div>
 
                             {{-- INPUT FILE --}}
@@ -97,20 +97,17 @@
                                 class="w-full border rounded p-3 bg-gray-50">
                         </div>
 
+                        <div class="flex justify-end mt-8 space-x-3">
+                            <a href="{{ route('admin.distribusi_logistik.index') }}"
+                                class="inline-block px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all bg-transparent rounded-lg cursor-pointer leading-pro text-xs ease-soft-in shadow-soft-md bg-150 bg-gradient-to-tl from-gray-900 to-slate-800 hover:shadow-soft-xs active:opacity-85 hover:scale-102 tracking-tight-soft bg-x-25">
+                                Batal
+                            </a>
 
-                    </div>
-
-                    <div class="flex justify-end mt-8 space-x-3">
-                        <a href="{{ route('admin.distribusi_logistik.index') }}"
-                            class="inline-block px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all bg-transparent rounded-lg cursor-pointer leading-pro text-xs ease-soft-in shadow-soft-md bg-150 bg-gradient-to-tl from-gray-900 to-slate-800 hover:shadow-soft-xs active:opacity-85 hover:scale-102 tracking-tight-soft bg-x-25">
-                            Batal
-                        </a>
-
-                        <button type="submit"
-                            class="px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-400 text-white rounded-lg shadow hover:shadow-xl hover:scale-105 transition">
-                            Update
-                        </button>
-                    </div>
+                            <button type="submit"
+                                class="px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-400 text-white rounded-lg shadow hover:shadow-xl hover:scale-105 transition">
+                                Update
+                            </button>
+                        </div>
 
                 </form>
 

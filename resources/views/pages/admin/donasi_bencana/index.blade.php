@@ -5,6 +5,7 @@
 @section('content')
     <div class="container mx-auto px-4 py-6">
 
+
         {{-- Header --}}
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-semibold text-gray-700">Daftar Donasi Bencana</h1>
@@ -58,7 +59,7 @@
 
         {{-- Tabel Donasi --}}
         <div class="bg-white shadow rounded-lg p-8 overflow-x-auto w-full">
-    <table class="min-w-full min-w-[1100px] text-sm text-left text-gray-600 border-collapse">
+            <table class="min-w-full min-w-[1100px] text-sm text-left text-gray-600 border-collapse">
 
 
                 <thead class="bg-gray-100">
@@ -127,100 +128,73 @@
             </table>
 
 
-            <div class="mt-6" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+            <div class="mt-6" style="display: flex; justify-content: center; align-items: center; gap: 6px;">
 
-                {{-- Previous --}}
-                @if ($donasi->onFirstPage())
-                    <span
-                        style="
-            padding: 10px 20px;
-            border-radius: 10px;
-            background: #C40BB2;
-            color: white;
-            font-weight: bold;
-            opacity: 0.5;
-            cursor: not-allowed;
-            margin-right: 20px; /* Jarak dari nomor halaman */
-        ">
-                        ‹ Previous
-                    </span>
-                @else
-                    <a href="{{ $donasi->previousPageUrl() }}"
-                        style="
-            padding: 10px 20px;
-            border-radius: 10px;
-            background: #C40BB2;
-            color: white;
-            font-weight: bold;
-            text-decoration: none;
-            margin-right: 20px; /* Jarak dari nomor halaman */
-        ">
-                        ‹ Previous
-                    </a>
-                @endif
+                <!-- Pagination -->
+                <div class="w-full flex justify-center items-center gap-2 py-8 flex-wrap">
 
-
-                {{-- NOMOR HALAMAN --}}
-                @foreach ($donasi->getUrlRange(1, $donasi->lastPage()) as $page => $url)
-                    @if ($page == $donasi->currentPage())
-                        <span
-                            style="
-                padding: 10px 15px;
-                background: #333;
-                color: white;
-                border-radius: 10px;
-                font-weight: bold;
-            ">
-                            {{ $page }}
+                    {{-- Previous --}}
+                    @if ($donasi->onFirstPage())
+                        <span class="px-4 py-2 rounded-lg font-bold text-white opacity-50 cursor-not-allowed"
+                            style="background:#C40BB2">
+                            ‹ Prev
                         </span>
                     @else
-                        <a href="{{ $url }}"
-                            style="
-                padding: 10px 15px;
-                background: #e0e0e0;
-                color: #333;
-                border-radius: 10px;
-                font-weight: bold;
-                text-decoration: none;
-            ">
-                            {{ $page }}
+                        <a href="{{ $donasi->previousPageUrl() }}" class="px-4 py-2 rounded-lg font-bold text-white"
+                            style="background:#C40BB2">
+                            ‹ Prev
                         </a>
                     @endif
-                @endforeach
 
+                    {{-- Pagination Logic --}}
+                    @php
+                        $start = max($donasi->currentPage() - 2, 1);
+                        $end = min($donasi->currentPage() + 2, $donasi->lastPage());
+                    @endphp
 
-                {{-- Next --}}
-                @if ($donasi->hasMorePages())
-                    <a href="{{ $donasi->nextPageUrl() }}"
-                        style="
-            padding: 10px 20px;
-            border-radius: 10px;
-            background: #669be6;
-            color: white;
-            font-weight: bold;
-            text-decoration: none;
-            margin-left: 20px; /* Jarak dari nomor halaman */
-        ">
-                        Next ›
-                    </a>
-                @else
-                    <span
-                        style="
-            padding: 10px 20px;
-            border-radius: 10px;
-            background: #669be6;
-            color: white;
-            font-weight: bold;
-            opacity: 0.5;
-            cursor: not-allowed;
-            margin-left: 20px; /* Jarak dari nomor halaman */
-        ">
-                        Next ›
-                    </span>
-                @endif
+                    {{-- First Page --}}
+                    @if ($start > 1)
+                        <a href="{{ $donasi->url(1) }}" class="px-4 py-2 rounded-lg font-bold"
+                            style="background:#e0e0e0">1</a>
+                        <span class="px-2">...</span>
+                    @endif
 
+                    {{-- Page Numbers --}}
+                    @foreach ($donasi->getUrlRange($start, $end) as $page => $url)
+                        @if ($page == $donasi->currentPage())
+                            <span class="px-4 py-2 rounded-lg font-bold text-white" style="background:#333">
+                                {{ $page }}
+                            </span>
+                        @else
+                            <a href="{{ $url }}" class="px-4 py-2 rounded-lg font-bold"
+                                style="background:#e0e0e0">
+                                {{ $page }}
+                            </a>
+                        @endif
+                    @endforeach
+
+                    {{-- Last Page --}}
+                    @if ($end < $donasi->lastPage())
+                        <span class="px-2">...</span>
+                        <a href="{{ $donasi->url($donasi->lastPage()) }}" class="px-4 py-2 rounded-lg font-bold"
+                            style="background:#e0e0e0">
+                            {{ $donasi->lastPage() }}
+                        </a>
+                    @endif
+
+                    {{-- Next --}}
+                    @if ($donasi->hasMorePages())
+                        <a href="{{ $donasi->nextPageUrl() }}" class="px-4 py-2 rounded-lg font-bold text-white"
+                            style="background:#669be6">
+                            Next ›
+                        </a>
+                    @else
+                        <span class="px-4 py-2 rounded-lg font-bold text-white opacity-50 cursor-not-allowed"
+                            style="background:#669be6">
+                            Next ›
+                        </span>
+                    @endif
+
+                </div>
             </div>
-
-
-        </div>
-    @endsection
+        @endsection

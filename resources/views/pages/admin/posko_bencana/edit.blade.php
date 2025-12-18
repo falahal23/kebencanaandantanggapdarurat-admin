@@ -62,11 +62,10 @@
                 <div class="md:col-span-2">
                     <label class="block mb-2 font-medium">Upload Foto (opsional)</label>
                     <div class="mb-4">
-                        <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                        <img id="preview-foto"
+                             src="{{ asset('assets-admin/img/spaceholder.png') }}"
                              alt="Placeholder Foto Posko"
-                             class="w-32 h-32 rounded border object-cover mb-2">
-                        {{-- <input type="file" name="foto" class="w-full" accept="image/*"
-                             onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])"> --}}
+                             class="media-image rounded border mb-2">
                     </div>
                 </div>
 
@@ -76,7 +75,7 @@
                     @php $media = $posko->media->first(); @endphp
                     @if ($media)
                         <img src="{{ asset('storage/' . $media->file_url) }}"
-                             class="w-32 h-32 object-cover rounded shadow">
+                             class="media-image rounded shadow">
                     @else
                         <p class="text-gray-500">Tidak ada foto.</p>
                     @endif
@@ -85,7 +84,11 @@
                 <!-- Upload Foto Baru -->
                 <div class="md:col-span-2">
                     <label class="block mb-2 font-medium">Upload Foto Baru (opsional)</label>
-                    <input type="file" name="foto" class="w-full">
+                    <input type="file"
+                           name="foto"
+                           class="w-full"
+                           accept="image/*"
+                           onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
                 </div>
             </div>
 
@@ -93,7 +96,7 @@
             <div class="mt-6 flex gap-3">
                 <button type="submit"
                         class="px-6 py-3 font-bold text-white uppercase bg-gradient-to-tl from-gray-900 to-slate-800 rounded-lg shadow-md hover:scale-102 transition">
-                    <i class="fa fa-save mr-2"></i> 💾Update Data
+                    <i class=""></i> 💾Update Data
                 </button>
 
                 <a href="{{ route('admin.posko.index') }}"

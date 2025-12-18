@@ -32,7 +32,8 @@
                         {{-- Filter Role --}}
                         <select name="role" class="border rounded px-3 py-2 text-sm">
                             <option value="">-- Semua Role --</option>
-                            <option value="Super Admin" {{ request('role') == 'Super Admin' ? 'selected' : '' }}>Super Admin</option>
+                            <option value="Super Admin" {{ request('role') == 'Super Admin' ? 'selected' : '' }}>Super Admin
+                            </option>
                             <option value="Admin" {{ request('role') == 'Admin' ? 'selected' : '' }}>Admin</option>
                             <option value="User" {{ request('role') == 'User' ? 'selected' : '' }}>User</option>
                         </select>
@@ -148,95 +149,73 @@
                     </div>
                 </div>
 
-                {{-- Pagination --}}
-                <div class="mt-6" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                {{-- Pagination Data User --}}
+                <div class="w-full flex justify-center items-center gap-3 py-8 flex-wrap">
+
                     {{-- Previous --}}
                     @if ($dataUser->onFirstPage())
-                        <span
-                            style="
-                                padding: 10px 20px;
-                                border-radius: 10px;
-                                background: #C40BB2;
-                                color: white;
-                                font-weight: bold;
-                                opacity: 0.5;
-                                cursor: not-allowed;
-                                margin-right: 20px;
-                            ">
-                            ‹ Previous
+                        <span class="px-4 py-2 rounded-lg font-bold text-white opacity-50 cursor-not-allowed"
+                            style="background:#C40BB2">
+                            ‹ Prev
                         </span>
                     @else
-                        <a href="{{ $dataUser->previousPageUrl() }}"
-                            style="
-                                padding: 10px 20px;
-                                border-radius: 10px;
-                                background: #C40BB2;
-                                color: white;
-                                font-weight: bold;
-                                text-decoration: none;
-                                margin-right: 20px;
-                            ">
-                            ‹ Previous
+                        <a href="{{ $dataUser->previousPageUrl() }}" class="px-4 py-2 rounded-lg font-bold text-white"
+                            style="background:#C40BB2; text-decoration:none;">
+                            ‹ Prev
                         </a>
                     @endif
 
-                    {{-- NOMOR HALAMAN --}}
-                    @foreach ($dataUser->getUrlRange(1, $dataUser->lastPage()) as $page => $url)
+                    {{-- Pagination Logic --}}
+                    @php
+                        $start = max($dataUser->currentPage() - 2, 1);
+                        $end = min($dataUser->currentPage() + 2, $dataUser->lastPage());
+                    @endphp
+
+                    {{-- First Page --}}
+                    @if ($start > 1)
+                        <a href="{{ $dataUser->url(1) }}" class="px-4 py-2 rounded-lg font-bold"
+                            style="background:#e0e0e0; text-decoration:none;">
+                            1
+                        </a>
+                        <span class="px-2 font-bold">...</span>
+                    @endif
+
+                    {{-- Page Numbers --}}
+                    @foreach ($dataUser->getUrlRange($start, $end) as $page => $url)
                         @if ($page == $dataUser->currentPage())
-                            <span
-                                style="
-                                    padding: 10px 15px;
-                                    background: #333;
-                                    color: white;
-                                    border-radius: 10px;
-                                    font-weight: bold;
-                                ">
+                            <span class="px-4 py-2 rounded-lg font-bold text-white" style="background:#333">
                                 {{ $page }}
                             </span>
                         @else
-                            <a href="{{ $url }}"
-                                style="
-                                    padding: 10px 15px;
-                                    background: #e0e0e0;
-                                    color: #333;
-                                    border-radius: 10px;
-                                    font-weight: bold;
-                                    text-decoration: none;
-                                ">
+                            <a href="{{ $url }}" class="px-4 py-2 rounded-lg font-bold"
+                                style="background:#e0e0e0; text-decoration:none;">
                                 {{ $page }}
                             </a>
                         @endif
                     @endforeach
 
+                    {{-- Last Page --}}
+                    @if ($end < $dataUser->lastPage())
+                        <span class="px-2 font-bold">...</span>
+                        <a href="{{ $dataUser->url($dataUser->lastPage()) }}" class="px-4 py-2 rounded-lg font-bold"
+                            style="background:#e0e0e0; text-decoration:none;">
+                            {{ $dataUser->lastPage() }}
+                        </a>
+                    @endif
+
                     {{-- Next --}}
                     @if ($dataUser->hasMorePages())
-                        <a href="{{ $dataUser->nextPageUrl() }}"
-                            style="
-                                padding: 10px 20px;
-                                border-radius: 10px;
-                                background: #669be6;
-                                color: white;
-                                font-weight: bold;
-                                text-decoration: none;
-                                margin-left: 20px;
-                            ">
+                        <a href="{{ $dataUser->nextPageUrl() }}" class="px-4 py-2 rounded-lg font-bold text-white"
+                            style="background:#669be6; text-decoration:none;">
                             Next ›
                         </a>
                     @else
-                        <span
-                            style="
-                                padding: 10px 20px;
-                                border-radius: 10px;
-                                background: #669be6;
-                                color: white;
-                                font-weight: bold;
-                                opacity: 0.5;
-                                cursor: not-allowed;
-                                margin-left: 20px;
-                            ">
+                        <span class="px-4 py-2 rounded-lg font-bold text-white opacity-50 cursor-not-allowed"
+                            style="background:#669be6">
                             Next ›
                         </span>
                     @endif
+
                 </div>
 
             </div>
