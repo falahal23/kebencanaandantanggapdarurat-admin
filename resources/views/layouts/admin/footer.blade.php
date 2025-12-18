@@ -57,7 +57,7 @@
                 <a href="https://www.linkedin.com/in/falahal-nabil-haqiqi" target="_blank"
                     class="text-gray-400 hover:text-blue-500 mr-4 text-2xl transition duration-300">
                     <i class="fab fa-linkedin-in"></i>
-                    
+
                 <a href="mailto:falahalnabil81@gmail.com"
                     class="text-gray-400 hover:text-blue-400 text-2xl transition duration-300">
                     <i class="fas fa-envelope"></i>
@@ -77,4 +77,4 @@
         Sistem Siaga Bencana. Seluruh Hak Cipta Dilindungi.
     </div>
     </div>
-</footer>z
+</footer>

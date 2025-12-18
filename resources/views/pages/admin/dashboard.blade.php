@@ -1,83 +1,9 @@
 @extends('layouts.admin.app')
 @section('content')
 
-    <body class="m-0 font-sans text-base antialiasing font-normal leading-default bg-gray-50 text-slate-500">
-        <main class="ease-soft-in-out xl:ml-100 relative h-full max-h-screen rounded-xl transition-all duration-200">
-            <div class="w-full px-6 py-6 mx-auto">
-
-                {{-- <div id="welcome-box" class="max-w-2xl mx-auto mt-8 mb-6 p-6 rounded-2xl shadow-md animate-fade-in"
-                    style="background-color: #e0f0ff; border-left: 6px solid #001f3f;">
-                    <h2 id="welcome-message" class="text-lg font-semibold" style="color: #555;"></h2>
-                </div> --}}
-
-                {{-- <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        const userName = "{{ Auth::user()->name ?? 'Pengguna' }}";
-                        const greetings = [
-                            `👋 Halo ${name}, selamat datang kembali!`,
-                            `✨ Selamat datang, ${name}! Semoga harimu menyenangkan.`,
-                            `🌤️ Hai ${name}, semoga aktivitasmu berjalan lancar.`,
-                            `💼 Halo ${name}, siap produktif hari ini?`
-                        ];
-
-                        const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
-                        const messageEl = document.getElementById("welcome-message");
-                        const box = document.getElementById("welcome-box");
-                        messageEl.textContent = "";
-
-                        // efek ketik
-                        let i = 0;
-
-                        function typeEffect() {
-                            if (i < randomGreeting.length) {
-                                messageEl.textContent += randomGreeting.charAt(i);
-                                i++;
-                                setTimeout(typeEffect, 40);
-                            } else {
-                                // setelah selesai ketik, tunggu 5 detik, lalu hilang
-                                setTimeout(() => {
-                                    box.classList.add("fade-out");
-                                    setTimeout(() => box.style.display = "none", 1000); // hapus setelah animasi
-                                }, 5000);
-                            }
-                        }
-                        typeEffect();
-                    });
-                </script> --}}
-
-                {{-- <style>
-                    @keyframes fadeIn {
-                        from {
-                            opacity: 0;
-                            transform: translateY(-10px);
-                        }
-
-                        to {
-                            opacity: 1;
-                            transform: translateY(0);
-                        }
-                    }
-
-                    @keyframes fadeOut {
-                        from {
-                            opacity: 1;
-                            transform: translateY(0);
-                        }
-
-                        to {
-                            opacity: 0;
-                            transform: translateY(-10px);
-                        }
-                    }
-
-                    .animate-fade-in {
-                        animation: fadeIn 1s ease-in-out;
-                    }
-
-                    .fade-out {
-                        animation: fadeOut 1s ease-in-out forwards;
-                    }
-                </style> --}}
+<body class="m-0 font-sans text-base antialiased font-normal leading-default bg-gray-50 text-slate-500">
+<main class="ease-soft-in-out xl:ml-100 relative min-h-screen rounded-xl transition-all duration-200 pb-20">
+    <div class="w-full px-6 py-6 mx-auto">
 
                 <div class="flex flex-wrap -mx-3">
                     <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
