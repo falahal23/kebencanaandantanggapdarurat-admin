@@ -129,7 +129,7 @@
                     <ul class="divide-y divide-gray-200">
                         <li class="py-2">
                             <i class="fab fa-github mr-2 text-gray-800"></i>
-                            <a href="[LINK_GITHUB_ANDA]" class="text-gray-700 hover:text-blue-500">Lihat Kode di
+                            <a href="https://github.com/falahal23" class="text-gray-700 hover:text-blue-500">Lihat Kode di
                                 GitHub</a>
                         </li>
                         <li class="py-2">
