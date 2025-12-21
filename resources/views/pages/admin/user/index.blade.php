@@ -19,7 +19,7 @@
                     <a href="{{ route('user.create') }}"
                         class="inline-block px-4 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
                         <i class="fa fa-user-plus mr-2 text-lg"></i>
-                        <span>✚ Tambah User</span>
+                        <span>Tambah User</span>
                     </a>
                 </div>
 
@@ -87,13 +87,14 @@
                                         {{-- FOTO PROFIL --}}
                                         <td class="px-6 py-3">
                                             @if ($user->profile_picture)
-                                                <img src="{{ asset('storage/' . $user->profile_picture) }}"
+                                                <img src="{{ Storage::url($user->profile_picture) }}"
                                                     class="w-12 h-12 rounded-full object-cover shadow" alt="Foto Profil">
                                             @else
-                                                <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random"
+                                                <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}"
                                                     class="w-12 h-12 rounded-full object-cover shadow" alt="Avatar">
                                             @endif
                                         </td>
+
 
                                         {{-- NAMA --}}
                                         <td class="px-6 py-3 text-sm">
