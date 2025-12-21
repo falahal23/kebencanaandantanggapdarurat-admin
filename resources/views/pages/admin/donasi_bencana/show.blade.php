@@ -122,7 +122,7 @@
             {{-- Tombol kembali --}}
             <div class="mt-8">
                 <a href="{{ route('admin.donasi.index') }}"
-                    class="px-5 py-2 bg-gray-700 text-white rounded hover:bg-gray-800 transition">
+                    class="px-6 py-3 font-semibold text-white bg-gray-600 hover:bg-gray-700 rounded-lg transition">
                     ← Kembali
                 </a>
             </div>

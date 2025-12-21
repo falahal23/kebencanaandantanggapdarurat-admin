@@ -13,8 +13,8 @@ class KejadianBencanaController extends Controller
 {
     public function __construct()
     {
-
-        $this->middleware('auth'); // HARUS DI SINI
+        $this->middleware('auth');
+        $this->middleware('checkrole');
     }
 
     public function index(Request $request)
@@ -55,6 +55,10 @@ class KejadianBencanaController extends Controller
                 $request->tanggal_mulai,
                 $request->tanggal_akhir,
             ]);
+        }
+
+        if ($request->filled('role')) {
+            $query->where('role', $request->role);
         }
 
         // Ambil data dengan filter
@@ -98,7 +102,7 @@ class KejadianBencanaController extends Controller
             'rw'              => 'nullable|string|max:5',
             'dampak'          => 'nullable|string|max:255',
             'status_kejadian' => 'required|string|max:50',
-            'keterangan'      => 'nullable|string',                                                                        // Validasi media tunggal
+            'keterangan'      => 'nullable|string',                                        // Validasi media tunggal
             'media'           => 'nullable|file|mimes:jpg,jpeg,png,mp4,mov,pdf|max:20480', // max 20MB
             'caption'         => 'nullable|string|max:255',
         ]);

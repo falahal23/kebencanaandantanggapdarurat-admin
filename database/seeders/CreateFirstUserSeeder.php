@@ -24,6 +24,24 @@ class CreateFirstUserSeeder extends Seeder
             ]
         );
 
+             User::updateOrCreate(
+            ['email' => 'falahal2@gmail.com'],
+            [
+                'name'     => 'Falahal Nabil',
+                'password' => Hash::make('2401010'),
+                'role'     => 'Admin',
+            ]
+        );
+
+               User::updateOrCreate(
+            ['email' => 'falahal3@gmail.com'],
+            [
+                'name'     => 'Falahal Nabil',
+                'password' => Hash::make('2401010'),
+                'role'     => 'User',
+            ]
+        );
+
         // 🔹 2. User random (anti duplikat)
         for ($i = 1; $i <= 100; $i++) {
             User::firstOrCreate(

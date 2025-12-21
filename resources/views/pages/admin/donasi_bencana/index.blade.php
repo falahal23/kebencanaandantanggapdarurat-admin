@@ -64,7 +64,7 @@
 
                 <thead class="bg-gray-100">
                     <tr>
-                        <th class="px-4 py-2 whitespace-nowrap">ID</th>
+                        <th class="px-4 py-2 whitespace-nowrap">No</th>
                         <th class="px-4 py-2 whitespace-nowrap">Donatur</th>
                         <th class="px-4 py-2 whitespace-nowrap">Jenis</th>
                         <th class="px-4 py-2 whitespace-nowrap">Nilai</th>

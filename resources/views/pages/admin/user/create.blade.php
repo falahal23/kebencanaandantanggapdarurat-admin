@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-6">
-        <h2 class="text-2xl font-bold text-pink-600 mb-6">➕ Tambah User Baru</h2>
+        <h2 class="text-2xl font-bold text-pink-600 mb-6">Tambah User Baru</h2>
 
         {{-- Notifikasi Error atau Success --}}
         @if (session('error'))

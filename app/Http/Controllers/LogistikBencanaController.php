@@ -8,10 +8,10 @@ use Illuminate\Http\Request;
 class LogistikBencanaController extends Controller
 {
 
-    public function __construct()
+     public function __construct()
     {
-
-        $this->middleware('auth'); // HARUS DI SINI
+        $this->middleware('auth');
+        $this->middleware('checkrole:User');
     }
 
     // =======================

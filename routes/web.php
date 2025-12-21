@@ -120,3 +120,4 @@ Route::group(['middleware' => ['checkislogin', 'checkrole:Super Admin']], functi
 Route::get('/profile', function () {
     return view('pages.profile');
 })->name('profile');
+

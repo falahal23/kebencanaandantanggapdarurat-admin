@@ -113,7 +113,7 @@
             {{-- ============================= --}}
             <div class="mt-6">
                 <a href="{{ route('admin.posko.index') }}"
-                    class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl shadow hover:bg-blue-700 transition">
+                    class="px-4 py-2 text-xs font-semibold bg-gray-600 text-black rounded-lg">
                     ← Kembali ke Daftar Posko
                 </a>
             </div>

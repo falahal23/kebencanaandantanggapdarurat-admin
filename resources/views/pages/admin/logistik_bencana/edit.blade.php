@@ -30,7 +30,7 @@
                                     {{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}
                                 </option>
                             @endforeach
-                        </select <!-- Nama Barang -->
+                        </select >
                         <div class="mb-4">
                             <label class="font-semibold">Nama Barang</label>
                             <input type="text" name="nama_barang" class="w-full p-3 border rounded-xl mt-1"

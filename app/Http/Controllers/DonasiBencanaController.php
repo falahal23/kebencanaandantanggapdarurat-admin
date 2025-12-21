@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Storage;
 
 class DonasiBencanaController extends Controller
 {
-        public function __construct()
+ public function __construct()
     {
-
-        $this->middleware('auth'); // HARUS DI SINI
+        $this->middleware('auth');
+        $this->middleware('checkrole:User');
     }
-    
+
     public function index(Request $request)
     {
         $query = DonasiBencana::with('kejadian');

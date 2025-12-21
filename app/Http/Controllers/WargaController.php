@@ -1,50 +1,49 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\WargaController;
 use App\Models\Warga;
 use Illuminate\Http\Request;
-use App\Http\Controllers\WargaController;
 
 class WargaController extends Controller
 {
-        public function __construct()
+    public function __construct()
     {
-
-        $this->middleware('auth'); // HARUS DI SINI
-    }
-    
-   public function index(Request $request)
-{
-    $query = Warga::query();
-
-    // 🔍 Search
-    if ($request->filled('search')) {
-        $search = $request->input('search');
-        $query->where(function($q) use ($search) {
-            $q->where('nama', 'like', "%{$search}%")
-              ->orWhere('no_ktp', 'like', "%{$search}%")
-              ->orWhere('email', 'like', "%{$search}%");
-        });
+        $this->middleware('auth');
+        $this->middleware('checkrole:User');
     }
 
-    // 🗂 Filter jenis kelamin
-    if ($request->filled('jenis_kelamin')) {
-        $query->where('jenis_kelamin', $request->jenis_kelamin);
+    public function index(Request $request)
+    {
+        $query = Warga::query();
+
+        // 🔍 Search
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                    ->orWhere('no_ktp', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        // 🗂 Filter jenis kelamin
+        if ($request->filled('jenis_kelamin')) {
+            $query->where('jenis_kelamin', $request->jenis_kelamin);
+        }
+
+        // 🗂 Filter agama
+        if ($request->filled('agama')) {
+            $query->where('agama', $request->agama);
+        }
+
+        // Ambil data warga dengan pagination
+        $warga = $query->orderBy('nama', 'asc')
+            ->paginate(10)
+            ->withQueryString(); // biar search/filter tetap terbawa saat pagination
+
+        return view('pages.admin.warga.index', compact('warga'));
     }
-
-    // 🗂 Filter agama
-    if ($request->filled('agama')) {
-        $query->where('agama', $request->agama);
-    }
-
-    // Ambil data warga dengan pagination
-    $warga = $query->orderBy('nama', 'asc')
-                   ->paginate(10)
-                   ->withQueryString(); // biar search/filter tetap terbawa saat pagination
-
-    return view('pages.admin.warga.index', compact('warga'));
-}
 
     /**
      * Tampilkan form tambah warga
@@ -60,13 +59,13 @@ class WargaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'no_ktp'       => 'required|string|max:20|unique:warga,no_ktp',
-            'nama'         => 'required|string|max:100',
-            'jenis_kelamin'=> 'required|in:Laki-Laki,Perempuan',
-            'agama'        => 'required|string|max:50',
-            'pekerjaan'    => 'nullable|string|max:100',
-            'telp'         => 'nullable|string|max:15',
-            'email'        => 'nullable|email|max:100'
+            'no_ktp'        => 'required|string|max:20|unique:warga,no_ktp',
+            'nama'          => 'required|string|max:100',
+            'jenis_kelamin' => 'required|in:Laki-Laki,Perempuan',
+            'agama'         => 'required|string|max:50',
+            'pekerjaan'     => 'nullable|string|max:100',
+            'telp'          => 'nullable|string|max:15',
+            'email'         => 'nullable|email|max:100',
         ]);
 
         Warga::create($validated);
@@ -100,13 +99,13 @@ class WargaController extends Controller
         $warga = Warga::findOrFail($id);
 
         $validated = $request->validate([
-            'no_ktp'       => 'required|string|max:20|unique:warga,no_ktp,' . $id . ',warga_id',
-            'nama'         => 'required|string|max:100',
-            'jenis_kelamin'=> 'required|in:Laki-Laki,Perempuan',
-            'agama'        => 'required|string|max:50',
-            'pekerjaan'    => 'nullable|string|max:100',
-            'telp'         => 'nullable|string|max:15',
-            'email'        => 'nullable|email|max:100'
+            'no_ktp'        => 'required|string|max:20|unique:warga,no_ktp,' . $id . ',warga_id',
+            'nama'          => 'required|string|max:100',
+            'jenis_kelamin' => 'required|in:Laki-Laki,Perempuan',
+            'agama'         => 'required|string|max:50',
+            'pekerjaan'     => 'nullable|string|max:100',
+            'telp'          => 'nullable|string|max:15',
+            'email'         => 'nullable|email|max:100',
         ]);
 
         $warga->update($validated);

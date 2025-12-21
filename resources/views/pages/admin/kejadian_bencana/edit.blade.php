@@ -103,38 +103,28 @@
                         </div>
 
                         <!-- Upload Media -->
-                    {{-- UPLOAD MEDIA --}}
-<div class="md:col-span-2">
-    <label class="block text-sm font-semibold mb-2">
-        Upload Media (Foto / Video / File) – Bisa lebih dari satu
-    </label>
+                        {{-- UPLOAD MEDIA --}}
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold mb-2">
+                                Upload Media (Foto / Video / File) – Bisa lebih dari satu
+                            </label>
 
-    <input
-        type="file"
-        name="media_files[]"
-        multiple
-        accept="image/*,video/*,.pdf"
-        class="w-full px-3 py-2 border rounded-lg"
-        onchange="previewMedia(this)"
-    >
-</div>
+                            <input type="file" name="media_files[]" multiple accept="image/*,video/*,.pdf"
+                                class="w-full px-3 py-2 border rounded-lg" onchange="previewMedia(this)">
+                        </div>
 
-{{-- PREVIEW --}}
-<div class="md:col-span-2">
-    <label class="block text-sm font-semibold mb-2">Preview Media</label>
+                        {{-- PREVIEW --}}
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold mb-2">Preview Media</label>
 
-    <div
-        id="media-preview"
-        class="flex gap-3 flex-wrap items-start"
-    >
-        {{-- placeholder awal --}}
-        <div
-            class="w-[80px] h-[100px] border rounded-lg overflow-hidden flex items-center justify-center bg-gray-100 text-xs text-gray-500"
-        >
-            Preview
-        </div>
-    </div>
-</div>
+                            <div class="md:col-span-2">
+                                <label class="block mb-2 font-medium">Upload Foto (opsional)</label>
+                                <div class="mb-4">
+                                    <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                                        alt="Placeholder Foto kejadian" class="media-image rounded border mb-2">
+                                </div>
+                            </div>
+                        </div>
 
 
 
