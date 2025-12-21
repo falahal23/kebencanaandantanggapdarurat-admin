@@ -30,7 +30,7 @@ class DistribusiLogistikSeeder extends Seeder
             'Tim Evakuasi Lapangan',
         ];
 
-        for ($i = 1; $i <= 15; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
             DistribusiLogistik::create([
                 'logistik_id' => $logistiks[array_rand($logistiks)],
                 'posko_id'    => $poskos[array_rand($poskos)],

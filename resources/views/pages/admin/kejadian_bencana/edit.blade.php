@@ -1,3 +1,8 @@
+@php
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Support\Str;
+@endphp
+
 @extends('layouts.admin.app')
 
 @section('content')
@@ -12,11 +17,6 @@
                     <h2 class="text-xl font-bold text-gray-800">🖊️ Edit Kejadian Bencana</h2>
                     <p class="text-sm text-gray-500">Perbarui data kejadian bencana</p>
                 </div>
-
-                <a href="{{ route('kejadian.index') }}"
-                    class="px-4 py-2 text-sm font-semibold rounded-lg bg-gray-200 hover:bg-gray-300 transition">
-                    ← Kembali
-                </a>
             </div>
 
             <!-- Body -->
@@ -102,15 +102,18 @@
                             </select>
                         </div>
 
-                        <!-- Upload Media -->
                         {{-- UPLOAD MEDIA --}}
                         <div class="md:col-span-2">
                             <label class="block text-sm font-semibold mb-2">
                                 Upload Media (Foto / Video / File) – Bisa lebih dari satu
                             </label>
 
-                            <input type="file" name="media_files[]" multiple accept="image/*,video/*,.pdf"
-                                class="w-full px-3 py-2 border rounded-lg" onchange="previewMedia(this)">
+                            <input type="file" name="media" multiple accept="image/*,video/*,.pdf"
+                                class="w-full px-3 py-2 border rounded-lg">
+
+                            <p class="text-xs text-gray-500 mt-1">
+                                Maksimal 20MB per file
+                            </p>
                         </div>
 
                         {{-- PREVIEW --}}
@@ -136,20 +139,21 @@
                     </div>
 
                     <!-- Tombol Aksi (KE SAMPING) -->
-                    <div class="mt-8 flex justify-end gap-3">
+                    <div class="mt-12 flex items-center justify-between">
+                        <!-- KIRI -->
                         <a href="{{ route('kejadian.index') }}"
-                            class="px-6 py-3 rounded-lg bg-gray-300 hover:bg-gray-400 font-semibold">
-                            Batal
+                            class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">
+                            ← Batal
                         </a>
 
+                        <!-- KANAN -->
                         <button type="submit"
                             class="px-6 py-3 font-bold text-white rounded-lg
-                               bg-gradient-to-r from-blue-600 to-cyan-400
-                               hover:shadow-lg hover:scale-105 transition">
-                            💾 Update Data
+               bg-gradient-to-r from-blue-600 to-cyan-400
+               hover:shadow-lg hover:scale-105 transition">
+                            💾 Simpan
                         </button>
                     </div>
-
                 </form>
             </div>
         </div>

@@ -2,6 +2,8 @@
 <html>
 
 <head>
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="stylesheet" href="{{ asset('assets-admin/css/custom-sidebar.css') }}">
 
     <!-- Versi 6 Free -->
@@ -46,6 +48,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="{{ asset('assets-admin/css/custom.css') }}">
 
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
 
 
     <style>
@@ -78,31 +84,7 @@
         }
     </style>
     <!-- Floating WhatsApp Button (Tailwind) -->
-    <div id="wa-fab" class="fixed right-6 bottom-6 z-50">
-        <button id="wa-button"
-            class="flex items-center justify-center w-14 h-14 rounded-full shadow-lg focus:outline-none hover:scale-110 transition-transform"
-            style="background: linear-gradient(135deg,#25D366,#128C7E);">
-            <!-- Ikon WA -->
-            <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.486 2 2 6.486 2 12c0 1.855..."></path>
-            </svg>
-        </button>
-    </div>
 <link rel="stylesheet" href="{{ asset('assets-admin/css/custom.css') }}">
-
-    <!-- Modal -->
-    <div id="wa-modal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div class="bg-white rounded-xl p-6 w-80 shadow-lg relative">
-            <h3 class="text-lg font-semibold text-gray-700 mb-3">Kirim Pesan ke Admin</h3>
-            <textarea id="wa-message" rows="3" class="w-full border border-gray-300 rounded-md p-2"
-                placeholder="Tulis pesan kamu..."></textarea>
-            <div class="mt-4 flex justify-between">
-                <button id="wa-cancel" class="px-4 py-2 text-gray-600">Batal</button>
-                <button id="wa-send" class="px-4 py-2 bg-green-500 text-white rounded-md">Kirim</button>
-            </div>
-            <button id="wa-close" class="absolute top-3 right-3 text-gray-400 text-lg">&times;</button>
-        </div>
-    </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {

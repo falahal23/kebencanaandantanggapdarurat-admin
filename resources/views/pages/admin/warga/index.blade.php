@@ -129,15 +129,11 @@
                                         </td>
                                         <td class="p-2 text-center align-middle border-b whitespace-nowrap">
                                             <div class="flex justify-center space-x-4">
-                                                <!-- Tombol Lihat -->
-                                                <a href="{{ route('warga.show', $item->warga_id) }}"
-                                                    class="inline-block px-3 py-2 font-bold text-xs text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition">
-                                                    <i class="fa fa-eye mr-1"></i>
-                                                </a>
+                                            
                                                 <!-- Tombol Edit -->
                                                 <a href="{{ route('warga.edit', $item->warga_id) }}"
-                                                    class="inline-block px-3 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
-                                                    <i class="">✏️Edit</i>
+                                                    class="inline-block px-3 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-sm font-semibold">
+                                                    <i class="">✏️</i>
                                                 </a>
                                                 <!-- Tombol Hapus -->
                                                 <form action="{{ route('warga.destroy', $item->warga_id) }}" method="POST"
@@ -145,8 +141,8 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
-                                                        class="inline-block px-3 py-2 text-white bg-gradient-to-r from-red-600 to-Rose-400 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition">
-                                                        <i class="">🗑️Hapus</i>
+                                                        class="px-3 py-3 text-xs font-semibold bg-gradient-to-r from-yellow-400 to-yellow-600 text-black rounded-lg"
+                                                         class="">🗑️</>
                                                     </button>
                                                 </form>
                                             </div>

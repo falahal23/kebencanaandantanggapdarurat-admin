@@ -96,11 +96,11 @@
             @if ($allMedia->count() > 1)
                 <h3 class="text-lg font-semibold text-gray-800 mb-2">Galeri Posko</h3>
 
-                <div class="flex space-x-3 overflow-x-auto pb-3">
+                <div class="block mb-2 font-medium">
                     @foreach ($allMedia as $m)
                         @if (Str::startsWith($m->mime_type, 'image/'))
                             <img src="{{ asset('storage/' . $m->file_url) }}"
-                                class="media-thumb rounded-lg object-cover shadow cursor-pointer hover:scale-105 transition w-20 h-20 flex-shrink-0">
+                    class="media-image rounded border mb-2 w-32 h-32 object-cover">
                         @endif
                     @endforeach
                 </div>

@@ -1,3 +1,8 @@
+@php
+    use Illuminate\Support\Facades\Storage;
+    use Illuminate\Support\Str;
+@endphp
+
 @extends('layouts.admin.app')
 
 @section('title', 'Daftar Kejadian Bencana')

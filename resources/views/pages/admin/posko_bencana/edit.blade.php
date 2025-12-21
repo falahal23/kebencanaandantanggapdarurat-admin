@@ -1,8 +1,7 @@
 @extends('layouts.admin.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-6">
-
+<div class="w-full px-6 py-6 bg-white rounded-2xl shadow-soft-xl border-0">
     <div class="bg-white shadow-lg rounded-lg p-6">
         <h6 class="text-2xl font-semibold mb-6 text-gray-700">
             🖊️Edit Posko Bencana
@@ -107,5 +106,5 @@
 
         </form>
     </div>
-</div>
+</class=>
 @endsection
