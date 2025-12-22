@@ -16,47 +16,66 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
+        /* ===== BACKGROUND ===== */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Poppins', sans-serif;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #004e92, #000428);
+            position: relative;
+
+            /* Background gambar */
+            background: url("{{ asset('assets-admin/img/login.jpg') }}") no-repeat center center;
+            background-size: cover;
+        }
+
+        /* Overlay gelap */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 0;
         }
 
         .wrapper {
+            position: relative;
+            z-index: 1;
             display: flex;
             width: 85%;
-            max-width: 1100px;
-            background: white;
+            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.85);
             border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
             overflow: hidden;
             animation: fadeIn 0.8s ease-in-out;
         }
 
         .left {
             flex: 1;
-            background: #f8faff;
+            background: rgba(240, 244, 255, 0.8);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 40px;
+            padding: 50px 40px;
         }
 
         .left img {
-            width: 70%;
-            max-width: 320px;
-            margin-bottom: 25px;
+            width: 65%;
+            max-width: 300px;
+            margin-bottom: 20px;
         }
 
         .left h1 {
-            color: #004e92;
-            font-size: 1.8rem;
+            color: #1e3a8a;
+            font-size: 2rem;
             text-align: center;
             margin-bottom: 10px;
         }
@@ -79,30 +98,31 @@
 
         h2 {
             text-align: center;
-            color: #004e92;
+            color: #1e3a8a;
             font-weight: 600;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
+            padding: 14px;
+            margin: 12px 0;
+            border-radius: 10px;
             border: 1px solid #ccc;
             outline: none;
             transition: all 0.3s;
         }
 
         input:focus {
-            border-color: #004e92;
-            box-shadow: 0 0 5px rgba(0, 78, 146, 0.4);
+            border-color: #1e3a8a;
+            box-shadow: 0 0 8px rgba(30, 58, 138, 0.4);
         }
 
         .forgot-password {
             display: block;
             font-size: 14px;
-            color: #004e92;
+            color: #1e3a8a;
             text-align: right;
             margin-bottom: 10px;
             text-decoration: none;
@@ -110,11 +130,11 @@
 
         .btn-sign {
             width: 100%;
-            padding: 12px;
-            background-color: #004e92;
+            padding: 14px;
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
@@ -123,7 +143,7 @@
         }
 
         .btn-sign:hover {
-            background-color: #006be0;
+            background: linear-gradient(90deg, #3b82f6, #1e3a8a);
         }
 
         .sign-up-section {
@@ -132,9 +152,14 @@
         }
 
         .sign-up-section a {
-            color: #004e92;
+            color: #1e3a8a;
             font-weight: 500;
             text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .sign-up-section a:hover {
+            text-decoration: underline;
         }
 
         @media (max-width: 900px) {
@@ -150,11 +175,22 @@
                 padding: 40px 20px;
             }
         }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
 <body>
-
     <div class="wrapper">
         <!-- Bagian Kiri -->
         <div class="left">
@@ -165,7 +201,6 @@
 
         <!-- Bagian Kanan -->
         <div class="right">
-
             <h2>Sign In</h2>
 
             <!-- Form Login -->
@@ -181,7 +216,6 @@
                     <a href="{{ route('user.create') }}">Mau Registrasi?</a>
                 </div>
             </form>
-
         </div>
     </div>
 
@@ -191,10 +225,9 @@
     <script src="{{ asset('assets-admin/js/core/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets-admin/js/soft-ui-dashboard-tailwind.min.js') }}"></script>
 
-    <!-- ✅ SWEETALERT2 -->
+    <!-- SWEETALERT2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {{-- ✅ SUCCESS --}}
     @if (session('success'))
         <script>
             Swal.fire({
@@ -206,34 +239,17 @@
             });
         </script>
     @endif
-    <!-- ✅ SWEETALERT2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {{-- ✅ SUCCESS --}}
-    @if (session('success'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: '{{ session("success") }}',
-                timer: 2000,
-                showConfirmButton: false
-            });
-        </script>
-    @endif
-
-    {{-- ✅ ERROR MESSAGE (session error) --}}
     @if (session('error'))
         <script>
             Swal.fire({
                 icon: 'error',
                 title: 'Error!',
-                text: '{{ session("error") }}',
+                text: '{{ session('error') }}',
             });
         </script>
     @endif
 
-    {{-- ✅ ERROR VALIDATION --}}
     @if ($errors->any())
         <script>
             Swal.fire({
@@ -243,19 +259,6 @@
             });
         </script>
     @endif
-
-    {{-- ✅ ERROR SPECIFIC: password salah --}}
-    @if ($errors->has('password'))
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Login Gagal!',
-                text: '{{ $errors->first("password") }}',
-            });
-        </script>
-    @endif
-
-
 </body>
 
 </html>

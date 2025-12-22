@@ -3,9 +3,12 @@
 @section('content')
 <div class="w-full px-6 py-6 bg-white rounded-2xl shadow-soft-xl border-0">
     <div class="bg-white shadow-lg rounded-lg p-6">
-        <h6 class="text-2xl font-semibold mb-6 text-gray-700">
-            🖊️Edit Posko Bencana
-        </h6>
+           <h1
+            class="text-4xl font-semibold text-blue-700 mb-6
+           border-b-4 border-blue-300 pb-2
+           drop-shadow-sm">
+            Edit Posko Bencana
+        </h1>
 
         <!-- Form Edit Posko -->
         <form action="{{ route('admin.posko.update', $posko->posko_id) }}" method="POST" enctype="multipart/form-data">
@@ -59,14 +62,17 @@
 
                 {{-- Placeholder Foto --}}
                 <div class="md:col-span-2">
-                    <label class="block mb-2 font-medium">Upload Foto (opsional)</label>
-                    <div class="mb-4">
-                        <img id="preview-foto"
-                             src="{{ asset('assets-admin/img/spaceholder.png') }}"
-                             alt="Placeholder Foto Posko"
-                             class="media-image rounded border mb-2">
-                    </div>
-                </div>
+                    <label class="block mb-2 font-medium">Upload Baru (opsional)</label>
+                        <div class="col-span-2">
+                                <label class="block mb-2 font-medium">Upload Foto jika ada (opsional)</label>
+                                <div class="mb-4 media-card w-40 h-40 rounded border overflow-hidden">
+                                    <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                                         alt="Placeholder Foto Posko"
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <input type="file" name="media" class="w-full mt-1" accept="image/*"
+                                       onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
+                            </div>
 
                 <!-- Foto Lama -->
                 <div class="md:col-span-2">
@@ -81,14 +87,6 @@
                 </div>
 
                 <!-- Upload Foto Baru -->
-                <div class="md:col-span-2">
-                    <label class="block mb-2 font-medium">Upload Foto Baru (opsional)</label>
-                    <input type="file"
-                           name="foto"
-                           class="w-full"
-                           accept="image/*"
-                           onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
-                </div>
             </div>
 
             <!-- Submit -->

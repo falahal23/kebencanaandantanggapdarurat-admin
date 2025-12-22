@@ -6,6 +6,24 @@
         <div class="w-full max-w-full px-3 mt-0 lg:w-12/12 lg:flex-none">
             <div class="border-black/12.5 shadow-soft-xl relative flex flex-col rounded-2xl bg-white">
 
+                <div class="p-6 border-b border-gray-200 bg-white shadow-sm rounded-t-2xl flex justify-between items-center">
+                    <!-- Judul + Ikon -->
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 text-green-600 shadow">
+                            <span class="text-xl">➕</span>
+                        </div>
+                        <div>
+                            <h1
+                                class="text-2xl md:text-3xl font-bold text-slate-800 leading-tight border-b-4 border-green-300 pb-1 drop-shadow-sm">
+                                Tambah Data Distribusi Logistik
+                            </h1>
+                            <p class="text-sm text-slate-500 mt-1">
+                                Formulir untuk menambahkan data Distribusi Logistik secara lengkap dan akurat
+                            </p>
+                        </div>
+                    </div>
+                </div>
                 <h2 class="text-3xl font-bold mb-6 text-gray-700 border-b pb-3">
                     Tambah Distribusi Logistik
                 </h2>
@@ -56,30 +74,21 @@
                         </div>
 
                         {{-- Penerima --}}
-                        <div class="md:col-span-2">
+                        <di class="md:col-span-2">
                             <label class="block mb-2 font-medium">Penerima Bantuan</label>
                             <input type="text" name="penerima" required value="{{ old('penerima') }}"
                                 class="w-full border rounded p-3" placeholder="Masukkan nama penerima bantuan">
-                        </div>
-
-
-                        {{-- Keterangan --}}
-                        <div class="md:col-span-2">
-                            <label class="block mb-2 font-medium">Keterangan</label>
-                            <textarea name="keterangan" rows="4" class="w-full border rounded p-3" placeholder="Keterangan tambahan jika ada"></textarea>
-                        </div>
+                        </di>
 
                         {{-- Bukti --}}
-                        <div class="md:col-span-2">
-                            <label class="block mb-2 font-medium">Upload Bukti Distribusi (Opsional)</label>
-
-                            <div class="flex items-center space-x-4">
-                                <img id="preview" src="{{ asset('assets-admin/img/spaceholder.png') }}"
-                                    class="w-16 h-16 object-cover rounded-lg border shadow-sm">
-
-                                <input type="file" name="bukti" accept="image/*" onchange="previewImage(event)"
-                                    class="w-full border rounded p-3 bg-gray-50">
+                        <div class="col-span-2">
+                            <label class="block mb-2 font-medium">Upload Foto jika ada (opsional)</label>
+                            <div class="mb-4 media-card w-40 h-40 rounded border overflow-hidden">
+                                <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                                    alt="Placeholder Foto Distribusi Logistik" class="w-full h-full object-cover">
                             </div>
+                            <input type="file" name="media" class="w-full mt-1" accept="image/*"
+                                onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
                         </div>
 
 

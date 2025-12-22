@@ -34,7 +34,7 @@ class DistribusiLogistik extends Model
 
     public function media()
     {
-        return $this->hasOne(Media::class, 'ref_id')
+        return $this->hasMany(Media::class, 'ref_id')
             ->where('ref_table', 'distribusi_logistik');
     }
 

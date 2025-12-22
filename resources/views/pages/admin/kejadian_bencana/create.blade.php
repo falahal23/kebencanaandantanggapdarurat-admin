@@ -6,8 +6,23 @@
             <div class="bg-white rounded-2xl shadow-xl">
 
                 {{-- HEADER --}}
-                <div class="p-6 border-b flex justify-between items-center">
-                    <h6 class="text-lg font-semibold">➕ Tambah Kejadian Bencana</h6>
+                <div class="p-6 border-b border-gray-200 bg-white shadow-sm rounded-t-2xl flex justify-between items-center">
+                    <!-- Judul + Ikon -->
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 rounded-lg bg-green-100 text-green-600 shadow">
+                            <span class="text-xl">➕</span>
+                        </div>
+                        <div>
+                            <h1
+                                class="text-2xl md:text-3xl font-bold text-slate-800 leading-tight border-b-4 border-green-300 pb-1 drop-shadow-sm">
+                                Tambah Kejadian Bencana
+                            </h1>
+                            <p class="text-sm text-slate-500 mt-1">
+                                Formulir untuk menambahkan data kejadian bencana secara lengkap dan akurat
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
                 {{-- BODY --}}
@@ -27,7 +42,7 @@
                     <form action="{{ route('kejadian.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
-                        <di class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                             {{-- JENIS --}}
                             <div>
@@ -71,75 +86,74 @@
                                 <select name="status_kejadian" class="w-full p-2 border rounded-lg" required>
                                     <option value="">-- Pilih --</option>
                                     <option value="Aktif">Aktif</option>
-                                    <option value="Sedang Ditangani">Sedang Ditangani</option>
+                                    <option value="Sedang Ditangani">Ditangani</option>
                                     <option value="Selesai">Selesai</option>
                                 </select>
                             </div>
 
-                            {{-- KETERANGAN --}}
+                            {{-- MEDIA --}}
                             <div class="md:col-span-2">
                                 <label class="block text-sm font-semibold mb-2">
                                     Upload Media (Foto / Video / File)
                                 </label>
-
                                 <input type="file" name="media" accept="image/*,video/*,.pdf"
                                     class="w-full px-3 py-2 border rounded-lg">
+                                <p class="text-xs text-gray-500 mt-1">Maksimal 20MB (1 file)</p>
+                                {{-- KETERANGAN --}}
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium mb-1">Keterangan</label>
+                                    <textarea name="keterangan" rows="4" class="w-full p-2 border rounded-lg resize-none"
+                                        placeholder="Masukkan keterangan tambahan mengenai kejadian">{{ old('keterangan') }}</textarea>
+                                </div>
 
-                                <p class="text-xs text-gray-500 mt-1">
-                                    Maksimal 20MB (1 file)
-                                </p>
                             </div>
-
-
-
 
                             {{-- PREVIEW --}}
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-semibold mb-2">Preview Media</label>
-
-                                <div class="md:col-span-2">
-                                    <label class="block mb-2 font-medium">Upload Foto (opsional)</label>
-                                    <div class="mb-4">
-                                        <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
-                                            alt="Placeholder Foto kejadian" class="media-image rounded border mb-2">
-                                    </div>
+                            <div class="col-span-2">
+                                <label class="block mb-2 font-medium">Upload Foto jika ada (opsional)</label>
+                                <div class="mb-4 media-card w-40 h-40 rounded border overflow-hidden">
+                                    <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                                        alt="Placeholder Foto Posko" class="w-full h-full object-cover">
                                 </div>
+                                <input type="file" name="media" class="w-full mt-1" accept="image/*"
+                                    onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
                             </div>
-                        </di>
-                </div>
-                {{-- KEMBALI --}}
-                <div class="mt-12 flex items-center justify-between">
-                    <!-- KIRI -->
-                    <a href="{{ route('kejadian.index') }}"
-                        class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">
-                        ← Batal
-                    </a>
 
-                    <!-- KANAN -->
-                    <button type="submit"
-                        class="px-6 py-3 font-bold text-white rounded-lg
-               bg-gradient-to-r from-blue-600 to-cyan-400
-               hover:shadow-lg hover:scale-105 transition">
-                        💾 Simpan
-                    </button>
+                        </div>
+
+                        {{-- KEMBALI & SIMPAN --}}
+                        <div class="mt-12 flex items-center justify-between">
+                            <!-- KIRI -->
+                            <a href="{{ route('kejadian.index') }}"
+                                class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">
+                                ← Batal
+                            </a>
+
+                            <!-- KANAN -->
+                            <button type="submit"
+                                class="px-6 py-3 font-bold text-white rounded-lg
+                                       bg-gradient-to-r from-blue-600 to-cyan-400
+                                       hover:shadow-lg hover:scale-105 transition">
+                                💾 Simpan
+                            </button>
+                        </div>
+
+                    </form>
+
                 </div>
             </div>
-
-            </form>
-
         </div>
-    </div>
-    </div>
     </div>
 
     {{-- JS PREVIEW --}}
     <script>
-        function previewFile(input) {
-            const preview = document.getElementById('preview');
-            if (input.files && input.files[0]) {
-                preview.src = URL.createObjectURL(input.files[0]);
+        const previewFoto = document.getElementById('preview-foto');
+        document.querySelector('input[name="media"]').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                previewFoto.src = URL.createObjectURL(file);
             }
-        }
+        });
     </script>
 
 @endsection

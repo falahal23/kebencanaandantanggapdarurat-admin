@@ -3,7 +3,30 @@
 @section('content')
     <div class="container mx-auto px-4 py-6">
 
-        <h1 class="text-2xl font-semibold mb-6 text-gray-700">Tambah Donasi Bencana</h1>
+        <div class="p-6 border-b border-gray-200 bg-white shadow-sm rounded-t-2xl flex justify-between items-center">
+            <!-- Judul + Ikon -->
+            <div class="flex items-center gap-3">
+                <!-- Icon / Logo -->
+                <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-red-100 text-red-600 shadow">
+                    <!-- Icon Hati untuk donasi -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3
+                             c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3
+                             19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1
+                        class="text-2xl md:text-3xl font-bold text-slate-800 leading-tight border-b-4 border-red-300 pb-1 drop-shadow-sm">
+                        Tambah Donasi Bencana
+                    </h1>
+                    <p class="text-sm text-slate-500 mt-1">
+                        Formulir untuk menambahkan data donasi bencana secara lengkap dan akurat
+                    </p>
+                </div>
+            </div>
+        </div>
+
 
         {{-- Notifikasi error --}}
         @if ($errors->any())
@@ -62,15 +85,13 @@
 
                 <!-- Bukti Donasi + Placeholder -->
                 <div class="col-span-2">
-                    <label class="block mb-2 font-medium">Upload Bukti Donasi (Opsional)</label>
-
-                    <div class="flex items-center space-x-3 mb-3">
-                        <img id="preview" src="{{ asset('assets-admin/img/spaceholder.png') }}"
-                            class="w-12 h-12 object-cover rounded-lg border shadow-sm">
-
-                        <input type="file" name="bukti" accept="image/*" onchange="previewImage(event)"
-                            class="border rounded-lg p-2 w-full bg-gray-50 focus:ring focus:ring-gray-200">
+                    <label class="block mb-2 font-medium">Upload Foto jika ada (opsional)</label>
+                    <div class="mb-4 media-card w-40 h-40 rounded border overflow-hidden">
+                        <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                            alt="Placeholder Foto Posko" class="w-full h-full object-cover">
                     </div>
+                    <input type="file" name="media" class="w-full mt-1" accept="image/*"
+                        onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
                 </div>
 
             </div>

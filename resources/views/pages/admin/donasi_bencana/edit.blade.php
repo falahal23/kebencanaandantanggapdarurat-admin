@@ -3,7 +3,13 @@
 @section('content')
     <div class="container mx-auto px-4 py-6">
 
-        <h1 class="text-3xl font-bold mb-6 text-gray-800">Edit Donasi Bencana</h1>
+        <h1
+            class="text-4xl font-semibold text-blue-700 mb-6
+           border-b-4 border-blue-300 pb-2
+           drop-shadow-sm">
+            Edit Donasi Bencana
+        </h1>
+
 
         <div class="bg-white shadow-xl rounded-xl p-6 border border-gray-200">
 
@@ -60,35 +66,43 @@
 
                     @php $media = $donasi->media->first(); @endphp
 
-                    @if ($media)
-                        @if (in_array($media->mime_type, ['image/jpeg', 'image/png', 'image/jpg']))
-                            <img src="{{ asset('storage/' . $media->file_url) }}"
-                                class="w-32 h-32 mt-3 rounded object-cover border"  style="width: 100px; height: 100px;" alt="Bukti Donasi"
-                                onerror="this.onerror=null;this.src='{{ asset('assets-admin/img/spaceholder.png') }}';">
-                        @elseif ($media->mime_type === 'application/pdf')
-                            <div class="p-4 bg-gray-100 rounded-lg mt-3">
-                                <span class="text-gray-700">📄 File PDF tersedia</span><br>
-                                <a href="{{ asset('storage/' . $media->file_url) }}" target="_blank"
-                                    class="inline-block mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                                    📥 Download / Lihat PDF
-                                </a>
-                            </div>
+                    <!-- Preview Foto / PDF / Placeholder -->
+                    <div class="mt-3 w-40 h-40 rounded border overflow-hidden">
+                        @if ($media)
+                            @if (in_array($media->mime_type, ['image/jpeg', 'image/png', 'image/jpg']))
+                                <img id="preview-bukti" src="{{ asset('storage/' . $media->file_url) }}" alt="Bukti Donasi"
+                                    class="w-full h-full object-cover"
+                                    onerror="this.onerror=null;this.src='{{ asset('assets-admin/img/spaceholder.png') }}';">
+                            @elseif ($media->mime_type === 'application/pdf')
+                                <div
+                                    class="p-4 bg-gray-100 rounded-lg w-full h-full flex flex-col justify-center items-center text-center">
+                                    <span class="text-gray-700">📄 File PDF tersedia</span>
+                                    <a href="{{ asset('storage/' . $media->file_url) }}" target="_blank"
+                                        class="inline-block mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                                        📥 Download / Lihat PDF
+                                    </a>
+                                </div>
+                            @else
+                                <div class="w-full h-full flex flex-col justify-center items-center text-gray-500 text-sm">
+                                    <span>Format file tidak dapat ditampilkan.</span>
+                                    <a href="{{ asset('storage/' . $media->file_url) }}" target="_blank"
+                                        class="text-blue-600 underline">
+                                        Download File
+                                    </a>
+                                </div>
+                            @endif
                         @else
-                            <p class="text-gray-500 mt-2" style="width: 100px; height: 100px;" >Format file tidak dapat ditampilkan.</p>
-                            <a href="{{ asset('storage/' . $media->file_url) }}" target="_blank"
-                                class="text-blue-600 underline">Download File</a>
+                            <img id="preview-bukti" src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                                alt="Placeholder Bukti Donasi" class="w-full h-full object-cover">
                         @endif
-                    @else
-                        <img src="{{ asset('assets-admin/img/spaceholder.png') }}"
-                            class="w-32 h-32 mt-3 rounded object-cover border" style="width: 100px; height: 100px;" alt="Placeholder Bukti Donasi">
-                        <p class="text-gray-500 mt-2">Tidak ada bukti donasi.</p>
-                    @endif
+                    </div>
                 </div>
 
-                {{-- GANTI BUKTI --}}
+                {{-- Upload / Ganti Bukti Donasi --}}
                 <div class="mt-6">
                     <label class="block text-sm mb-2 font-medium">Ganti Bukti Donasi (opsional)</label>
-                    <input type="file" name="bukti" class="w-full border rounded p-2">
+                    <input type="file" name="bukti" accept="image/*" class="w-full border rounded p-2"
+                        onchange="document.getElementById('preview-bukti').src = window.URL.createObjectURL(this.files[0])">
 
                     @if ($media)
                         <p class="text-xs text-gray-500 mt-1">
@@ -96,6 +110,7 @@
                         </p>
                     @endif
                 </div>
+
 
                 {{-- ACTION --}}
                 <div class="flex justify-end mt-6 space-x-3">
@@ -105,8 +120,8 @@
                     </a>
 
                     <button type="submit"
-                    class="inline-block px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all bg-transparent rounded-lg cursor-pointer leading-pro text-xs ease-soft-in shadow-soft-md bg-150 bg-gradient-to-tl from-gray-900 to-slate-800 hover:shadow-soft-xs active:opacity-85 hover:scale-102 tracking-tight-soft bg-x-25">
-                        💾 Simpan Perubahan
+                        class="inline-block px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all bg-transparent rounded-lg cursor-pointer leading-pro text-xs ease-soft-in shadow-soft-md bg-150 bg-gradient-to-tl from-gray-900 to-slate-800 hover:shadow-soft-xs active:opacity-85 hover:scale-102 tracking-tight-soft bg-x-25">
+                        💾 Simpan
                     </button>
                 </div>
 

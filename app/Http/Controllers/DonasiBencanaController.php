@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class DonasiBencanaController extends Controller
 {
- public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('checkrole:User');
@@ -29,17 +29,20 @@ class DonasiBencanaController extends Controller
         }
 
         // === FILTER KEJADIAN ===
-        if ($request->kejadian_id) {
-            $query->where('kejadian_id', $request->kejadian_id);
+        // === FILTER JENIS DONASI ===
+        if ($request->jenis) {
+            $query->where('jenis', $request->jenis);
         }
 
-        // Eksekusi query
+// Eksekusi query
         $donasi = $query->paginate(10)->appends($request->query());
 
-        // Untuk dropdown filter
-        $kejadianList = KejadianBencana::select('kejadian_id', 'jenis_bencana')->get();
+// Untuk dropdown filter jenis donasi
+        $jenisList = DonasiBencana::select('jenis')->distinct()->pluck('jenis');
 
-        return view('pages.admin.donasi_bencana.index', compact('donasi', 'kejadianList'));
+        return view('pages.admin.donasi_bencana.index',compact('donasi', 'jenisList')
+        );
+
     }
 
     public function create()

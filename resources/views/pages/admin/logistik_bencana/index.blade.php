@@ -11,12 +11,17 @@
                 <div class="p-6 pb-0">
                     <div class="flex justify-between items-center flex-wrap gap-4">
                         <div>
-                            <h6>Logistik Bencana</h6>
-                            <p class="mb-0 text-sm leading-normal">
+                            <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                                <i class="fa fa-boxes-stacked text-cyan-500"></i>
+                                Logistik Bencana
+                            </h1>
+
+                            <p class="mt-1 text-sm text-gray-500 flex items-center gap-2">
                                 <i class="fa fa-check text-cyan-500"></i>
-                                Semua data logistik terdaftar
+                                Semua data logistik telah terdaftar dan terkelola
                             </p>
                         </div>
+
 
                         <!-- Tombol Tambah -->
                         <a href="{{ route('admin.logistik_bencana.create') }}"
@@ -32,23 +37,28 @@
 
                         <select name="kejadian_id" class="px-3 py-2 border rounded-lg text-sm">
                             <option value="">Semua Kejadian</option>
+
                             @foreach ($kejadians as $kejadian)
-                                <option value="{{ $kejadian->id }}"
-                                    {{ request('kejadian_id') == $kejadian->id ? 'selected' : '' }}>
+                                <option value="{{ $kejadian->kejadian_id }}"
+                                    {{ request('kejadian_id') == $kejadian->kejadian_id ? 'selected' : '' }}>
                                     {{ $kejadian->jenis_bencana }} - {{ $kejadian->lokasi_text }}
                                 </option>
                             @endforeach
                         </select>
+
 
                         <button type="submit"
                             class="px-4 py-2 bg-blue-600 text-black rounded-lg text-sm hover:bg-blue-500 transition">
                             🔍
                         </button>
 
-                        @if (request()->has('search') && request('search') != '')
+                        @if (request()->hasAny(['search', 'status', 'tanggal']))
                             <a href="{{ route('logistik.index') }}"
-                                class="w-10 h-10 flex items-center justify-center text-xl font-bold text-white bg-gray-600 rounded-lg hover:bg-gray-700 transition">
-                                ⟲
+                                class="inline-flex items-center gap-2 px-5 py-2.5
+                       bg-slate-200 text-slate-700 text-sm font-semibold
+                       rounded-xl hover:bg-slate-300 transition">
+                                <i class="fa fa-rotate-left"></i>
+                                Reset
                             </a>
                         @endif
                     </form>
@@ -65,46 +75,101 @@
 
                     <!-- Table -->
                     <div class="overflow-x-auto px-6">
-                        <table class="w-full text-slate-500">
-                            <thead class="bg-gray-100">
-                                <tr>
-                                    <th class="px-4 py-3 text-left text-xs font-bold">No</th>
-                                    <th class="px-4 py-3 text-left text-xs font-bold">Nama Barang</th>
-                                    <th class="px-4 py-3 text-left text-xs font-bold">Satuan</th>
-                                    <th class="px-4 py-3 text-left text-xs font-bold">Stok</th>
-                                    <th class="px-4 py-3 text-left text-xs font-bold">Sumber</th>
-                                    <th class="px-4 py-3 text-left text-xs font-bold">Kejadian</th>
-                                    <th class="px-4 py-3 text-center text-xs font-bold">Aksi</th>
+                        <table class="w-full text-sm text-slate-600 border-separate border-spacing-y-2">
+
+                            <!-- HEADER -->
+                            <thead>
+                                <tr class="text-xs uppercase tracking-wide text-slate-500">
+                                    <th class="px-4 py-3 text-left">No</th>
+                                    <th class="px-4 py-3 text-left">Nama Barang</th>
+                                    <th class="px-4 py-3 text-left">Satuan</th>
+                                    <th class="px-4 py-3 text-left">Stok</th>
+                                    <th class="px-4 py-3 text-left">Sumber</th>
+                                    <th class="px-4 py-3 text-left">Kejadian</th>
+                                    <th class="px-4 py-3 text-center">Aksi</th>
                                 </tr>
                             </thead>
+
+                            <!-- BODY -->
                             <tbody>
-                                @forelse($logistik as $item)
-                                    <tr class="border-b">
-                                        <td class="px-4 py-2 text-xs">
+                                @forelse ($logistik as $item)
+                                    <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
+
+                                        <!-- No -->
+                                        <td class="px-4 py-3 text-xs text-slate-500 rounded-l-lg">
                                             {{ $logistik->firstItem() + $loop->index }}
                                         </td>
-                                        <td class="px-4 py-2 text-xs">{{ $item->nama_barang }}</td>
-                                        <td class="px-4 py-2 text-xs">{{ $item->satuan }}</td>
-                                        <td class="px-4 py-2 text-xs">{{ $item->stok }}</td>
-                                        <td class="px-4 py-2 text-xs">{{ $item->sumber ?? '-' }}</td>
-                                        <td class="px-4 py-2 text-xs">
+
+                                        <!-- Nama -->
+                                        <td class="px-4 py-3 font-semibold text-slate-800">
+                                            {{ $item->nama_barang }}
+                                        </td>
+
+                                        <!-- Satuan (BADGE WARNA) -->
+                                        <td class="px-4 py-3">
+                                            @php
+                                                $satuan = strtolower($item->satuan);
+
+                                                $warna = match (true) {
+                                                    str_contains($satuan, 'dus'),
+                                                    str_contains($satuan, 'box')
+                                                        => 'bg-green-100 text-green-700',
+
+                                                    str_contains($satuan, 'kg') => 'bg-red-100 text-red-700',
+
+                                                    str_contains($satuan, 'liter'),
+                                                    str_contains($satuan, 'ltr')
+                                                        => 'bg-blue-100 text-blue-700',
+
+                                                    str_contains($satuan, 'pcs') => 'bg-purple-100 text-purple-700',
+
+                                                    default => 'bg-gray-100 text-gray-700',
+                                                };
+                                            @endphp
+
+                                            <span class="px-2 py-1 text-xs font-semibold rounded-md {{ $warna }}">
+                                                {{ strtoupper($item->satuan) }}
+                                            </span>
+                                        </td>
+
+                                        <!-- Stok -->
+                                        <td class="px-4 py-3 font-semibold text-slate-700">
+                                            {{ $item->stok }}
+                                        </td>
+
+                                        <!-- Sumber -->
+                                        <td class="px-4 py-3 text-slate-600">
+                                            {{ $item->sumber ?? '-' }}
+                                        </td>
+
+                                        <!-- Kejadian -->
+                                        <td class="px-4 py-3 text-xs text-slate-600">
                                             @if ($item->kejadian)
-                                                {{ $item->kejadian->jenis_bencana }} |
-                                                {{ $item->kejadian->lokasi_text }} |
-                                                {{ \Carbon\Carbon::parse($item->kejadian->tanggal)->format('d M Y') }}
+                                                <div class="font-semibold text-slate-700">
+                                                    {{ $item->kejadian->jenis_bencana }}
+                                                </div>
+                                                <div class="text-slate-400">
+                                                    {{ $item->kejadian->lokasi_text }} •
+                                                    {{ \Carbon\Carbon::parse($item->kejadian->tanggal)->format('d M Y') }}
+                                                </div>
                                             @else
-                                                -
+                                                <span class="italic text-slate-400">-</span>
                                             @endif
                                         </td>
-                                        <td class="px-4 py-2 text-center">
+
+                                        <!-- AKSI -->
+                                        <td class="px-4 py-3 text-center rounded-r-lg">
                                             <div class="flex justify-center gap-2">
-                                                <a href="{{ route('admin.logistik_bencana.edit', $item) }}"
-                                                    class="px-2 py-1 text-xs text-black bg-indigo-500 hover:bg-blue-600 rounded-lg font-semibold shadow-md transition whitespace-nowrap">
-                                                    ✏️ Edit</a>
 
                                                 <a href="{{ route('admin.logistik_bencana.show', $item) }}"
-                                                    class="px-2 py-1 text-xs text-white rounded-lg bg-gray-600 hover:bg-gray-700 transition font-semibold shadow-md whitespace-nowrap">
-                                                    🔍 Detail</a>
+                                                    class="px-3 py-1.5 text-xs font-semibold bg-slate-600 text-white rounded-lg  hover:bg-slate-700 transition shadow">
+                                                    👁️ Detail
+                                                </a>
+
+                                                <a href="{{ route('admin.logistik_bencana.edit', $item) }}"
+                                                    class="px-3 py-1.5 text-xs font-semibold bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition shadow">
+                                                    ✏️ Edit
+                                                </a>
 
                                                 <form action="{{ route('admin.logistik_bencana.destroy', $item) }}"
                                                     method="POST"
@@ -112,21 +177,24 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button
-                                                        class="px-2 py-1 text-xs text-black bg-red-600 hover:bg-red-700 rounded-lg font-semibold shadow-md transition whitespace-nowrap">
+                                                        class="px-3 py-1.5 text-xs font-semibold bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition shadow">
                                                         🗑️ Hapus
                                                     </button>
                                                 </form>
+
                                             </div>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="py-4 text-center text-xs text-gray-400">
+                                        <td colspan="7" class="py-8 text-center text-sm text-slate-400">
+                                            <i class="fa fa-box-open text-lg mb-1 block"></i>
                                             Belum ada data logistik.
                                         </td>
                                     </tr>
                                 @endforelse
                             </tbody>
+
                         </table>
                     </div>
 
