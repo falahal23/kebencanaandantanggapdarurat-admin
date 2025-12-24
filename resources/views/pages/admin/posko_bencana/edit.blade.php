@@ -1,108 +1,215 @@
 @extends('layouts.admin.app')
 
 @section('content')
+@php
+    use Illuminate\Support\Str;
+@endphp
+
 <div class="w-full px-6 py-6 bg-white rounded-2xl shadow-soft-xl border-0">
     <div class="bg-white shadow-lg rounded-lg p-6">
-           <h1
+
+        {{-- HEADER --}}
+        <h1
             class="text-4xl font-semibold text-blue-700 mb-6
-           border-b-4 border-blue-300 pb-2
-           drop-shadow-sm">
-            Edit Posko Bencana
+                   border-b-4 border-blue-300 pb-2
+                   drop-shadow-sm">
+            Edit Kejadian Bencana
         </h1>
 
-        <!-- Form Edit Posko -->
-        <form action="{{ route('admin.posko.update', $posko->posko_id) }}" method="POST" enctype="multipart/form-data">
+        {{-- FORM --}}
+        <form action="{{ route('kejadian.update', $kejadian->kejadian_id) }}"
+              method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Nama Posko -->
+
+                {{-- Jenis --}}
                 <div>
-                    <label class="block mb-2 font-medium">Nama Posko</label>
-                    <input type="text" name="nama" value="{{ old('nama', $posko->nama) }}"
+                    <label class="block mb-2 font-medium">Jenis Bencana</label>
+                    <input type="text" name="jenis_bencana"
+                           value="{{ old('jenis_bencana', $kejadian->jenis_bencana) }}"
                            class="w-full border rounded p-2" required>
                 </div>
 
-                <!-- Alamat -->
+                {{-- Tanggal --}}
                 <div>
-                    <label class="block mb-2 font-medium">Alamat</label>
-                    <input type="text" name="alamat" value="{{ old('alamat', $posko->alamat) }}"
+                    <label class="block mb-2 font-medium">Tanggal Kejadian</label>
+                    <input type="date" name="tanggal"
+                           value="{{ old('tanggal', $kejadian->tanggal) }}"
                            class="w-full border rounded p-2" required>
                 </div>
 
-                <!-- Kontak -->
+                {{-- Lokasi --}}
                 <div>
-                    <label class="block mb-2 font-medium">Kontak</label>
-                    <input type="text" name="kontak" value="{{ old('kontak', $posko->kontak) }}"
+                    <label class="block mb-2 font-medium">Lokasi</label>
+                    <input type="text" name="lokasi_text"
+                           value="{{ old('lokasi_text', $kejadian->lokasi_text) }}"
                            class="w-full border rounded p-2">
                 </div>
 
-                <!-- Penanggung Jawab -->
+                {{-- Dampak --}}
                 <div>
-                    <label class="block mb-2 font-medium">Penanggung Jawab</label>
-                    <input type="text" name="penanggung_jawab"
-                           value="{{ old('penanggung_jawab', $posko->penanggung_jawab) }}"
+                    <label class="block mb-2 font-medium">Dampak</label>
+                    <input type="text" name="dampak"
+                           value="{{ old('dampak', $kejadian->dampak) }}"
                            class="w-full border rounded p-2">
                 </div>
 
-                <!-- Kejadian Bencana (Relasi) -->
+                {{-- RT --}}
+                <div>
+                    <label class="block mb-2 font-medium">RT</label>
+                    <input type="number" name="rt"
+                           value="{{ old('rt', $kejadian->rt) }}"
+                           class="w-full border rounded p-2">
+                </div>
+
+                {{-- RW --}}
+                <div>
+                    <label class="block mb-2 font-medium">RW</label>
+                    <input type="number" name="rw"
+                           value="{{ old('rw', $kejadian->rw) }}"
+                           class="w-full border rounded p-2">
+                </div>
+
+                {{-- Status --}}
                 <div class="md:col-span-2">
-                    <label class="block mb-2 font-medium">Kejadian Bencana</label>
-                    <select name="kejadian_id" class="w-full border rounded p-2" required>
-                        <option value="">-- Pilih Kejadian --</option>
-                        @foreach ($kejadian as $item)
-                            <option value="{{ $item->kejadian_id }}"
-                                {{ old('kejadian_id', $posko->kejadian_id) == $item->kejadian_id ? 'selected' : '' }}>
-                                {{ $item->jenis_bencana }} | {{ $item->lokasi_text }} |
-                                {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
-                            </option>
-                        @endforeach
+                    <label class="block mb-2 font-medium">Status Kejadian</label>
+                    <select name="status_kejadian" class="w-full border rounded p-2">
+                        <option value="Aktif" {{ $kejadian->status_kejadian == 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                        <option value="Sedang Ditangani" {{ $kejadian->status_kejadian == 'Sedang Ditangani' ? 'selected' : '' }}>
+                            Sedang Ditangani
+                        </option>
+                        <option value="Selesai" {{ $kejadian->status_kejadian == 'Selesai' ? 'selected' : '' }}>Selesai</option>
                     </select>
                 </div>
 
-                {{-- Placeholder Foto --}}
+                {{-- MEDIA --}}
                 <div class="md:col-span-2">
-                    <label class="block mb-2 font-medium">Upload Baru (opsional)</label>
-                        <div class="col-span-2">
-                                <label class="block mb-2 font-medium">Upload Foto jika ada (opsional)</label>
-                                <div class="mb-4 media-card w-40 h-40 rounded border overflow-hidden">
-                                    <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
-                                         alt="Placeholder Foto Posko"
-                                         class="w-full h-full object-cover">
-                                </div>
-                                <input type="file" name="media" class="w-full mt-1" accept="image/*"
-                                       onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
-                            </div>
+                    <label class="block mb-2 font-medium">Media Kejadian</label>
 
-                <!-- Foto Lama -->
-                <div class="md:col-span-2">
-                    <label class="block font-medium mb-2">Foto Lama</label>
-                    @php $media = $posko->media->first(); @endphp
-                    @if ($media)
-                        <img src="{{ asset('storage/' . $media->file_url) }}"
-                             class="media-image rounded shadow">
-                    @else
-                        <p class="text-gray-500">Tidak ada foto.</p>
-                    @endif
+                    <p class="text-sm text-gray-500 mb-3">
+                        ⚠️ Jika upload media baru, semua media lama akan diganti.
+                    </p>
+
+                    {{-- MEDIA LAMA --}}
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                        @forelse ($kejadian->media as $m)
+                            <div class="border rounded overflow-hidden h-40 bg-gray-100 flex items-center justify-center">
+                                @if (Str::startsWith($m->mime_type, 'image/'))
+                                    <img src="{{ asset('storage/'.$m->file_url) }}"
+                                         class="w-full h-full object-cover">
+                                @elseif (Str::startsWith($m->mime_type, 'video/'))
+                                    <video controls class="w-full h-full object-cover">
+                                        <source src="{{ asset('storage/'.$m->file_url) }}"
+                                                type="{{ $m->mime_type }}">
+                                    </video>
+                                @else
+                                    <span class="text-xs p-2 text-center">
+                                        {{ basename($m->file_url) }}
+                                    </span>
+                                @endif
+                            </div>
+                        @empty
+                            <div class="col-span-full text-sm text-gray-400 italic">
+                                Tidak ada media sebelumnya
+                            </div>
+                        @endforelse
+                    </div>
+
+                    {{-- PREVIEW MEDIA BARU --}}
+                    <div id="preview-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4"></div>
+
+                    {{-- INPUT FILE --}}
+                    <input type="file" name="media[]"
+                           class="w-full"
+                           multiple accept="image/*,video/*,.pdf">
                 </div>
 
-                <!-- Upload Foto Baru -->
+                {{-- KETERANGAN --}}
+                <div class="md:col-span-2">
+                    <label class="block mb-2 font-medium">Keterangan</label>
+                    <textarea name="keterangan" rows="4"
+                              class="w-full border rounded p-2">{{ old('keterangan', $kejadian->keterangan) }}</textarea>
+                </div>
+
             </div>
 
-            <!-- Submit -->
-            <div class="mt-6 flex gap-3">
-                <button type="submit"
-                        class="px-6 py-3 font-bold text-white uppercase bg-gradient-to-tl from-gray-900 to-slate-800 rounded-lg shadow-md hover:scale-102 transition">
-                    <i class=""></i> 💾Update Data
-                </button>
-
-                <a href="{{ route('admin.posko.index') }}"
-                   class="px-6 py-3 text-white rounded-lg bg-gray-600 hover:bg-gray-700 transition font-bold shadow-md">
-                   ← Kembali ke Daftar Posko
+            {{-- ACTION --}}
+            <div class="mt-8 flex justify-between">
+                <a href="{{ route('kejadian.index') }}"
+                   class="px-4 py-2 bg-gray-300 rounded">
+                    ← Kembali
                 </a>
-            </div>
 
+                <button type="submit"
+                        class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+                    💾 Update Kejadian
+                </button>
+            </div>
         </form>
+
     </div>
-</class=>
+</div>
+
+{{-- ================= JS (SAMA DENGAN POSKO) ================= --}}
+<script>
+    const placeholderUrl = "{{ asset('assets-admin/img/slideshow/spaceholder.png') }}";
+
+    function showPlaceholder() {
+        const container = document.getElementById('preview-container');
+        container.innerHTML = '';
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'rounded overflow-hidden border h-40 flex items-center justify-center bg-gray-50';
+
+        const img = document.createElement('img');
+        img.src = placeholderUrl;
+        img.className = 'w-full h-full object-cover';
+
+        wrapper.appendChild(img);
+        container.appendChild(wrapper);
+    }
+
+    function renderPreviews(files) {
+        const container = document.getElementById('preview-container');
+        container.innerHTML = '';
+
+        if (!files || files.length === 0) {
+            showPlaceholder();
+            return;
+        }
+
+        Array.from(files).forEach(file => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'rounded overflow-hidden border h-40 flex items-center justify-center bg-gray-50';
+
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.className = 'w-full h-full object-cover';
+                wrapper.appendChild(img);
+            } else if (file.type.startsWith('video/')) {
+                const video = document.createElement('video');
+                video.src = URL.createObjectURL(file);
+                video.controls = true;
+                video.className = 'w-full h-full object-cover';
+                wrapper.appendChild(video);
+            } else {
+                const span = document.createElement('div');
+                span.innerText = file.name;
+                span.className = 'text-xs text-gray-600 p-2 text-center';
+                wrapper.appendChild(span);
+            }
+
+            container.appendChild(wrapper);
+        });
+    }
+
+    document.querySelector('input[name="media[]"]').addEventListener('change', e => {
+        renderPreviews(e.target.files);
+    });
+
+    document.addEventListener('DOMContentLoaded', showPlaceholder);
+</script>
 @endsection

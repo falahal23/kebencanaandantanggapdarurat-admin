@@ -1,6 +1,9 @@
 @extends('layouts.admin.app')
 
 @section('content')
+@php
+    use Illuminate\Support\Str;
+@endphp
 <div class="p-6 bg-gray-100 min-h-screen">
 
     <!-- HEADER -->
@@ -76,31 +79,31 @@
                 Dokumentasi Media
             </h2>
 
-            @if ($media)
-                <div class="rounded-lg overflow-hidden border mb-3">
-                    @if ($isImage)
-                        <img src="{{ asset('storage/' . $media->file_url) }}"
-                             class="w-full h-64 object-cover">
-                    @elseif ($isVideo)
-                        <video controls class="w-full h-64 object-cover">
-                            <source src="{{ asset('storage/' . $media->file_url) }}"
-                                    type="{{ $media->mime_type }}">
-                        </video>
-                    @endif
-                </div>
+            @if ($posko->media->isNotEmpty())
+                <div class="grid grid-cols-1 gap-3">
+                    @foreach ($posko->media as $m)
+                        @php
+                            $isImage = Str::startsWith($m->mime_type, 'image/');
+                            $isVideo = Str::startsWith($m->mime_type, 'video/');
+                        @endphp
 
-                <p class="text-sm text-gray-500 italic text-center">
-                    {{ $media->caption ?? '' }}
-                </p>
+                        <div class="rounded-lg overflow-hidden border">
+                            @if ($isImage)
+                                <img src="{{ asset('storage/' . $m->file_url) }}" class="w-full h-48 object-cover rounded">
+                            @elseif ($isVideo)
+                                <video controls class="w-full h-48 object-cover rounded">
+                                    <source src="{{ asset('storage/' . $m->file_url) }}" type="{{ $m->mime_type }}">
+                                </video>
+                            @else
+                                <div class="p-4 text-sm text-gray-700">{{ basename($m->file_url) }}</div>
+                            @endif
+                        </div>
+
+                    @endforeach
+                </div>
             @else
                 <div class="h-64 flex items-center justify-center text-gray-400">
-                      <div class="md:col-span-2">
-                            <label class="block mb-2 font-medium"></label>
-                            <div class="mb-4">
-                                <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
-                                    alt="Placeholder Foto kejadian" class="media-image rounded border mb-2">
-                            </div>
-                        </div>
+                    <img src="{{ asset('assets-admin/img/slideshow/spaceholder.png') }}" alt="Placeholder Foto posko" class="media-image rounded border mb-2 w-32 h-32 object-cover">
                 </div>
             @endif
 

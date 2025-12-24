@@ -43,52 +43,56 @@
                         {{-- Search --}}
                         <input type="text" name="search" value="{{ request('search') }}"
                             placeholder="Cari jenis, lokasi, keterangan..."
-                            class="px-4 py-2 w-64 rounded-xl border border-slate-300
-                   text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+                            class="px-4 py-2 w-64 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+
+                        {{-- Jenis Bencana --}}
+                        <select name="jenis_bencana"
+                            class="px-4 py-2 w-52 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+                            <option value="">Semua Jenis Bencana</option>
+                            <option value="banjir" {{ request('jenis_bencana') == 'banjir' ? 'selected' : '' }}>Banjir
+                            </option>
+                            <option value="gempa" {{ request('jenis_bencana') == 'gempa' ? 'selected' : '' }}>Gempa
+                            </option>
+                            <option value="kebakaran" {{ request('jenis_bencana') == 'kebakaran' ? 'selected' : '' }}>
+                                Kebakaran</option>
+                            <!-- Tambahkan sesuai data -->
+                        </select>
 
                         {{-- Status --}}
-                        <select name="status"
-                            class="px-4 py-2 w-52 rounded-xl border border-slate-300
-                   text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+                        <select name="status_kejadian"
+                            class="px-4 py-2 w-52 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
                             <option value="">Semua Status</option>
-                            <option value="aktif" {{ request('status') == 'aktif' ? 'selected' : '' }}>
-                                Aktif
+                            <option value="aktif" {{ request('status_kejadian') == 'aktif' ? 'selected' : '' }}>Aktif
                             </option>
                             <option value="sedang ditangani"
-                                {{ request('status') == 'sedang ditangani' ? 'selected' : '' }}>
-                                Sedang Ditangani
+                                {{ request('status_kejadian') == 'sedang ditangani' ? 'selected' : '' }}>Sedang Ditangani
                             </option>
-                            <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>
-                                Selesai
+                            <option value="selesai" {{ request('status_kejadian') == 'selesai' ? 'selected' : '' }}>Selesai
                             </option>
                         </select>
 
-                        {{-- Tanggal --}}
-                        <input type="date" name="tanggal" value="{{ request('tanggal') }}"
-                            class="px-4 py-2 rounded-xl border border-slate-300
-                   text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
+                        {{-- Tanggal Range --}}
+                        <input type="date" name="tanggal_akhir" value="{{ request('tanggal_akhir') }}"
+                            class="px-4 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400">
 
                         {{-- Tombol Cari --}}
                         <button type="submit"
-                            class="inline-flex items-center gap-2 px-5 py-2.5
-                   bg-blue-600 text-white text-sm font-semibold
-                   rounded-xl shadow hover:bg-blue-700 transition">
+                            class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl shadow hover:bg-blue-700 transition">
                             <i class="fa fa-search"></i>
                             Cari
                         </button>
 
                         {{-- Reset --}}
-                        @if (request()->hasAny(['search', 'status', 'tanggal']))
+                        @if (request()->hasAny(['search', 'jenis_bencana', 'status_kejadian', 'tanggal_mulai', 'tanggal_akhir']))
                             <a href="{{ route('kejadian.index') }}"
-                                class="inline-flex items-center gap-2 px-5 py-2.5
-                       bg-slate-200 text-slate-700 text-sm font-semibold
-                       rounded-xl hover:bg-slate-300 transition">
+                                class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-300 transition">
                                 <i class="fa fa-rotate-left"></i>
                                 Reset
                             </a>
                         @endif
 
                     </form>
+
 
                 </div>
 

@@ -172,10 +172,7 @@
                                             @method('DELETE')
 
                                             <button type="submit"
-                                                class="inline-flex items-center gap-1 px-3 py-1.5
-                                           text-xs font-semibold
-                                           text-red-600 bg-red-100
-                                           rounded-lg hover:bg-red-200 transition">
+                                                class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition">
                                                 <i class="fa fa-trash"></i>
                                                 Hapus
                                             </button>

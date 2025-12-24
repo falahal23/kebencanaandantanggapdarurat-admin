@@ -47,49 +47,45 @@
 
                     </div>
 
-                    <!-- SEARCH & FILTER (DI BAWAH HEADER) -->
-                    <form method="GET" class="mt-6 flex flex-wrap items-end gap-3">
+                    <form method="GET" class="flex flex-wrap items-end gap-3 mb-6">
 
-                        <!-- Search -->
-                        <input type="text" name="search" value="{{ request('search') }}"
-                            placeholder="Cari logistik atau posko"
-                            class="px-4 py-2 w-64 rounded-xl border border-slate-300
-            text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition">
+                        {{-- Search --}}
+                        <form method="GET" class="flex flex-wrap items-end gap-3 mb-6">
 
-                        <!-- Filter Posko -->
-                        <select name="posko_id"
-                            class="px-4 py-2 w-56 rounded-xl border border-slate-300
-            text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition">
-                            <option value="">Semua Posko</option>
-                            @foreach ($poskos as $posko)
-                                <option value="{{ $posko->id }}"
-                                    {{ request('posko_id') == $posko->id ? 'selected' : '' }}>
-                                    {{ $posko->nama }}
-                                </option>
-                            @endforeach
-                        </select>
+                            {{-- Search --}}
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                placeholder="Cari nama logistik atau posko..."
+                                class="px-4 py-2 w-64 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition">
 
-                        <!-- Submit -->
-                        <button type="submit"
-                            class="inline-flex items-center gap-2 px-5 py-2.5
-            bg-blue-600 text-white text-sm font-semibold
-            rounded-xl shadow hover:bg-blue-700 transition">
-                            <i class="fa fa-search"></i>
-                            Cari
-                        </button>
+                            {{-- Filter Posko --}}
+                            <select name="posko_id"
+                                class="px-4 py-2 w-56 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition">
+                                <option value="">Semua Posko</option>
+                                @foreach ($poskos as $posko)
+                                    <option value="{{ $posko->posko_id ?? $posko->id }}"
+                                        {{ request('posko_id') == ($posko->posko_id ?? $posko->id) ? 'selected' : '' }}>
+                                        {{ $posko->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
 
-                        <!-- Reset -->
-                        @if (request()->filled('search') || request()->filled('posko_id'))
-                            <a href="{{ route('admin.distribusi_logistik.index') }}"
-                                class="inline-flex items-center gap-2 px-5 py-2.5
-                bg-slate-200 text-slate-700 text-sm font-semibold
-                rounded-xl hover:bg-slate-300 transition">
-                                <i class="fa fa-rotate-left"></i>
-                                Reset
-                            </a>
-                        @endif
+                            {{-- Tombol Cari --}}
+                            <button type="submit"
+                                class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl shadow hover:bg-blue-700 transition">
+                                <i class="fa fa-search"></i>
+                                Cari
+                            </button>
 
-                    </form>
+                            {{-- Reset --}}
+                            @if (request()->hasAny(['search', 'posko_id']))
+                                <a href="{{ route('admin.distribusi_logistik.index') }}"
+                                    class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-300 transition">
+                                    <i class="fa fa-rotate-left"></i>
+                                    Reset
+                                </a>
+                            @endif
+
+                        </form>
 
                 </div>
 
@@ -167,7 +163,7 @@
                                                 <!-- DETAIL -->
                                                 <a href="{{ route('admin.distribusi_logistik.show', $d->distribusi_id) }}"
                                                     class="px-3 py-1.5 text-xs font-semibold  text-white bg-slate-600 rounded-lg hover:bg-slate-700 transition-colors flex items-center justify-center gap-1">
-                                                <span>👁️</span> Detail
+                                                    <span>👁️</span> Detail
                                                 </a>
 
                                                 <!-- EDIT -->
@@ -193,7 +189,7 @@
                                         </td>
                                     </tr>
 
-                                    @empty
+                                @empty
                                     <tr>
                                         <td colspan="7" class="py-6 text-center text-slate-400 text-sm">
                                             <i class="fa fa-circle-info block mb-1"></i>

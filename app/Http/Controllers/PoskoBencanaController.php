@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PoskoBencanaController extends Controller
 {
- public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('checkrole:User');
@@ -62,22 +62,27 @@ class PoskoBencanaController extends Controller
             'alamat'           => 'required|string|max:255',
             'kontak'           => 'nullable|string|max:50',
             'penanggung_jawab' => 'nullable|string|max:100',
-            'foto'             => 'nullable|image|max:20480',
+            'media'            => 'nullable',
+            'media.*'          => 'file|mimes:jpg,jpeg,png,mp4,mov,pdf|max:20480',
         ]);
 
         $posko = PoskoBencana::create($validated);
 
-        // Upload foto jika ada
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $path = $file->store('uploads/posko', 'public');
+        // Upload media jika ada (bisa lebih dari 1 file)
+        if ($request->hasFile('media')) {
+            $files = $request->file('media');
+            $order = 1;
+            foreach ($files as $file) {
+                $path = $file->store('uploads/posko', 'public');
 
-            Media::create([
-                'ref_table' => 'posko_bencana',
-                'ref_id'    => $posko->posko_id,
-                'file_url'  => $path,
-                'mime_type' => $file->getClientMimeType(),
-            ]);
+                Media::create([
+                    'ref_table'  => 'posko_bencana',
+                    'ref_id'     => $posko->posko_id,
+                    'file_url'   => $path,
+                    'mime_type'  => $file->getClientMimeType(),
+                    'sort_order' => $order++,
+                ]);
+            }
         }
 
         return redirect()->route('admin.posko.index')
@@ -103,7 +108,7 @@ class PoskoBencanaController extends Controller
     // ➤ Update posko
     public function update(Request $request, $id)
     {
-        $posko = PoskoBencana::findOrFail($id);
+        $posko = PoskoBencana::with('media')->findOrFail($id);
 
         $validated = $request->validate([
             'kejadian_id'      => 'required|exists:kejadian_bencana,kejadian_id',
@@ -111,39 +116,40 @@ class PoskoBencanaController extends Controller
             'alamat'           => 'required|string|max:255',
             'kontak'           => 'nullable|string|max:50',
             'penanggung_jawab' => 'nullable|string|max:100',
-            'foto'             => 'nullable|image|max:20480',
+            'media.*'          => 'nullable|file|mimes:jpg,jpeg,png,mp4,mov,pdf|max:20480',
         ]);
 
+        // Update data utama
         $posko->update($validated);
 
-        // Update atau tambah media jika ada file baru
-        if ($request->hasFile('foto')) {
-            $file = $request->file('foto');
-            $path = $file->store('uploads/posko', 'public');
+        // 🔁 JIKA ADA MEDIA BARU → GANTI MEDIA LAMA
+        if ($request->hasFile('media')) {
 
-            $media = Media::where('ref_table', 'posko_bencana')
-                ->where('ref_id', $posko->posko_id)
-                ->first();
-
-            if ($media) {
-                if (Storage::disk('public')->exists($media->file_url)) {
-                    Storage::disk('public')->delete($media->file_url);
+            // 1️⃣ Hapus media lama (DB + file)
+            foreach ($posko->media as $oldMedia) {
+                if (Storage::disk('public')->exists($oldMedia->file_url)) {
+                    Storage::disk('public')->delete($oldMedia->file_url);
                 }
-                $media->update([
-                    'file_url'  => $path,
-                    'mime_type' => $file->getClientMimeType(),
-                ]);
-            } else {
+                $oldMedia->delete();
+            }
+
+            // 2️⃣ Simpan media baru
+            $order = 1;
+            foreach ($request->file('media') as $file) {
+                $path = $file->store('uploads/posko', 'public');
+
                 Media::create([
-                    'ref_table' => 'posko_bencana',
-                    'ref_id'    => $posko->posko_id,
-                    'file_url'  => $path,
-                    'mime_type' => $file->getClientMimeType(),
+                    'ref_table'  => 'posko_bencana',
+                    'ref_id'     => $posko->posko_id,
+                    'file_url'   => $path,
+                    'mime_type'  => $file->getClientMimeType(),
+                    'sort_order' => $order++,
                 ]);
             }
         }
 
-        return redirect()->route('admin.posko.index')
+        return redirect()
+            ->route('admin.posko.index')
             ->with('success', 'Data posko berhasil diperbarui.');
     }
 

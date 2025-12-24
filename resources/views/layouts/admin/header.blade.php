@@ -118,7 +118,7 @@
 
                                 <!-- My Profile -->
                                 <li>
-                                    <a href="#"
+                                    <a href="{{ route('user.show', Auth::user()->id) }}"
                                         class="flex items-center px-4 py-3 text-sm text-slate-700 hover:bg-purple-100 hover:text-purple-700 rounded-lg">
                                         <span class="mr-3">👤</span> My Profile
                                     </a>

@@ -43,5 +43,59 @@ function previewMedia(input) {
 }
 </script>
 
+<script>
+    const previewBox = document.getElementById('preview-box');
+    const fileInput  = document.getElementById('media-input');
+    let preview      = document.getElementById('preview-media');
+
+    // Klik preview → buka file chooser
+    previewBox.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    // Saat file dipilih
+    fileInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        const type = file.type;
+
+        // IMAGE
+        if (type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // VIDEO
+        else if (type.startsWith('video/')) {
+            previewBox.innerHTML = `
+                <video class="w-44 h-44 rounded-xl border shadow-sm" controls>
+                    <source src="${URL.createObjectURL(file)}" type="${type}">
+                </video>
+                <p class="mt-3 text-sm text-gray-600 text-center">
+                    Klik area untuk ganti file
+                </p>
+            `;
+        }
+
+        // PDF
+        else if (type === 'application/pdf') {
+            previewBox.innerHTML = `
+                <div class="flex flex-col items-center justify-center gap-2">
+                    <i class="fas fa-file-pdf text-red-600 text-5xl"></i>
+                    <p class="text-sm font-medium text-gray-700 truncate max-w-xs">
+                        ${file.name}
+                    </p>
+                    <p class="text-xs text-gray-500">
+                        Klik area untuk ganti file
+                    </p>
+                </div>
+            `;
+        }
+    });
+</script>
 
 

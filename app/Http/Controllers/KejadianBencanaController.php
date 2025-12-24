@@ -8,23 +8,23 @@ use App\Models\LogistikBencana;
 use App\Models\Media;
 use App\Models\PoskoBencana;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class KejadianBencanaController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('checkrole');
+        $this->middleware('checkrole:User');
     }
 
+    /**
+     * 📄 LIST DATA
+     */
     public function index(Request $request)
     {
-        // Query dasar
         $query = KejadianBencana::query();
 
-        // ============================
-        // 🔍 FITUR SEARCH
-        // ============================
         if ($request->search) {
             $query->where(function ($q) use ($request) {
                 $q->where('jenis_bencana', 'like', "%{$request->search}%")
@@ -33,23 +33,14 @@ class KejadianBencanaController extends Controller
             });
         }
 
-        // ============================
-        // 🔽 FILTER JENIS BENCANA
-        // ============================
         if ($request->jenis_bencana) {
             $query->where('jenis_bencana', $request->jenis_bencana);
         }
 
-        // ============================
-        // 🔽 FILTER STATUS
-        // ============================
         if ($request->status_kejadian) {
             $query->where('status_kejadian', $request->status_kejadian);
         }
 
-        // ============================
-        // 🔽 FILTER TANGGAL RANGE
-        // ============================
         if ($request->tanggal_mulai && $request->tanggal_akhir) {
             $query->whereBetween('tanggal', [
                 $request->tanggal_mulai,
@@ -57,15 +48,11 @@ class KejadianBencanaController extends Controller
             ]);
         }
 
-        if ($request->filled('role')) {
-            $query->where('role', $request->role);
-        }
+        $kejadian = $query->orderBy('tanggal', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
-        // Ambil data dengan filter
-        $kejadian = $query->orderBy('tanggal', 'desc')->paginate(10)->withQueryString();
-
-        // Dashboard / summary tetap aman
-        $data = [
+        return view('pages.admin.kejadian_bencana.index', [
             'totalKejadian'     => KejadianBencana::count(),
             'kejadianAktif'     => KejadianBencana::where('status_kejadian', 'Aktif')->count(),
             'totalPosko'        => PoskoBencana::count(),
@@ -75,13 +62,11 @@ class KejadianBencanaController extends Controller
             'totalDistribusi'   => DistribusiLogistik::count(),
             'totalPenerima'     => DistribusiLogistik::distinct('penerima')->count('penerima'),
             'kejadian'          => $kejadian,
-        ];
-
-        return view('pages.admin.kejadian_bencana.index', $data);
+        ]);
     }
 
     /**
-     * Form tambah data
+     * ➕ FORM CREATE
      */
     public function create()
     {
@@ -89,11 +74,10 @@ class KejadianBencanaController extends Controller
     }
 
     /**
-     * 💾 Simpan data baru
+     * 💾 SIMPAN DATA
      */
     public function store(Request $request)
     {
-        // Validasi input
         $validated = $request->validate([
             'jenis_bencana'   => 'required|string|max:100',
             'tanggal'         => 'required|date',
@@ -102,69 +86,52 @@ class KejadianBencanaController extends Controller
             'rw'              => 'nullable|string|max:5',
             'dampak'          => 'nullable|string|max:255',
             'status_kejadian' => 'required|string|max:50',
-            'keterangan'      => 'nullable|string',                                        // Validasi media tunggal
-            'media'           => 'nullable|file|mimes:jpg,jpeg,png,mp4,mov,pdf|max:20480', // max 20MB
+            'keterangan'      => 'nullable|string',
+
+            // ✅ MULTIPLE MEDIA
+            'media'           => 'nullable|array',
+            'media.*'         => 'file|mimes:jpg,jpeg,png,mp4,mov,pdf|max:20480',
             'caption'         => 'nullable|string|max:255',
         ]);
 
-        // Simpan data kejadian bencana
-        $kejadian = KejadianBencana::create([
-            'jenis_bencana'   => $validated['jenis_bencana'],
-            'tanggal'         => $validated['tanggal'],
-            'lokasi_text'     => $validated['lokasi_text'],
-            'rt'              => $validated['rt'] ?? null,
-            'rw'              => $validated['rw'] ?? null,
-            'dampak'          => $validated['dampak'] ?? null,
-            'status_kejadian' => $validated['status_kejadian'],
-            'keterangan'      => $validated['keterangan'] ?? null,
-        ]);
+        $kejadian = KejadianBencana::create($validated);
 
-        // Jika ada upload media
         if ($request->hasFile('media')) {
-            $file = $request->file('media');
-            $path = $file->store('uploads/media', 'public');
+            foreach ($request->file('media') as $i => $file) {
+                $path = $file->store('uploads/media', 'public');
 
-            Media::create([
-                'ref_table'  => 'kejadian_bencana',
-                'ref_id'     => $kejadian->kejadian_id, // Sesuai primary key
-                'file_url'   => $path,
-                'caption'    => $request->caption,
-                'mime_type'  => $file->getClientMimeType(),
-                'sort_order' => 1,
-            ]);
+                Media::create([
+                    'ref_table'  => 'kejadian_bencana',
+                    'ref_id'     => $kejadian->kejadian_id,
+                    'file_url'   => $path,
+                    'caption'    => $request->caption,
+                    'mime_type'  => $file->getClientMimeType(),
+                    'sort_order' => $i + 1,
+                ]);
+            }
         }
 
-        return redirect()->route('kejadian.index')->with('success', '');
+        return redirect()->route('kejadian.index')
+            ->with('success', 'Data berhasil ditambahkan');
     }
 
     /**
-     * 🔍 Menampilkan detail kejadian
-     */
-    public function show($id)
-    {
-        // Menggunakan with('media') untuk memuat relasi media jika diperlukan untuk view show
-        $kejadian = KejadianBencana::findOrFail($id);
-        return view('pages.admin.kejadian_bencana.show', compact('kejadian'));
-    }
-
-    /**
-     * ✏️ Form edit data
+     * ✏️ FORM EDIT
      */
     public function edit($id)
     {
-        $kejadian = KejadianBencana::findOrFail($id);
+        $kejadian = KejadianBencana::with('media')->findOrFail($id);
         return view('pages.admin.kejadian_bencana.edit', compact('kejadian'));
     }
 
     /**
-     * 🔁 Update data
+     * 🔁 UPDATE DATA (FIX FINAL)
      */
     public function update(Request $request, $id)
     {
         $kejadian = KejadianBencana::findOrFail($id);
 
-        // Aturan validasi dasar (tidak termasuk media)
-        $rules = [
+        $validated = $request->validate([
             'jenis_bencana'   => 'required|string|max:100',
             'tanggal'         => 'required|date',
             'lokasi_text'     => 'required|string|max:255',
@@ -173,104 +140,73 @@ class KejadianBencanaController extends Controller
             'dampak'          => 'nullable|string|max:255',
             'status_kejadian' => 'required|string|max:50',
             'keterangan'      => 'nullable|string',
+
+            // ✅ WAJIB BEGINI
+            'media'           => 'nullable|array',
+            'media.*'         => 'nullable|file|mimes:jpg,jpeg,png,mp4,mov,pdf|max:20480',
             'caption'         => 'nullable|string|max:255',
-        ];
-
-        // Hanya tambahkan aturan file jika ada file yang diupload
-        if ($request->hasFile('media')) {
-            $rules['media'] = 'file|mimes:jpg,jpeg,png,mp4,mov,pdf|max:20480'; // max 20MB
-        } else {
-            // pastikan media tidak divalidasi sebagai required/file jika tidak dikirim
-            $rules['media'] = 'nullable';
-        }
-
-        // Validasi
-        $validated = $request->validate($rules);
-
-        // Update data kejadian
-        $kejadian->update([
-            'jenis_bencana'   => $validated['jenis_bencana'],
-            'tanggal'         => $validated['tanggal'],
-            'lokasi_text'     => $validated['lokasi_text'],
-            'rt'              => $validated['rt'] ?? null,
-            'rw'              => $validated['rw'] ?? null,
-            'dampak'          => $validated['dampak'] ?? null,
-            'status_kejadian' => $validated['status_kejadian'],
-            'keterangan'      => $validated['keterangan'] ?? null,
         ]);
 
-        // Jika ada file baru, proses upload & replace media lama
+        $kejadian->update($validated);
+
         if ($request->hasFile('media')) {
-            $file = $request->file('media');
-            $path = $file->store('uploads/media', 'public');
 
-            $media = Media::where('ref_table', 'kejadian_bencana')
+            // 🔥 hapus media lama + file fisik
+            $oldMedia = Media::where('ref_table', 'kejadian_bencana')
                 ->where('ref_id', $kejadian->kejadian_id)
-                ->first();
+                ->get();
 
-            if ($media) {
-                // Pastikan menghapus file lama jika ada
-                if (\Storage::disk('public')->exists($media->file_url)) {
-                    \Storage::disk('public')->delete($media->file_url);
+            foreach ($oldMedia as $m) {
+                if (Storage::disk('public')->exists($m->file_url)) {
+                    Storage::disk('public')->delete($m->file_url);
                 }
+                $m->delete();
+            }
 
-                $media->update([
-                    'file_url'  => $path,
-                    'caption'   => $request->caption ?? $media->caption,
-                    'mime_type' => $file->getClientMimeType(),
-                ]);
-            } else {
+            // ✅ simpan media baru
+            foreach ($request->file('media') as $i => $file) {
+                $path = $file->store('uploads/media', 'public');
+
                 Media::create([
                     'ref_table'  => 'kejadian_bencana',
                     'ref_id'     => $kejadian->kejadian_id,
                     'file_url'   => $path,
-                    'caption'    => $request->caption ?? '',
+                    'caption'    => $request->caption,
                     'mime_type'  => $file->getClientMimeType(),
-                    'sort_order' => 1,
+                    'sort_order' => $i + 1,
                 ]);
-            }
-        } else {
-            // Jika hanya caption yang diubah dan media record exist, update caption saja
-            if (! empty($request->caption)) {
-                $media = Media::where('ref_table', 'kejadian_bencana')
-                    ->where('ref_id', $kejadian->kejadian_id)
-                    ->first();
-
-                if ($media) {
-                    $media->update(['caption' => $request->caption]);
-                }
             }
         }
 
-        // ✅ Perbaikan: Mengganti success message yang kosong
-        return redirect()->route('kejadian.index')->with('success', '');
+        return redirect()->route('kejadian.index')
+            ->with('success', 'Data berhasil diperbarui');
     }
 
     /**
-     * 🗑️ Hapus data kejadian
+     * 🗑️ HAPUS DATA
      */
     public function destroy($id)
     {
         $kejadian = KejadianBencana::findOrFail($id);
 
-        // Opsional: Hapus media yang terkait
         $media = Media::where('ref_table', 'kejadian_bencana')
             ->where('ref_id', $kejadian->kejadian_id)
-            ->first();
+            ->get();
 
-        if ($media) {
-            // Hapus file fisik
-            if (\Storage::disk('public')->exists($media->file_url)) {
-                \Storage::disk('public')->delete($media->file_url);
+        foreach ($media as $m) {
+            if (Storage::disk('public')->exists($m->file_url)) {
+                Storage::disk('public')->delete($m->file_url);
             }
-            // Hapus record dari database
-            $media->delete();
+            $m->delete();
         }
 
         $kejadian->delete();
 
-        // ✅ Perbaikan: Mengganti success message yang kosong
-        return back()->with('success', '');
+        return back()->with('success', 'Data berhasil dihapus');
     }
-
+    public function show($id)
+    {
+        $kejadian = KejadianBencana::with('logistik', 'posko', 'media', )->findOrFail($id);
+        return view('pages.admin.kejadian_bencana.show', compact('kejadian'));
+    }
 }

@@ -121,3 +121,6 @@ Route::get('/profile', function () {
     return view('pages.profile');
 })->name('profile');
 
+
+Route::get('/admin/user/{id}', [UserController::class, 'show'])
+    ->name('user.show');

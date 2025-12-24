@@ -119,9 +119,14 @@
                                         {{-- AKSI --}}
                                         <td class="px-6 py-3 text-center">
                                             <div class="flex items-center justify-center gap-2">
+                                                <a href="{{ route('admin.user.show', $user) }}"
+                                                    class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-white bg-slate-600 rounded-lg hover:bg-slate-700 transition">
+                                                    <i class="fa fa-eye"></i>
+                                                    Detail
+                                                </a>
                                                 {{-- Tombol Edit --}}
                                                 <a href="{{ route('user.edit', $user->id) }}"
-                                                    class="inline-block px-3 py-2 text-white bg-gradient-to-r from-blue-600 to-cyan-400 rounded-lg text-sm font-semibold shadow hover:shadow-lg transition">
+                                                    class="px-3 py-1.5 text-xs font-semibold bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition shadow">
                                                     ✏️ Edit
                                                 </a>
 
@@ -131,7 +136,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
-                                                        class="inline-block px-3 py-2 text-white bg-gradient-to-r from-red-600 to-rose-400 rounded-lg text-sm font-semibold shadow hover:shadow-lg transition">
+                                                        class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition">
                                                         🗑️ Hapus
                                                     </button>
                                                 </form>

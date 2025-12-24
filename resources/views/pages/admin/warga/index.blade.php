@@ -155,9 +155,7 @@
 
                                                 <!-- Tombol Edit -->
                                                 <a href="{{ route('warga.edit', $item->warga_id) }}"
-                                                    class="inline-flex items-center gap-1 px-3 py-2 text-sm font-semibold text-white
-              bg-gradient-to-r from-blue-600 to-cyan-500
-              rounded-lg shadow-md hover:scale-105 hover:from-blue-500 hover:to-cyan-400 transition-transform duration-200">
+                                                    class="px-3 py-1.5 text-xs font-semibold bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition shadow">
                                                     ✏️ Edit
                                                 </a>
 
@@ -167,10 +165,9 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
-                                                        class="inline-flex items-center gap-1 px-3 py-2 text-sm font-semibold
-                       bg-gradient-to-r from-red-500 to-red-600 text-white
-                       rounded-lg shadow-md hover:scale-105 hover:from-red-400 hover:to-red-500 transition-transform duration-200">
-                                                        🗑️ Hapus
+                                                        class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-red-600 bg-red-100 rounded-lg hover:bg-red-200 transition">
+                                                        <i class="fa fa-trash"></i>
+                                                        Hapus
                                                     </button>
                                                 </form>
 

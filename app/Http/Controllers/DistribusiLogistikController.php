@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class DistribusiLogistikController extends Controller
 {
- public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('checkrole:User');
@@ -19,30 +19,34 @@ class DistribusiLogistikController extends Controller
     // =======================
     public function index(Request $request)
     {
-        $query = DistribusiLogistik::with('logistik', 'posko', 'media', );
+        $query = DistribusiLogistik::with('logistik', 'posko', 'media');
 
         // 🔍 SEARCH: logistik nama atau posko nama
         if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->whereHas('logistik', function ($q) use ($search) {
-                $q->where('nama_barang', 'like', "%{$search}%");
-            })->orWhereHas('posko', function ($q) use ($search) {
-                $q->where('nama', 'like', "%{$search}%");
+            $search = $request->search;
+
+            // Bungkus grup search agar orWhereHas tidak konflik dengan filter lain
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('logistik', function ($q2) use ($search) {
+                    $q2->where('nama_barang', 'like', "%{$search}%");
+                })->orWhereHas('posko', function ($q2) use ($search) {
+                    $q2->where('nama', 'like', "%{$search}%");
+                });
             });
         }
 
-        // 🗂 FILTER: posko_id
+        // 🗂 FILTER POSKO
         if ($request->filled('posko_id')) {
             $query->where('posko_id', $request->posko_id);
         }
 
-        // Ambil semua posko untuk filter dropdown
+        // Ambil semua posko untuk dropdown filter
         $poskos = PoskoBencana::orderBy('nama')->get();
 
-        // Pagination & urut terbaru
+        // Pagination terbaru
         $distribusi = $query->orderBy('tanggal', 'desc')
             ->paginate(10)
-            ->withQueryString(); // query search/filter tetap terbawa
+            ->withQueryString();
 
         return view('pages.admin.distribusi_logistik.index', compact('distribusi', 'poskos'));
     }

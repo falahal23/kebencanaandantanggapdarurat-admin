@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-     public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('checkrole:User');
@@ -68,6 +68,12 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         return view('pages.admin.user.edit', compact('user'));
+    }
+
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        return view('pages.admin.user.show', compact('user'));
     }
 
     public function update(Request $request, $id)
