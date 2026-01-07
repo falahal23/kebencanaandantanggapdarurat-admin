@@ -6,6 +6,7 @@ use App\Models\LogistikBencana;
 use App\Models\Media;
 use App\Models\PoskoBencana;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DistribusiLogistikController extends Controller
 {
@@ -41,14 +42,14 @@ class DistribusiLogistikController extends Controller
         }
 
         // Ambil semua posko untuk dropdown filter
-        $poskos = PoskoBencana::orderBy('nama')->get();
+        $posko = PoskoBencana::orderBy('nama')->get();
 
         // Pagination terbaru
         $distribusi = $query->orderBy('tanggal', 'desc')
             ->paginate(10)
             ->withQueryString();
 
-        return view('pages.admin.distribusi_logistik.index', compact('distribusi', 'poskos'));
+        return view('pages.admin.distribusi_logistik.index', compact('distribusi', 'posko'));
     }
 
     // =======================
@@ -74,24 +75,23 @@ class DistribusiLogistikController extends Controller
             'jumlah'      => 'required|integer|min:1',
             'penerima'    => 'required',
             'keterangan'  => 'nullable|string',
-            'bukti'       => 'nullable|image|max:2048',
+            'media'       => 'nullable|image|max:2048',
         ]);
 
-        $buktiFile = $request->file('bukti');
-        unset($validated['bukti']);
+        $mediaFile = $request->file('media');
+        unset($validated['media']);
 
         $distribusi = DistribusiLogistik::create($validated);
 
-        if ($buktiFile) {
-            $name = time() . '_' . $buktiFile->getClientOriginalName();
-            $buktiFile->move(public_path('uploads/distribusi'), $name);
+        if ($mediaFile) {
+            $path = $mediaFile->store('uploads/distribusi', 'public');
 
             Media::create([
                 'ref_table' => 'distribusi_logistik',
                 'ref_id'    => $distribusi->distribusi_id,
-                'file_url'  => '/uploads/distribusi/' . $name,
-                'mime_type' => $buktiFile->getClientMimeType(),
-                'file_name' => $name,
+                'file_url'  => $path,
+                'mime_type' => $mediaFile->getClientMimeType(),
+                'file_name' => $mediaFile->getClientOriginalName(),
             ]);
         }
 
@@ -132,36 +132,37 @@ class DistribusiLogistikController extends Controller
             'jumlah'      => 'required|integer|min:1',
             'penerima'    => 'required',
             'keterangan'  => 'nullable|string',
-            'bukti'       => 'nullable|image|max:2048',
+            'media'       => 'nullable|image|max:2048',
         ]);
 
         $distribusi = DistribusiLogistik::findOrFail($id);
 
-        $buktiFile = $request->file('bukti');
-        unset($validated['bukti']);
+        $mediaFile = $request->file('media');
+        unset($validated['media']);
 
         $distribusi->update($validated);
 
-        if ($buktiFile) {
-            $old = Media::where('ref_table', 'distribusi_logistik')->where('ref_id', $id)->first();
-            if ($old) {
-                $oldPath = public_path($old->file_url);
-                if (file_exists($oldPath)) {
-                    unlink($oldPath);
-                }
+        if ($mediaFile) {
 
+            // Hapus media lama
+            $old = Media::where('ref_table', 'distribusi_logistik')
+                ->where('ref_id', $id)
+                ->first();
+
+            if ($old && Storage::disk('public')->exists($old->file_url)) {
+                Storage::disk('public')->delete($old->file_url);
                 $old->delete();
             }
 
-            $name = time() . '_' . $buktiFile->getClientOriginalName();
-            $buktiFile->move(public_path('uploads/distribusi'), $name);
+            // Simpan media baru
+            $path = $mediaFile->store('uploads/distribusi', 'public');
 
             Media::create([
                 'ref_table' => 'distribusi_logistik',
                 'ref_id'    => $id,
-                'file_url'  => '/uploads/distribusi/' . $name,
-                'mime_type' => $buktiFile->getClientMimeType(),
-                'file_name' => $name,
+                'file_url'  => $path,
+                'mime_type' => $mediaFile->getClientMimeType(),
+                'file_name' => $mediaFile->getClientOriginalName(),
             ]);
         }
 
@@ -176,13 +177,12 @@ class DistribusiLogistikController extends Controller
     {
         $distribusi = DistribusiLogistik::findOrFail($id);
 
-        $media = Media::where('ref_table', 'distribusi_logistik')->where('ref_id', $id)->first();
-        if ($media) {
-            $filePath = public_path($media->file_url);
-            if (file_exists($filePath)) {
-                unlink($filePath);
-            }
+        $media = Media::where('ref_table', 'distribusi_logistik')
+            ->where('ref_id', $id)
+            ->first();
 
+        if ($media && Storage::disk('public')->exists($media->file_url)) {
+            Storage::disk('public')->delete($media->file_url);
             $media->delete();
         }
 
@@ -191,4 +191,5 @@ class DistribusiLogistikController extends Controller
         return redirect()->route('admin.distribusi_logistik.index')
             ->with('success', 'Distribusi logistik berhasil dihapus.');
     }
+
 }

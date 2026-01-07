@@ -61,7 +61,7 @@
                             <select name="posko_id"
                                 class="px-4 py-2 w-56 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition">
                                 <option value="">Semua Posko</option>
-                                @foreach ($poskos as $posko)
+                                @foreach ($posko as $posko)
                                     <option value="{{ $posko->posko_id ?? $posko->id }}"
                                         {{ request('posko_id') == ($posko->posko_id ?? $posko->id) ? 'selected' : '' }}>
                                         {{ $posko->nama }}

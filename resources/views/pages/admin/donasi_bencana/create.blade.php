@@ -11,8 +11,8 @@
                     <!-- Icon Hati untuk donasi -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3
-                             c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3
-                             19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                 c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3
+                                 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                     </svg>
                 </div>
                 <div>
@@ -83,16 +83,32 @@
                         class="w-full border rounded-lg p-3 bg-gray-50 focus:ring focus:ring-gray-200" required>
                 </div>
 
-                <!-- Bukti Donasi + Placeholder -->
-                <div class="col-span-2">
-                    <label class="block mb-2 font-medium">Upload Foto jika ada (opsional)</label>
-                    <div class="mb-4 media-card w-40 h-40 rounded border overflow-hidden">
-                        <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
-                            alt="Placeholder Foto Posko" class="w-full h-full object-cover">
+                {{-- BUKTI DONASI --}}
+                <div class="mt-8">
+                    <p class="text-sm text-gray-500">Bukti Donasi</p>
+
+                    @php $media = null; @endphp
+
+                    {{-- Preview Foto / Placeholder --}}
+                    <div class="mt-3 w-40 h-40 rounded border overflow-hidden">
+                        <img id="preview-bukti" src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                            alt="Placeholder Bukti Donasi" class="w-full h-full object-cover">
                     </div>
-                    <input type="file" name="media" class="w-full mt-1" accept="image/*"
-                        onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
                 </div>
+
+                {{-- Upload Bukti Donasi --}}
+                <div class="mt-6">
+                    <label class="block text-sm mb-2 font-medium">Upload Bukti Donasi (opsional)</label>
+
+                    <input type="file" name="bukti" accept="image/*,application/pdf" class="w-full border rounded p-2"
+                        onchange="
+                if (this.files[0].type.startsWith('image')) {
+                    document.getElementById('preview-bukti').src =
+                    window.URL.createObjectURL(this.files[0]);
+                }
+           ">
+                </div>
+
 
             </div>
 

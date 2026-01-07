@@ -13,80 +13,66 @@
             class="text-4xl font-semibold text-blue-700 mb-6
                    border-b-4 border-blue-300 pb-2
                    drop-shadow-sm">
-            Edit Kejadian Bencana
+            Edit Posko Bencana
         </h1>
 
         {{-- FORM --}}
-        <form action="{{ route('kejadian.update', $kejadian->kejadian_id) }}"
+        <form action="{{ route('admin.posko.update', $posko->posko_id) }}"
               method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                {{-- Jenis --}}
-                <div>
-                    <label class="block mb-2 font-medium">Jenis Bencana</label>
-                    <input type="text" name="jenis_bencana"
-                           value="{{ old('jenis_bencana', $kejadian->jenis_bencana) }}"
-                           class="w-full border rounded p-2" required>
-                </div>
-
-                {{-- Tanggal --}}
-                <div>
-                    <label class="block mb-2 font-medium">Tanggal Kejadian</label>
-                    <input type="date" name="tanggal"
-                           value="{{ old('tanggal', $kejadian->tanggal) }}"
-                           class="w-full border rounded p-2" required>
-                </div>
-
-                {{-- Lokasi --}}
-                <div>
-                    <label class="block mb-2 font-medium">Lokasi</label>
-                    <input type="text" name="lokasi_text"
-                           value="{{ old('lokasi_text', $kejadian->lokasi_text) }}"
-                           class="w-full border rounded p-2">
-                </div>
-
-                {{-- Dampak --}}
-                <div>
-                    <label class="block mb-2 font-medium">Dampak</label>
-                    <input type="text" name="dampak"
-                           value="{{ old('dampak', $kejadian->dampak) }}"
-                           class="w-full border rounded p-2">
-                </div>
-
-                {{-- RT --}}
-                <div>
-                    <label class="block mb-2 font-medium">RT</label>
-                    <input type="number" name="rt"
-                           value="{{ old('rt', $kejadian->rt) }}"
-                           class="w-full border rounded p-2">
-                </div>
-
-                {{-- RW --}}
-                <div>
-                    <label class="block mb-2 font-medium">RW</label>
-                    <input type="number" name="rw"
-                           value="{{ old('rw', $kejadian->rw) }}"
-                           class="w-full border rounded p-2">
-                </div>
-
-                {{-- Status --}}
+                {{-- KEJADIAN --}}
                 <div class="md:col-span-2">
-                    <label class="block mb-2 font-medium">Status Kejadian</label>
-                    <select name="status_kejadian" class="w-full border rounded p-2">
-                        <option value="Aktif" {{ $kejadian->status_kejadian == 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                        <option value="Sedang Ditangani" {{ $kejadian->status_kejadian == 'Sedang Ditangani' ? 'selected' : '' }}>
-                            Sedang Ditangani
-                        </option>
-                        <option value="Selesai" {{ $kejadian->status_kejadian == 'Selesai' ? 'selected' : '' }}>Selesai</option>
+                    <label class="block mb-2 font-medium">Kejadian Bencana</label>
+                    <select name="kejadian_id" class="w-full border rounded p-2" required>
+                        <option value="">-- Pilih Kejadian --</option>
+                        @foreach ($kejadian as $item)
+                            <option value="{{ $item->kejadian_id }}"
+                                {{ $item->kejadian_id == $posko->kejadian_id ? 'selected' : '' }}>
+                                {{ $item->jenis_bencana }}
+                            </option>
+                        @endforeach
                     </select>
+                </div>
+
+                {{-- NAMA POSKO --}}
+                <div>
+                    <label class="block mb-2 font-medium">Nama Posko</label>
+                    <input type="text" name="nama"
+                           value="{{ old('nama', $posko->nama) }}"
+                           class="w-full border rounded p-2" required>
+                </div>
+
+                {{-- KONTAK --}}
+                <div>
+                    <label class="block mb-2 font-medium">Kontak</label>
+                    <input type="text" name="kontak"
+                           value="{{ old('kontak', $posko->kontak) }}"
+                           class="w-full border rounded p-2">
+                </div>
+
+                {{-- ALAMAT --}}
+                <div class="md:col-span-2">
+                    <label class="block mb-2 font-medium">Alamat Posko</label>
+                    <input type="text" name="alamat"
+                           value="{{ old('alamat', $posko->alamat) }}"
+                           class="w-full border rounded p-2" required>
+                </div>
+
+                {{-- PENANGGUNG JAWAB --}}
+                <div class="md:col-span-2">
+                    <label class="block mb-2 font-medium">Penanggung Jawab</label>
+                    <input type="text" name="penanggung_jawab"
+                           value="{{ old('penanggung_jawab', $posko->penanggung_jawab) }}"
+                           class="w-full border rounded p-2">
                 </div>
 
                 {{-- MEDIA --}}
                 <div class="md:col-span-2">
-                    <label class="block mb-2 font-medium">Media Kejadian</label>
+                    <label class="block mb-2 font-medium">Media Posko</label>
 
                     <p class="text-sm text-gray-500 mb-3">
                         ⚠️ Jika upload media baru, semua media lama akan diganti.
@@ -94,7 +80,7 @@
 
                     {{-- MEDIA LAMA --}}
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-                        @forelse ($kejadian->media as $m)
+                        @forelse ($posko->media as $m)
                             <div class="border rounded overflow-hidden h-40 bg-gray-100 flex items-center justify-center">
                                 @if (Str::startsWith($m->mime_type, 'image/'))
                                     <img src="{{ asset('storage/'.$m->file_url) }}"
@@ -126,25 +112,18 @@
                            multiple accept="image/*,video/*,.pdf">
                 </div>
 
-                {{-- KETERANGAN --}}
-                <div class="md:col-span-2">
-                    <label class="block mb-2 font-medium">Keterangan</label>
-                    <textarea name="keterangan" rows="4"
-                              class="w-full border rounded p-2">{{ old('keterangan', $kejadian->keterangan) }}</textarea>
-                </div>
-
             </div>
 
             {{-- ACTION --}}
             <div class="mt-8 flex justify-between">
-                <a href="{{ route('kejadian.index') }}"
+                <a href="{{ route('admin.posko.index') }}"
                    class="px-4 py-2 bg-gray-300 rounded">
                     ← Kembali
                 </a>
 
                 <button type="submit"
                         class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
-                    💾 Update Kejadian
+                    💾 Update Posko
                 </button>
             </div>
         </form>
@@ -152,7 +131,7 @@
     </div>
 </div>
 
-{{-- ================= JS (SAMA DENGAN POSKO) ================= --}}
+{{-- ================= JS PREVIEW ================= --}}
 <script>
     const placeholderUrl = "{{ asset('assets-admin/img/slideshow/spaceholder.png') }}";
 

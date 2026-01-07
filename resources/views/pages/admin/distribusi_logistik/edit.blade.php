@@ -65,22 +65,79 @@
                         <input type="text" name="penerima" required value="{{ $distribusi->penerima }}"
                             class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-400">
                     </div>
+                    {{-- BUKTI / DOKUMENTASI DISTRIBUSI --}}
+                    <div class="mt-10">
 
-                    {{-- Bukti --}}
-                    <div class="md:col-span-2">
-                        <label class="block mb-2 font-medium">Upload Bukti (Opsional)</label>
+                        <h3 class="text-base font-semibold text-slate-700 mb-3">
+                            Dokumentasi / Bukti Distribusi
+                        </h3>
 
-                        {{-- PREVIEW GAMBAR --}}
-                        <div class="col-span-2">
-                            <label class="block mb-2 font-medium">Upload Foto jika ada (opsional)</label>
-                            <div class="mb-4 media-card w-40 h-40 rounded border overflow-hidden">
-                                <img id="preview-foto" src="{{ asset('assets-admin/img/spaceholder.png') }}"
-                                    alt="Placeholder Foto Distribusi Logistik" class="w-full h-full object-cover">
+                        @php
+                            $media = $distribusi->media->first();
+                        @endphp
+
+                        <div class="flex items-start gap-6 flex-wrap">
+
+                            {{-- PREVIEW --}}
+                            <div class="w-44 h-44 rounded-xl border bg-slate-50 overflow-hidden shadow-sm">
+                                @if ($media)
+                                    {{-- GAMBAR --}}
+                                    @if (in_array($media->mime_type, ['image/jpeg', 'image/png', 'image/jpg', 'image/webp']))
+                                        <img id="preview-media" src="{{ asset('storage/' . $media->file_url) }}"
+                                            alt="Bukti Distribusi Logistik" class="w-full h-full object-cover"
+                                            onerror="this.onerror=null;this.src='{{ asset('assets-admin/img/spaceholder.png') }}';">
+
+                                        {{-- PDF --}}
+                                    @elseif ($media->mime_type === 'application/pdf')
+                                        <div
+                                            class="w-full h-full flex flex-col items-center justify-center text-center px-3">
+                                            <span class="text-gray-600 text-sm mb-2">📄 File PDF</span>
+                                            <a href="{{ asset('storage/' . $media->file_url) }}" target="_blank"
+                                                class="px-3 py-1.5 text-xs font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                                Lihat / Download
+                                            </a>
+                                        </div>
+
+                                        {{-- FILE LAIN --}}
+                                    @else
+                                        <div
+                                            class="w-full h-full flex flex-col items-center justify-center text-center px-3">
+                                            <span class="text-gray-500 text-sm mb-2">
+                                                Format tidak didukung
+                                            </span>
+                                            <a href="{{ asset('storage/' . $media->file_url) }}" target="_blank"
+                                                class="text-blue-600 underline text-sm">
+                                                Download File
+                                            </a>
+                                        </div>
+                                    @endif
+                                @else
+                                    {{-- PLACEHOLDER --}}
+                                    <img id="preview-media" src="{{ asset('assets-admin/img/spaceholder.png') }}"
+                                        alt="Placeholder Bukti Distribusi" class="w-full h-full object-cover">
+                                @endif
                             </div>
-                            <input type="file" name="media" class="w-full mt-1" accept="image/*"
-                                onchange="document.getElementById('preview-foto').src = window.URL.createObjectURL(this.files[0])">
-                        </div>
 
+                            {{-- UPLOAD --}}
+                            <div class="flex-1 min-w-[220px]">
+                                <label class="block text-sm font-medium text-slate-700 mb-2">
+                                    Ganti Bukti Distribusi (opsional)
+                                </label>
+
+                                <input type="file" name="media" accept="image/*"
+                                    class="w-full text-sm border border-slate-300 rounded-lg p-2.5
+                       focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+                                    onchange="document.getElementById('preview-media').src = window.URL.createObjectURL(this.files[0])">
+
+                                @if ($media)
+                                    <p class="text-xs text-slate-500 mt-2">
+                                        File saat ini:
+                                        <span class="font-semibold">{{ basename($media->file_url) }}</span>
+                                    </p>
+                                @endif
+                            </div>
+
+                        </div>
                     </div>
 
                 </div>
